@@ -1,13 +1,14 @@
 import { createServer } from 'http';
-import { stat, createReadStream } from 'fs';
-import { resolve, parse, extname } from 'path';
+import { stat } from 'fs/promises';
+import { createReadStream } from 'fs';
+import { resolve, extname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = new URL('.', import.meta.url).pathname;
 
 const PUBLIC_DIR = resolve(process.cwd());
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // MIME types
 const MIME_TYPES = {

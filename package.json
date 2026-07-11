@@ -1,0 +1,13 @@
+{
+  "name": "asbizdev",
+  "version": "1.0.0",
+  "description": "Asbizdev website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "node serve.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
