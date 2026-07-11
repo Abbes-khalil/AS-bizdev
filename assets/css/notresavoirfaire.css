@@ -1,0 +1,7 @@
+/* Expertise page — shared AS Biz Dev content-page layout */
+.expertise-hero { padding: clamp(4.5rem, 9vw, 7.5rem) max(1.5rem, calc((100% - 1120px) / 2)); background: #f4f7fb; }
+.expertise-hero > h1 { color: #152b4b; text-align: center; }.expertise-hero > h1::after { content: ''; display: block; width: 3.75rem; height: 0.25rem; margin: 1.25rem auto; border-radius: 99px; background: #ff8c42; }
+.expertise-hero > h1 + div { max-width: 48rem; margin: 0 auto 3.5rem; text-align: center; }.expertise-hero > h1 + div p:first-child { color: #e66539; font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 700; }
+.expertise-hero > div:not(:first-of-type) { display: grid; grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr); gap: clamp(1.75rem, 5vw, 4rem); align-items: center; max-width: 70rem; margin: 0 auto 1.5rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid #e3eaf2; border-radius: 1.5rem; background: #fff; box-shadow: 0 18px 44px rgb(21 43 75 / 0.08); }
+.expertise-hero > div:not(:first-of-type) > img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 0.45rem solid #fff; border-radius: 1.15rem; outline: 1px solid #e1e9f2; box-shadow: 0 16px 34px rgb(21 43 75 / 0.16); }.expertise-hero > div:not(:first-of-type) h2 { color: #152b4b; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+@media (max-width: 700px) { .expertise-hero { padding: 4rem 1rem; }.expertise-hero > div:not(:first-of-type) { grid-template-columns: 1fr; } }

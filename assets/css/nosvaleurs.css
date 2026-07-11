@@ -1,0 +1,9 @@
+/* Values page — shared AS Biz Dev content-page layout */
+.values-hero { padding: clamp(4.5rem, 9vw, 7.5rem) 0; background: #f4f7fb; }
+.values-hero .hero-intro { max-width: 70rem; margin: 0 auto; padding: 0 1.5rem 3.5rem; text-align: center; }
+.values-hero .hero-intro h1 { color: #152b4b; }.values-hero .hero-intro h1::after { content: ''; display: block; width: 3.75rem; height: 0.25rem; margin: 1.25rem auto; border-radius: 99px; background: #ff8c42; }
+.values-hero .hero-intro h2 { color: #e66539; font-size: clamp(1.35rem, 3vw, 2rem); }.values-hero .hero-intro p { max-width: 48rem; margin: 1.25rem auto 0; }
+.values-hero > div:not(.hero-intro) { display: grid; grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr); gap: clamp(1.75rem, 5vw, 4rem); align-items: center; max-width: 70rem; margin: 0 auto 1.5rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid #e3eaf2; border-radius: 1.5rem; background: #fff; box-shadow: 0 18px 44px rgb(21 43 75 / 0.08); }
+.values-hero > div:not(.hero-intro) > img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 0.45rem solid #fff; border-radius: 1.15rem; outline: 1px solid #e1e9f2; box-shadow: 0 16px 34px rgb(21 43 75 / 0.16); }
+.values-hero > div:not(.hero-intro) > div { padding: 0.5rem 0; }.values-hero > div:not(.hero-intro) h2 { color: #152b4b; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+@media (max-width: 700px) { .values-hero { padding: 4rem 0; }.values-hero > div:not(.hero-intro) { grid-template-columns: 1fr; margin: 0 1rem 1.25rem; } }
