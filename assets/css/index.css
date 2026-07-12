@@ -1,22 +1,47 @@
 :root {
-  /* Color Palette - Orange & Blue Theme */
+  /* Color Palette - Enhanced Orange & Blue Theme with Derived Colors */
   --primary-orange: #FF6B35;
   --secondary-orange: #FF8C42;
+  --tertiary-orange: #FF9E80;
   --primary-blue: #2563EB;
   --secondary-blue: #3B82F6;
+  --tertiary-blue: #60A5FA;
   --accent-blue: #60A5FA;
-  --light-orange: #FF9E80;
-  --light-blue: #93C5FD;
 
-  /* Neutral Colors */
+  /* Enhanced Neutrals with Better Depth */
   --dark-bg: #0F172A;      /* Darker blue-gray for better contrast */
   --darker-bg: #1E293B;
   --light-bg: #F8FAFC;
   --lighter-bg: #F1F5F9;
+  --lightest-bg: #F8F9FA;
   --white: #FFFFFF;
   --text-primary: #0F172A;
   --text-secondary: #64748B;
   --text-muted: #94A3B8;
+  --text-light: #E2E8F0;
+
+  /* Advanced Color System - Derived shades for depth and variety */
+  --orange-50: #FFF7F6;
+  --orange-100: #FFEEEA;
+  --orange-200: #FFD5CE;
+  --orange-300: #FFB8A1;
+  --orange-400: #FF9C75;
+  --orange-500: #FF6B35; /* Primary */
+  --orange-600: #E55A2B;
+  --orange-700: #C24822;
+  --orange-800: #9F3A1B;
+  --orange-900: #7C2E15;
+
+  --blue-50: #EFF6FF;
+  --blue-100: #DBEAFE;
+  --blue-200: #BFDBFE;
+  --blue-300: #93C5FD;
+  --blue-400: #60A5FA;
+  --blue-500: #2563EB; /* Primary */
+  --blue-600: #1D4ED8;
+  --blue-700: #1E40AF;
+  --blue-800: #1E3A8A;
+  --blue-900: #172554;
 
   /* Radii */
   --border-radius: 12px;
@@ -24,32 +49,147 @@
   --border-radius-lg: 16px;
   --border-radius-full: 9999px;
 
-  /* Shadows - Layered, color-tinted with low opacity */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  /* Enhanced Shadows - Layered, color-tinted with low opacity for depth */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
-  /* Gradients - Layered for depth */
-  --gradient-primary: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
-  --gradient-secondary: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-  --gradient-accent: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
-  --gradient-radial: radial-gradient(circle at center, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+  /* Color-tinted shadows for depth and sophistication */
+  --shadow-inset-orange: inset 0 2px 4px rgb(255 107 53 / 0.1);
+  --shadow-outline-orange: 0 0 0 3px rgb(255 107 53 / 0.2);
+  --shadow-inner-blue: inset 0 2px 4px rgb(37 99 235 / 0.1);
+  --shadow-outline-blue: 0 0 0 3px rgb(37 99 235 / 0.2);
+  --shadow-hover-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 0 1px rgb(255 107 53 / 0.1);
 
-  /* Transitions */
+  /* Enhanced Gradients - More sophisticated and layered */
+  --gradient-primary: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+  --gradient-primary-reverse: linear-gradient(135deg, var(--secondary-orange), var(--primary-orange));
+  --gradient-secondary: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+  --gradient-secondary-reverse: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+  --gradient-accent: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+  --gradient-accent-reverse: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+  --gradient-radial: radial-gradient(circle at center, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+  --gradient-radial-blue: radial-gradient(circle at center, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  --gradient-diagonal: linear-gradient(45deg, var(--primary-orange), var(--primary-blue));
+  --gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--primary-orange), var(--primary-blue));
+  --gradient-subtle-orange: linear-gradient(180deg, rgba(255, 107, 53, 0.05) 0%, rgba(255, 107, 53, 0) 100%);
+  --gradient-subtle-blue: linear-gradient(180deg, rgba(37, 99, 235, 0.05) 0%, rgba(37, 99, 235, 0) 100%);
+
+  /* Specialized Gradients for Image Treatment */
+  --gradient-overlay-dark: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
+  --gradient-overlay-light: linear-gradient(to top, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+  --gradient-orange-blue: linear-gradient(135deg, var(--primary-orange), var(--primary-blue));
+  --gradient-blue-orange: linear-gradient(135deg, var(--primary-blue), var(--primary-orange));
+
+  /* Transitions - Restricted to transform and opacity only as per guidelines */
   --transition-speed: 0.3s;
+  --transition-speed-fast: 0.15s;
+  --transition-speed-slow: 0.4s;
   --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-easing-out: cubic-bezier(0.0, 0, 0.2, 1);
+  --transition-easing-in: cubic-bezier(0.4, 0.0, 1, 1);
+  --transition-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Transition Variants - Only transform and opacity allowed */
+  --transition-transform: transform var(--transition-speed) var(--transition-easing);
+  --transition-transform-fast: transform var(--transition-speed-fast) var(--transition-easing);
+  --transition-transform-slow: transform var(--transition-speed-slow) var(--transition-easing);
+  --transition-opacity: opacity var(--transition-speed) var(--transition-easing);
+  --transition-opacity-fast: opacity var(--transition-speed-fast) var(--transition-easing);
+  --transition-opacity-slow: opacity var(--transition-speed-slow) var(--transition-easing);
+  --transition-scale: transform var(--transition-speed) var(--transition-easing);
+  --transition-rotate: transform var(--transition-speed) var(--transition-easing);
+  --transition-translate: transform var(--transition-speed) var(--transition-easing);
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 
-  /* Transition Variants */
-  --transition-transform: transform var(--transition-speed) var(--transition-easing);
-  --transition-opacity: opacity var(--transition-speed) var(--transition-easing);
-  --transition-shadow: box-shadow var(--transition-speed) var(--transition-easing);
-  --transition-all: all var(--transition-speed) var(--transition-easing);
+  /* Advanced Typography */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.03em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* Line Height */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Elevation / Z-index system for depth */
+  --z-index-base: 0;
+  --z-index-background: -10;
+  --z-index-elevated: 10;
+  --z-index-floating: 20;
+  --z-index-sticky: 30;
+  --z-index-docked: 40;
+  --z-index-modal: 50;
+  --z-index-popover: 60;
+  --z-index-tooltip: 70;
+
+  /* Spacing Scale - 4px base */
+  --space-0: 0px;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-3-5: 14px;
+  --space-4: 16px;
+  --space-4-5: 18px;
+  --space-5: 20px;
+  --space-5-5: 22px;
+  --space-6: 24px;
+  --space-6-5: 26px;
+  --space-7: 28px;
+  --space-7-5: 30px;
+  --space-8: 32px;
+  --space-8-5: 34px;
+  --space-9: 36px;
+  --space-9-5: 38px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-28: 112px;
+  --space-32: 128px;
+  --space-36: 144px;
+  --space-40: 160px;
+
+  /* Image Treatment Variables */
+  --image-overlay-gradient: var(--gradient-overlay-dark);
+  --image-overlay-blend: multiply;
+  --image-border-width: 4px;
+  --image-border-radius: var(--border-radius-lg);
+  --image-shadow: var(--shadow-xl);
+
+  /* Container Sizes */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
 }
 
 /* CSS Reset & Base Styles */
@@ -424,7 +564,7 @@ button:focus-visible {
   text-align: center;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--lighter-bg);
-  transition: var(--transition-all);
+  transition: var(--transition-transform), var(--transition-opacity);
   position: relative;
   overflow: hidden;
 }
@@ -433,6 +573,16 @@ button:focus-visible {
   transform: translateY(-8px) scale(1.02);
   box-shadow: var(--shadow-xl);
   border-color: rgba(37, 99, 235, 0.1);
+}
+
+.feature-card:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+.feature-card:focus-visible {
+  outline: 2px solid var(--primary-orange);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-orange);
 }
 
 .feature-card::before {
@@ -461,6 +611,7 @@ button:focus-visible {
   justify-content: center;
   margin: 0 auto 2rem;
   box-shadow: var(--shadow-lg);
+  transition: var(--transition-transform), var(--transition-opacity);
   position: relative;
   overflow: hidden;
 }
@@ -480,6 +631,16 @@ button:focus-visible {
   width: 36px;
   height: 36px;
   fill: var(--white);
+  transition: var(--transition-transform), var(--transition-opacity);
+}
+
+.feature-card:hover .feature-icon svg {
+  transform: scale(1.1);
+}
+
+.feature-card:hover .feature-icon {
+  box-shadow: var(--shadow-2xl);
+  transform: rotate(5deg);
 }
 
 .feature-card h3 {
@@ -601,12 +762,22 @@ button:focus-visible {
   background: var(--white);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
-  transition: var(--transition-all);
+  transition: var(--transition-transform), var(--transition-opacity);
 }
 
 .value-item:hover {
   transform: translateX(4px);
   box-shadow: var(--shadow-lg);
+}
+
+.value-item:active {
+  transform: translateX(2px);
+}
+
+.value-item:focus-visible {
+  outline: 2px solid var(--primary-orange);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-orange);
 }
 
 .value-icon {
@@ -774,7 +945,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   color: var(--white);
-  transition: var(--transition-all);
+  transition: var(--transition-transform), var(--transition-opacity);
 }
 
 .footer-social-link:hover {
@@ -807,7 +978,7 @@ button:focus-visible {
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
-  transition: var(--transition-all);
+  transition: var(--transition-transform), var(--transition-opacity);
   font-size: 1rem;
   letter-spacing: -0.025em;
   position: relative;
@@ -832,6 +1003,12 @@ button:focus-visible {
   transform: translateY(0);
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid var(--primary-orange);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-orange);
+}
+
 .btn-secondary {
   background: var(--gradient-secondary);
   color: var(--white);
@@ -848,6 +1025,12 @@ button:focus-visible {
   transform: translateY(0);
 }
 
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-blue);
+}
+
 .btn-outline {
   background: transparent;
   border: 2px solid var(--primary-blue);
@@ -857,10 +1040,18 @@ button:focus-visible {
 .btn-outline:hover {
   background: var(--primary-blue);
   color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-outline:active {
-  transform: scale(0.95);
+  transform: translateY(0);
+}
+
+.btn-outline:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-blue);
 }
 
 .btn-lg {
@@ -888,6 +1079,55 @@ button:focus-visible {
 
 .text-white {
   color: var(--white);
+}
+
+/* Image Treatment - Gradient overlay and color treatment */
+.img-treatment {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--image-border-radius);
+}
+
+.img-treatment img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: var(--transition-transform), var(--transition-opacity);
+}
+
+.img-treatment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-overlay-dark);
+  pointer-events: none;
+  transition: var(--transition-opacity);
+}
+
+.img-treatment::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 107, 53, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(37, 99, 235, 0.25) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: var(--transition-opacity);
+  mix-blend-mode: multiply;
+}
+
+.img-treatment:hover::before {
+  opacity: 0.9;
+}
+
+.img-treatment:hover::after {
+  opacity: 0.7;
+}
+
+.img-treatment:hover img {
+  transform: scale(1.03);
+  transition: var(--transition-transform);
 }
 
 .mb-1 {

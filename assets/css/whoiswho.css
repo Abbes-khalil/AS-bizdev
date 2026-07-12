@@ -1,8 +1,92 @@
 /* Team page — shared AS Biz Dev content-page layout */
-.whoiswho-hero { padding: clamp(4.5rem, 9vw, 7.5rem) max(1.5rem, calc((100% - 1120px) / 2)); background: #f4f7fb; color: inherit; }
-.whoiswho-hero > h1 { color: #152b4b; text-align: center; }.whoiswho-hero > h1::after { content: ''; display: block; width: 3.75rem; height: 0.25rem; margin: 1.25rem auto; border-radius: 99px; background: #ff8c42; }
-.whoiswho-hero > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.25rem; margin-top: 3.5rem; }
-.whoiswho-hero > div > div { min-height: 100%; padding: 1.5rem; border: 1px solid #e3eaf2; border-radius: 1.25rem; background: #fff; box-shadow: 0 18px 44px rgb(21 43 75 / 0.08); }
-.whoiswho-hero > div > div img { display: block; width: 6rem; height: 6rem; margin-bottom: 1.25rem; object-fit: cover; object-position: center; border: 0.35rem solid #fff; border-radius: 50%; outline: 1px solid #e1e9f2; box-shadow: 0 12px 25px rgb(21 43 75 / 0.15); }
-.whoiswho-hero h4 { color: #152b4b; font-size: 1.2rem; }.whoiswho-hero p { color: #64748b; font-size: 0.95rem; margin-bottom: 0.5rem; }.whoiswho-hero p:nth-of-type(1) { color: #e66539; font-weight: 700; }
-@media (max-width: 600px) { .whoiswho-hero { padding: 4rem 1rem; }.whoiswho-hero > div { grid-template-columns: 1fr; } }
+.whoiswho-hero {
+  padding: clamp(4.5rem, 9vw, 7.5rem) max(1.5rem, calc((100% - 1120px) / 2));
+  background: var(--lighter-bg);
+  color: inherit;
+}
+.whoiswho-hero > h1 {
+  color: var(--text-primary);
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.whoiswho-hero > h1::after {
+  content: '';
+  display: block;
+  width: 3.75rem;
+  height: 0.25rem;
+  margin: 1.25rem auto;
+  border-radius: 99px;
+  background: var(--secondary-orange);
+}
+.whoiswho-hero > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+}
+.whoiswho-hero > div > div {
+  min-height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--lighter-bg);
+  border-radius: var(--border-radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-xl);
+  transition: var(--transition-transform), var(--transition-opacity);
+  position: relative;
+  overflow: hidden;
+}
+.whoiswho-hero > div > div:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+}
+.whoiswho-hero > div > div:active {
+  transform: translateY(0);
+}
+.whoiswho-hero > div > div:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-outline-blue);
+}
+.whoiswho-hero > div > div img {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  margin-bottom: 1.25rem;
+  object-fit: cover;
+  object-position: center;
+  border: var(--image-border-width) solid var(--white);
+  border-radius: 50%;
+  outline: 1px solid var(--lighter-bg);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.whoiswho-hero > div > div img.img-treatment::before {
+  opacity: 0.7;
+}
+.whoiswho-hero > div > div img.img-treatment:hover::before {
+  opacity: 0.85;
+}
+.whoiswho-hero h4 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  margin-bottom: var(--space-1);
+}
+.whoiswho-hero p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+.whoiswho-hero p:nth-of-type(1) {
+  color: var(--tertiary-orange);
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .whoiswho-hero {
+    padding: 4rem 1rem;
+  }
+  .whoiswho-hero > div {
+    grid-template-columns: 1fr;
+  }
+}
