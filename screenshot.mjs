@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 (async () => {
   const browser = await puppeteer.launch();
@@ -7,8 +7,8 @@ const puppeteer = require('puppeteer');
   // Navigate to the local server
   await page.goto('http://localhost:3000');
 
-  // Wait for page to load
-  await page.waitForTimeout(2000);
+  // Wait for page to load and animations to potentially trigger
+  await new Promise(resolve => setTimeout(resolve, 3000));
 
   // Take screenshot
   await page.screenshot({ path: './temporary screenshots/screenshot-1.png' });
