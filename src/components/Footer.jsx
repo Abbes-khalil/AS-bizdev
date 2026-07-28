@@ -1,0 +1,194 @@
+const links = {
+  Compagnie: [
+    ["Qui sommes-nous", "/whoiswho"],
+    ["Nos valeurs", "/nosvaleurs"],
+    ["Partenaires", "/nospartenaire"],
+    ["Actualités", "/news"],
+  ],
+  Expertise: [
+    ["Savoir-faire", "/notresavoirfaire"],
+    ["Solutions", "/nossolutions"],
+    ["Contact", "/contact"],
+  ],
+};
+
+const SocialIcon = ({ href, label, children }) => (
+  <a
+    href={href}
+    aria-label={label}
+    rel="noopener noreferrer"
+    target="_blank"
+    className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white/80 transition-all duration-300 hover:border-orange hover:bg-orange hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+  >
+    {children}
+  </a>
+);
+
+export default function Footer() {
+  return (
+    <footer className="relative overflow-hidden bg-navy text-white">
+      <div
+        className="pointer-events-none absolute inset-0 grid-bg-dark opacity-30"
+        aria-hidden="true"
+      />
+      {/* Decorative orange diagonal corner */}
+      <div
+        className="pointer-events-none absolute -right-32 -top-32 h-[40rem] w-[40rem] opacity-[0.05]"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(255,106,0,0.8), transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="relative">
+        {/* Top wordmark CTA */}
+        <div className="container-x pt-24 lg:pt-32">
+          <div className="inline-flex items-center gap-3">
+            <span className="h-1 w-10 rounded-full bg-orange" aria-hidden="true" />
+            <p className="eyebrow text-white/60">Construisons la suite</p>
+          </div>
+          <a
+            href="/contact"
+            className="mt-6 inline-flex items-baseline gap-4 font-display text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[0.95] tracking-tight text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded-md"
+          >
+            <span>Parlons de votre</span>
+            <span className="italic text-orange">territoire</span>
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 36 36"
+              fill="none"
+              aria-hidden="true"
+              className="self-center"
+            >
+              <path
+                d="M6 30L30 6M30 6H12M30 6V24"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <div className="container-x mt-20 grid gap-12 border-t border-white/10 pt-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+          <div>
+            <a
+              href="/"
+              aria-label="AS Biz Dev — Accueil"
+              className="inline-flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+            >
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-white text-navy">
+                <span className="font-display text-[1.05rem] font-bold leading-none tracking-tight">
+                  AS
+                </span>
+              </span>
+              <span className="flex flex-col leading-none">
+                <span className="font-display text-[1.05rem] font-semibold tracking-tight text-white">
+                  AS Biz Dev
+                </span>
+                <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-white/60">
+                  International
+                </span>
+              </span>
+            </a>
+            <p className="mt-6 max-w-xs text-[0.95rem] leading-relaxed text-white/70">
+              Votre relais opérationnel pour développer vos marchés en Afrique
+              et au Moyen-Orient.
+            </p>
+            <div className="mt-8 flex items-center gap-3">
+              <SocialIcon
+                href="https://www.linkedin.com/company/as-biz-dev/?originalSubdomain=fr"
+                label="LinkedIn — AS Biz Dev (nouvel onglet)"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                </svg>
+              </SocialIcon>
+              <SocialIcon
+                href="https://www.facebook.com/profile.php?id=100085701123233"
+                label="Facebook — AS Biz Dev (nouvel onglet)"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z" />
+                </svg>
+              </SocialIcon>
+            </div>
+          </div>
+
+          {Object.entries(links).map(([title, items]) => (
+            <nav key={title} aria-label={title}>
+              <p className="eyebrow text-white/50">{title}</p>
+              <ul className="mt-6 space-y-3">
+                {items.map(([label, href]) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      className="text-[0.95rem] text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded px-1 py-1 -mx-1"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          <div className="text-center content-center">
+            <a
+              href="mailto:contact@asbizdev.com"
+              className="mt-6 inline-block text-[0.95rem] text-orange link-underline"
+            >
+              contact@asbizdev.com
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="container-x mt-20 border-t border-white/10 py-8">
+          <div className="flex flex-col items-start justify-between gap-4 text-xs text-white/60 sm:flex-row sm:items-center">
+            <p>
+              © {new Date().getFullYear()} AS Biz Dev. Tous droits réservés.
+            </p>
+            <div className="flex items-center gap-6">
+              <a
+                href="/politique"
+                className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+              >
+                Politique de confidentialité
+              </a>
+              <span className="font-display uppercase tracking-widest text-white/40">
+                v 3.0 — refreshed
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Watermark */}
+        <div className="pointer-events-none select-none overflow-hidden">
+          <p
+            aria-hidden="true"
+            className="font-display font-semibold leading-[0.85] tracking-tight text-white/[0.03]"
+            style={{ fontSize: "clamp(6rem, 22vw, 22rem)" }}
+          >
+            AS BIZ DEV
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

@@ -3,5 +3,6 @@ node_modules/
 .claude/
 server.log
 CLAUDE.md
-AGENTS.md
-temporary screenshots
+temporary screenshots/
+dist/
+DESIGN.md
