@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "../components/Modal";
+import RevealOnScroll from "../components/RevealOnScroll";
 
 export default function News() {
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -551,7 +552,7 @@ export default function News() {
         />
 
         <div className="relative container-x py-24 lg:py-32">
-          <div className="max-w-4xl">
+          <RevealOnScroll variant="up" className="max-w-4xl">
             <div className="inline-flex items-center gap-3">
               <span className="h-1 w-10 rounded-full bg-orange" aria-hidden="true" />
               <p className="eyebrow text-orange">Le regard AS Biz Dev</p>
@@ -565,7 +566,7 @@ export default function News() {
               Une sélection de perspectives pour mieux comprendre les dynamiques
               de développement entre la France, l’Afrique et le Moyen-Orient.
             </p>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
@@ -581,9 +582,13 @@ export default function News() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            {articles.map((article) => (
-              <article
+            {articles.map((article, i) => (
+              <RevealOnScroll
+                as="article"
                 key={article.number}
+                variant="up"
+                delay={0.05}
+                index={i}
                 className="group relative flex flex-col overflow-hidden rounded-card border border-gray-200 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift"
               >
                 {/* Orange top accent line */}
@@ -630,7 +635,7 @@ export default function News() {
                     </svg>
                   </button>
                 </div>
-              </article>
+              </RevealOnScroll>
             ))}
           </div>
         </div>

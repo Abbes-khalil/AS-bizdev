@@ -1,5 +1,5 @@
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -63,6 +63,9 @@ export default {
         container: '1280px',
         prose2: '60ch'
       },
+      spacing: {
+        92: '23rem'
+      },
       borderRadius: {
         btn: '12px',
         card: '20px',
@@ -85,7 +88,7 @@ export default {
         },
         'marquee': {
           '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' }
+          '100%': { transform: 'translateX(calc(-50% - var(--gap, 0px) / 2))' }
         }
       },
       animation: {

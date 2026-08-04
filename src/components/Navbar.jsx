@@ -1,5 +1,15 @@
-import { useEffect, useState } from "react";
-import { navigation } from "./siteData";
+﻿import { useEffect, useState } from "react";
+
+const navigation = [
+  ["Accueil", "/"],
+  ["Qui sommes-nous", "/whoiswho"],
+  ["Nos valeurs", "/nosvaleurs"],
+  ["Savoir-faire", "/notresavoirfaire"],
+  ["Solutions", "/nossolutions"],
+  ["Partenaires", "/nospartenaire"],
+  ["Actualités", "/news"],
+  ["Contact", "/contact"],
+];
 
 const Logo = ({ className = "" }) => (
   <a
@@ -16,9 +26,7 @@ const Logo = ({ className = "" }) => (
       <span className="font-display text-[1.05rem] font-semibold tracking-tight text-navy">
         AS Biz Dev
       </span>
-      <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-gray-500">
-        International
-      </span>
+      <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-gray-500"></span>
     </span>
   </a>
 );
@@ -48,7 +56,10 @@ export default function Navbar({ active }) {
 
   useEffect(() => {
     const onScroll = () => {
-      document.documentElement.classList.toggle("is-scrolled", window.scrollY > 12);
+      document.documentElement.classList.toggle(
+        "is-scrolled",
+        window.scrollY > 12,
+      );
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -84,9 +95,7 @@ export default function Navbar({ active }) {
                   href={href}
                   aria-current={isActive ? "page" : undefined}
                   className={`group relative rounded-btn px-4 py-2 font-display text-[0.9rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-                    isActive
-                      ? "text-navy"
-                      : "text-gray-700 hover:text-navy"
+                    isActive ? "text-navy" : "text-gray-700 hover:text-navy"
                   }`}
                 >
                   {label}
@@ -102,27 +111,6 @@ export default function Navbar({ active }) {
               );
             })}
           </nav>
-
-          <div className="hidden items-center gap-3 lg:flex">
-            <a href="/contact" className="btn-primary">
-              Démarrer un projet
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M1 7H13M13 7L7 1M13 7L7 13"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </div>
 
           <button
             type="button"
@@ -195,10 +183,10 @@ export default function Navbar({ active }) {
               onClick={() => setOpen(false)}
               className="btn-primary w-full"
             >
-              Démarrer un projet
+              Contactez-nous
             </a>
             <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
-              Paris · Tunis · Dubaï
+              France · Afrique · Moyen-Orient
             </p>
           </div>
         </div>

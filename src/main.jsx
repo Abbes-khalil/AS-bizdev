@@ -20,7 +20,7 @@ function App() {
     "/nospartenaire": <Partners />,
     "/news": <News />,
     "/contact": <Contact />,
-    "/politique": <Policy />,
+    "/politiques-de-confidentialite": <Policy />,
   };
   return <Layout active={path}>{routes[path] || <Home />}</Layout>;
 }
