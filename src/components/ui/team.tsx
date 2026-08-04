@@ -5,12 +5,13 @@ import { UserStar } from "lucide-react";
 
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { ASSET } from "@/components/siteData";
-import { Marquee } from "@/components/ui/marquee";
+import { interpolate, useT } from "@/i18n";
 
 export interface TeamMember {
-  image: string;
+  photo: string;
   name: string;
   role: string;
+  bio?: string;
 }
 
 export interface TeamProps {
@@ -19,58 +20,65 @@ export interface TeamProps {
   description?: string;
 }
 
-const DEFAULT_TEAM_MEMBERS: readonly TeamMember[] = [
-  {
-    image: `${ASSET}employe/stephane.jpg`,
-    name: "Stéphane Allain",
-    role: "Fondateur",
-    bio: "20 ans d'expérience dans l'analyse et développement des marchés internationaux pour le compte de grands groupes.",
-  },
-  {
-    image: `${ASSET}employe/wafa.webp`,
-    name: "Wafa Zouaoui",
-    role: "Responsable des Opérations",
-    bio: "19 ans d'expérience dans le management opérationnel et fonctionnel dans le secteur B2B (Tourisme).",
-  },
-  {
-    image: `${ASSET}employe/Chekib-.webp`,
-    name: "Chekib Yeger",
-    role: "Commercial Afrique francophone",
-    bio: "13 ans d'expérience dans la force de vente principalement chez le leader mondial des verres correcteurs et d'équipement d'optique ophtalmique.",
-  },
-  {
-    image: `${ASSET}employe/bechir.webp`,
-    name: "Béchir Zouaoui",
-    role: "Senior Graphic Designer",
-    bio: "Plus de 13 ans d'expérience dans le monde du design et du développement web design.",
-  },
-  {
-    image: `${ASSET}employe/khalil.webp`,
-    name: "Khalil Abbes",
-    role: "Chargé junior d'efficacité commerciale et IA",
-  },
-  {
-    image: `${ASSET}employe/kaouther.webp`,
-    name: "Kaouther Bousaidi",
-    role: "Assistante Administrative",
-  },
-  {
-    image: `${ASSET}employe/taher.webp`,
-    name: "Taher Kassem",
-    role: "Comptabilité & Finance",
-  },
-];
+const TeamCard = ({
+  member,
+  index,
+  portraitAlt,
+}: {
+  member: TeamMember;
+  index: number;
+  portraitAlt: string;
+}) => (
+  <RevealOnScroll
+    as="article"
+    variant="up"
+    delay={0.08}
+    index={index}
+    className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-gray-200 bg-white transition-all duration-500 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
+  >
+    <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100">
+      <img
+        alt={interpolate(portraitAlt, {
+          name: member.name,
+          role: member.role,
+        })}
+        className="absolute inset-0 h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:scale-[1.04] group-hover:grayscale-0"
+        decoding="async"
+        loading="lazy"
+        src={`${ASSET}${member.photo}`}
+      />
+      <span
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-[0.25rem] w-0 bg-orange transition-all duration-500 group-hover:w-full"
+      />
+    </div>
 
-export default function Team({
-  members = DEFAULT_TEAM_MEMBERS,
-  title = "L'équipe AS Biz Dev",
-  description =
-    "Des profils opérationnels au service de votre développement — entre la France, l'Afrique et le Moyen-Orient.",
-}: TeamProps) {
+    <div className="flex flex-1 flex-col p-[1.5rem]">
+      <h3 className="font-display text-[1.125rem] font-semibold leading-[1.25] tracking-[-0.02em] text-navy">
+        {member.name}
+      </h3>
+      <p className="mt-[0.35rem] text-[0.875rem] font-medium leading-[1.4] text-orange">
+        {member.role}
+      </p>
+      {member.bio && (
+        <p className="mt-[1rem] text-[0.875rem] leading-[1.6] text-gray-700">
+          {member.bio}
+        </p>
+      )}
+    </div>
+  </RevealOnScroll>
+);
+
+export default function Team({ members, title, description }: TeamProps) {
+  const t = useT("team");
   const clipId = useId().replace(/:/g, "");
 
+  const roster = members ?? (t.members as readonly TeamMember[]);
+  const heading = title ?? t.sectionTitle;
+  const intro = description ?? t.sectionDescription;
+
   return (
-    <section className="relative w-full overflow-hidden bg-white py-16 md:py-24">
+    <section className="relative w-full overflow-hidden bg-white py-[4rem] md:py-[6rem]">
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute right-0 bottom-0 text-gray-200"
@@ -96,20 +104,20 @@ export default function Team({
         </defs>
       </svg>
 
-      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div className="relative z-10 mx-auto max-w-[1280px] px-[1.5rem] lg:px-[2.5rem]">
         <RevealOnScroll
           variant="up"
-          className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center"
+          className="mx-auto mb-[3rem] flex max-w-3xl flex-col items-center text-center"
         >
-          <div className="mb-6 grid h-12 w-12 place-items-center rounded-xl bg-navy text-white">
+          <div className="mb-[1.5rem] grid h-[3rem] w-[3rem] place-items-center rounded-[0.75rem] bg-navy text-white">
             <UserStar aria-hidden="true" size={24} strokeWidth={2} />
           </div>
 
-          <h2 className="relative mb-4 font-display text-4xl font-semibold tracking-tight text-navy sm:text-5xl">
-            {title}
+          <h2 className="relative mb-[1rem] font-display text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-navy sm:text-[2.5rem]">
+            {heading}
             <svg
               aria-hidden="true"
-              className="absolute -top-2 -right-8 -z-10 w-24 text-orange/30"
+              className="absolute -top-2 -right-8 -z-10 w-[6rem] text-orange/30"
               fill="currentColor"
               height="86"
               viewBox="0 0 108 86"
@@ -125,54 +133,25 @@ export default function Team({
               />
             </svg>
           </h2>
-          <p className="max-w-2xl text-gray-700">{description}</p>
+          <p className="max-w-2xl text-[1rem] leading-[1.7] text-gray-700">
+            {intro}
+          </p>
         </RevealOnScroll>
 
-        <RevealOnScroll variant="up" delay={0.15}>
-          <div className="relative w-full">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute top-0 left-0 z-10 h-full w-12 bg-gradient-to-r from-white to-transparent sm:w-24 lg:w-32"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute top-0 right-0 z-10 h-full w-12 bg-gradient-to-l from-white to-transparent sm:w-24 lg:w-32"
-            />
-
-            <Marquee
-              ariaLabel={`Membres de ${title}`}
-              className="[--gap:1.5rem]"
-              speed={50}
-            >
-              {members.map((member) => (
-                <article
-                  className="group flex w-64 shrink-0 flex-col"
-                  key={member.name}
-                >
-                  <div className="relative h-92 w-full overflow-hidden rounded-2xl bg-gray-100">
-                    <img
-                      alt={`Portrait de ${member.name}, ${member.role}`}
-                      className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                      decoding="async"
-                      height="368"
-                      loading="lazy"
-                      src={member.image}
-                      width="256"
-                    />
-                    <div className="absolute bottom-0 w-full rounded-2xl bg-white/90 p-3 backdrop-blur">
-                      <h3 className="font-display text-[1rem] font-semibold text-navy">
-                        {member.name}
-                      </h3>
-                      <p className="text-[0.85rem] text-orange">
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </Marquee>
-          </div>
-        </RevealOnScroll>
+        <ul
+          role="list"
+          className="grid grid-cols-1 gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-[2rem]"
+        >
+          {roster.map((member, index) => (
+            <li key={member.name} className="h-full">
+              <TeamCard
+                member={member}
+                index={index}
+                portraitAlt={t.portraitAlt}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

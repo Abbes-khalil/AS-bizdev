@@ -1,7 +1,10 @@
 import RevealOnScroll from "../components/RevealOnScroll";
 import Team from "@/components/ui/team";
+import { useT } from "../i18n";
 
 export default function WhoIsWho() {
+  const { hero } = useT("team");
+
   return (
     <main>
       <section className="relative overflow-hidden bg-white">
@@ -20,15 +23,15 @@ export default function WhoIsWho() {
                   className="h-1 w-10 rounded-full bg-orange"
                   aria-hidden="true"
                 />
-                <p className="eyebrow text-orange">L'équipe</p>
+                <p className="eyebrow text-orange">{hero.eyebrow}</p>
               </div>
               <h1 className="mt-6 font-display display-xl font-semibold text-navy text-balance">
-                Who is <span className="italic text-orange">Who.</span>
+                {hero.titleLead}{" "}
+                <span className="italic text-orange">{hero.titleAccent}</span>
               </h1>
             </div>
             <p className="max-w-md text-[1.125rem] leading-[1.7] text-gray-700">
-              Les talents qui accompagnent vos projets internationaux, de la
-              réflexion stratégique au déploiement opérationnel.
+              {hero.intro}
             </p>
           </RevealOnScroll>
         </div>

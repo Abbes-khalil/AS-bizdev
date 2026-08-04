@@ -1,6 +1,8 @@
 ﻿import React from "react";
 import { createRoot } from "react-dom/client";
 import { Layout } from "./components/Layout";
+import { ROUTES, ROUTE_ALIASES } from "./components/siteData";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 import Home from "./pages/Home";
 import ContentPage from "./pages/ContentPage";
 import WhoIsWho from "./pages/WhoIsWho";
@@ -11,17 +13,25 @@ import Policy from "./pages/Policy";
 import "./styles.css";
 
 function App() {
-  const path = window.location.pathname.replace(/\/$/, "") || "/";
+  const requested = window.location.pathname.replace(/\/$/, "") || "/";
+  const path = ROUTE_ALIASES[requested] || requested;
+
   const routes = {
-    "/whoiswho": <WhoIsWho />,
-    "/nosvaleurs": <ContentPage kind="values" />,
-    "/notresavoirfaire": <ContentPage kind="expertise" />,
-    "/nossolutions": <ContentPage kind="solutions" />,
-    "/nospartenaire": <Partners />,
-    "/news": <News />,
-    "/contact": <Contact />,
-    "/politiques-de-confidentialite": <Policy />,
+    [ROUTES.whoIsWho]: <WhoIsWho />,
+    [ROUTES.values]: <ContentPage kind="values" />,
+    [ROUTES.expertise]: <ContentPage kind="expertise" />,
+    [ROUTES.solutions]: <ContentPage kind="solutions" />,
+    [ROUTES.partners]: <Partners />,
+    [ROUTES.news]: <News />,
+    [ROUTES.contact]: <Contact />,
+    [ROUTES.policy]: <Policy />,
   };
+
   return <Layout active={path}>{routes[path] || <Home />}</Layout>;
 }
-createRoot(document.getElementById("root")).render(<App />);
+
+createRoot(document.getElementById("root")).render(
+  <LanguageProvider>
+    <App />
+  </LanguageProvider>,
+);

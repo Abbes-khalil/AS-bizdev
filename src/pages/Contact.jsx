@@ -1,80 +1,201 @@
-﻿import { useState, useRef } from "react";
-import RevealOnScroll from "../components/RevealOnScroll";
+import { useRef, useState } from "react";
 
-const initialErrors = {};
-const initialStatus = { state: "idle", message: "" };
+import RevealOnScroll from "../components/RevealOnScroll";
+import { CONTACT_EMAIL, CONTACT_PHONE, ROUTES } from "../components/siteData";
+import { useT } from "../i18n";
+import { buildMailtoHref, submitContact } from "../utils/submitContact";
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const INITIAL_STATUS = { state: "idle", message: "" };
+
+const StatusIcon = ({ state }) => {
+  if (state === "success") {
+    return (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M3 8L6.5 11.5L13 5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  if (state === "error" || state === "failed") {
+    return (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M8 5V8.5M8 11V11.01"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+      </svg>
+    );
+  }
+
+  if (state === "submitting") {
+    return (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+        className="animate-spin"
+      >
+        <circle
+          cx="8"
+          cy="8"
+          r="6"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeDasharray="20"
+          strokeDashoffset="10"
+        />
+      </svg>
+    );
+  }
+
+  return null;
+};
+
+const inputClasses = (hasError) =>
+  `min-h-14 rounded-btn border bg-white px-4 text-[1rem] text-navy outline-none transition-all focus:bg-white focus:ring-4 ${
+    hasError
+      ? "border-orange focus:border-orange focus:ring-orange/20"
+      : "border-gray-200 focus:border-navy focus:ring-navy/15"
+  }`;
+
+/**
+ * Declared at module scope so the input keeps its DOM identity across
+ * re-renders — an inline component would remount and clear the field.
+ */
+const Field = ({
+  name,
+  label,
+  error,
+  onBlur,
+  requiredAria,
+  required = true,
+  type = "text",
+  autoComplete,
+  inputMode,
+}) => (
+  <label className="grid gap-2">
+    <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
+      {label}
+      {required && (
+        <>
+          {" "}
+          <span className="text-orange" aria-label={requiredAria}>
+            *
+          </span>
+        </>
+      )}
+    </span>
+    <input
+      required={required}
+      type={type}
+      name={name}
+      autoComplete={autoComplete}
+      inputMode={inputMode}
+      aria-invalid={Boolean(error)}
+      aria-describedby={error ? `err-${name}` : undefined}
+      onBlur={onBlur}
+      className={inputClasses(Boolean(error))}
+    />
+    {error && (
+      <p id={`err-${name}`} className="text-xs text-orange">
+        {error}
+      </p>
+    )}
+  </label>
+);
 
 export default function Contact() {
-  const [errors, setErrors] = useState(initialErrors);
-  const [status, setStatus] = useState(initialStatus);
+  const t = useT("contact");
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
-  const firstFieldRef = useRef(null);
 
   const validate = (form) => {
     const next = {};
     const name = form.name.value.trim();
+    const prenom = form.prenom.value.trim();
     const email = form.email.value.trim();
     const message = form.message.value.trim();
 
-    if (!name) next.name = "Merci d'indiquer votre nom.";
-    else if (name.length < 2) next.name = "Votre nom semble trop court.";
+    if (!name) next.name = t.errors.nameRequired;
+    else if (name.length < 2) next.name = t.errors.nameShort;
 
-    if (!email) next.email = "Une adresse email est requise.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      next.email = "Format d'email invalide.";
+    // Prénom is optional on the origin site — only validated when filled in.
+    if (prenom && prenom.length < 2) next.prenom = t.errors.firstNameShort;
 
-    if (!message) next.message = "Décrivez votre projet en quelques lignes.";
-    else if (message.length < 10)
-      next.message = "Votre message est un peu court — 10 caractères minimum.";
+    if (!email) next.email = t.errors.emailRequired;
+    else if (!EMAIL_PATTERN.test(email)) next.email = t.errors.emailInvalid;
+
+    if (!message) next.message = t.errors.messageRequired;
+    else if (message.length < 10) next.message = t.errors.messageShort;
 
     return next;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     const nextErrors = validate(form);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
-      setStatus({
-        state: "error",
-        message: "Merci de corriger les champs surlignés.",
-      });
-      const firstKey = Object.keys(nextErrors)[0];
-      const firstEl = form.elements[firstKey];
+      setStatus({ state: "error", message: t.status.invalid });
+      const firstEl = form.elements[Object.keys(nextErrors)[0]];
       if (firstEl) firstEl.focus();
       return;
     }
 
-    setStatus({ state: "submitting", message: "Envoi en cours…" });
-    // Simulated send — replace with real endpoint when available.
-    setTimeout(() => {
-      setStatus({
-        state: "success",
-        message: "Merci ! Nous organisons un premier échange sous 48 heures.",
-      });
+    const payload = {
+      name: form.name.value.trim(),
+      prenom: form.prenom.value.trim(),
+      email: form.email.value.trim(),
+      message: form.message.value.trim(),
+      website: form.website.value, // honeypot — see the hidden field below
+    };
+
+    setStatus({ state: "submitting", message: t.status.submitting });
+
+    try {
+      await submitContact(payload);
+      setStatus({ state: "success", message: t.status.success });
       form.reset();
       window.scrollTo({
         top: formRef.current?.offsetTop ?? 0,
         behavior: "smooth",
       });
-    }, 900);
+    } catch {
+      // Never drop the lead: offer the pre-filled mailto as a fallback.
+      setStatus({
+        state: "failed",
+        message: t.status.failed,
+        mailto: buildMailtoHref(payload, t.status.emailSubject),
+      });
+    }
   };
 
   const onBlur = (e) => {
     const form = e.currentTarget.form;
-    if (!form) return;
-    const next = validate(form);
-    setErrors(next);
+    if (form) setErrors(validate(form));
   };
 
-  const inputClasses = (key) =>
-    `min-h-14 rounded-btn border bg-white px-4 text-[1rem] text-navy outline-none transition-all focus:bg-white focus:ring-4 ${
-      errors[key]
-        ? "border-orange focus:border-orange focus:ring-orange/20"
-        : "border-gray-200 focus:border-navy focus:ring-navy/15"
-    }`;
+  const fieldProps = (name) => ({
+    name,
+    error: errors[name],
+    onBlur,
+    requiredAria: t.form.requiredAria,
+  });
 
   return (
     <main>
@@ -95,16 +216,15 @@ export default function Contact() {
                 className="h-1 w-10 rounded-full bg-orange"
                 aria-hidden="true"
               />
-              <p className="eyebrow text-orange">Construisons la suite</p>
+              <p className="eyebrow text-orange">{t.hero.eyebrow}</p>
             </div>
             <h1 className="mt-6 font-display display-xl font-semibold text-navy text-balance">
-              Parlons de votre prochain{" "}
-              <span className="italic text-orange">territoire</span> de
-              croissance.
+              {t.hero.titleLead}{" "}
+              <span className="italic text-orange">{t.hero.titleAccent}</span>
+              {t.hero.titleTail && ` ${t.hero.titleTail}`}
             </h1>
             <p className="mt-8 max-w-2xl text-[1.125rem] leading-[1.65] text-gray-700">
-              Décrivez-nous votre ambition. Notre équipe vous répondra pour
-              organiser un premier échange — sous 48 heures.
+              {t.hero.intro}
             </p>
           </RevealOnScroll>
         </div>
@@ -123,86 +243,46 @@ export default function Contact() {
                 aria-describedby="form-status"
               >
                 <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
-                      Nom{" "}
-                      <span className="text-orange" aria-hidden="true">
-                        *
-                      </span>
-                    </span>
+                  <Field
+                    {...fieldProps("name")}
+                    label={t.form.name}
+                    autoComplete="family-name"
+                  />
+                  <Field
+                    {...fieldProps("prenom")}
+                    label={t.form.firstName}
+                    autoComplete="given-name"
+                    required={false}
+                  />
+                  <Field
+                    {...fieldProps("email")}
+                    label={t.form.email}
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
+                  />
+                </div>
+
+                {/*
+                  Honeypot: hidden from users and screen readers, and skipped by
+                  keyboard. Bots fill every field, so a value here marks spam.
+                */}
+                <div className="absolute left-[-9999px]" aria-hidden="true">
+                  <label>
+                    Website
                     <input
-                      ref={firstFieldRef}
-                      required
-                      name="name"
-                      autoComplete="name"
-                      aria-invalid={Boolean(errors.name)}
-                      aria-describedby={errors.name ? "err-name" : undefined}
-                      onBlur={onBlur}
-                      className={inputClasses("name")}
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
                     />
-                    {errors.name && (
-                      <p id="err-name" className="text-xs text-orange">
-                        {errors.name}
-                      </p>
-                    )}
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
-                      Prenom{" "}
-                      <span className="text-orange" aria-hidden="true">
-                        *
-                      </span>
-                    </span>
-                    <input
-                      ref={firstFieldRef}
-                      required
-                      name="prenom"
-                      autoComplete="prenom"
-                      aria-invalid={Boolean(errors.prenom)}
-                      aria-describedby={
-                        errors.prenom ? "err-prenom" : undefined
-                      }
-                      onBlur={onBlur}
-                      className={inputClasses("prenom")}
-                    />
-                    {errors.preonm && (
-                      <p id="err-prenom" className="text-xs text-orange">
-                        {errors.prenom}
-                      </p>
-                    )}
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
-                      Email{" "}
-                      <span className="text-orange" aria-hidden="true">
-                        *
-                      </span>
-                    </span>
-                    <input
-                      required
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      inputMode="email"
-                      aria-invalid={Boolean(errors.email)}
-                      aria-describedby={errors.email ? "err-email" : undefined}
-                      onBlur={onBlur}
-                      className={inputClasses("email")}
-                    />
-                    {errors.email && (
-                      <p id="err-email" className="text-xs text-orange">
-                        {errors.email}
-                      </p>
-                    )}
                   </label>
                 </div>
-                <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                  <label className="grid gap-2"></label>
-                </div>
+
                 <label className="mt-6 grid gap-2">
                   <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
-                    Votre message{" "}
-                    <span className="text-orange" aria-hidden="true">
+                    {t.form.message}{" "}
+                    <span className="text-orange" aria-label={t.form.requiredAria}>
                       *
                     </span>
                   </span>
@@ -210,11 +290,9 @@ export default function Contact() {
                     required
                     name="message"
                     rows={6}
-                    placeholder="Décrivez votre projet, vos marchés cibles, vos contraintes…"
+                    placeholder={t.form.messagePlaceholder}
                     aria-invalid={Boolean(errors.message)}
-                    aria-describedby={
-                      errors.message ? "err-message" : undefined
-                    }
+                    aria-describedby={errors.message ? "err-message" : undefined}
                     onBlur={onBlur}
                     className={`rounded-btn border p-4 text-[1rem] text-navy outline-none transition-all placeholder:text-gray-400 focus:bg-white focus:ring-4 ${
                       errors.message
@@ -236,86 +314,42 @@ export default function Contact() {
                   className={`mt-6 rounded-btn border px-4 py-3 text-sm ${
                     status.state === "success"
                       ? "border-gray-200 bg-surface-alt text-navy"
-                      : status.state === "error"
+                      : status.state === "error" || status.state === "failed"
                         ? "border-orange/30 bg-orange-50 text-orange"
                         : status.state === "submitting"
                           ? "border-gray-200 bg-surface-alt text-gray-700"
                           : "hidden"
                   }`}
                 >
-                  <span className="flex items-center gap-2">
-                    {status.state === "success" && (
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M3 8L6.5 11.5L13 5"
-                          stroke="currentColor"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                    {status.state === "error" && (
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <circle
-                          cx="8"
-                          cy="8"
-                          r="6"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M8 5V8.5M8 11V11.01"
-                          stroke="currentColor"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    )}
-                    {status.state === "submitting" && (
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        aria-hidden="true"
-                        className="animate-spin"
-                      >
-                        <circle
-                          cx="8"
-                          cy="8"
-                          r="6"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeDasharray="20"
-                          strokeDashoffset="10"
-                        />
-                      </svg>
-                    )}
-                    {status.message}
+                  <span className="flex items-start gap-2">
+                    <span className="mt-[0.15rem] shrink-0">
+                      <StatusIcon state={status.state} />
+                    </span>
+                    <span>
+                      {status.message}
+                      {status.mailto && (
+                        <>
+                          {" "}
+                          <a
+                            href={status.mailto}
+                            className="font-semibold underline underline-offset-2 hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
+                          >
+                            {t.status.failedLink}
+                          </a>
+                        </>
+                      )}
+                    </span>
                   </span>
                 </div>
 
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                   <p className="text-xs text-gray-500">
-                    En soumettant ce formulaire, vous acceptez notre{" "}
+                    {t.form.consentBefore}{" "}
                     <a
-                      href="/politiques-de-confidentialite"
+                      href={ROUTES.policy}
                       className="text-navy underline underline-offset-2 hover:text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded"
                     >
-                      politique de confidentialité
+                      {t.form.consentLink}
                     </a>
                     .
                   </p>
@@ -325,8 +359,8 @@ export default function Contact() {
                     className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {status.state === "submitting"
-                      ? "Envoi…"
-                      : "Envoyer ma demande"}
+                      ? t.form.submitting
+                      : t.form.submit}
                     <svg
                       width="14"
                       height="14"
@@ -350,23 +384,22 @@ export default function Contact() {
             <RevealOnScroll variant="up" delay={0.15}>
               <aside className="flex flex-col gap-6">
                 <div className="rounded-card bg-navy p-8 text-white">
-                  <p className="eyebrow text-orange">AS Biz Dev</p>
+                  <p className="eyebrow text-orange">{t.aside.eyebrow}</p>
                   <h2 className="mt-5 font-display text-2xl font-semibold tracking-tight">
-                    France · Afrique · Moyen-Orient
+                    {t.aside.heading}
                   </h2>
                   <p className="mt-4 text-[0.95rem] leading-relaxed text-white/75">
-                    Nous intervenons à vos côtés, de la stratégie au déploiement
-                    opérationnel. Un premier échange, sans engagement.
+                    {t.aside.body}
                   </p>
                   <div className="mt-6 space-y-2">
                     <a
-                      href="mailto:contact@asbizdev.com"
+                      href={`mailto:${CONTACT_EMAIL}`}
                       className="block text-[0.95rem] text-orange link-underline"
                     >
-                      contact@asbizdev.com
+                      {CONTACT_EMAIL}
                     </a>
-                    <p className="block text-[0.95rem] text-orange ">
-                      +33 06 07 38 69 63
+                    <p className="block text-[0.95rem] text-orange">
+                      {CONTACT_PHONE}
                     </p>
                   </div>
                 </div>

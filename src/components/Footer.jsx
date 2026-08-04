@@ -1,16 +1,5 @@
-const links = {
-  Compagnie: [
-    ["Qui sommes-nous", "/whoiswho"],
-    ["Nos valeurs", "/nosvaleurs"],
-    ["Partenaires", "/nospartenaire"],
-    ["Actualités", "/news"],
-  ],
-  Expertise: [
-    ["Savoir-faire", "/notresavoirfaire"],
-    ["Solutions", "/nossolutions"],
-    ["Contact", "/contact"],
-  ],
-};
+import { CONTACT_EMAIL, CONTACT_PHONE, ROUTES } from "./siteData";
+import { interpolate, useT } from "../i18n";
 
 const SocialIcon = ({ href, label, children }) => (
   <a
@@ -25,6 +14,8 @@ const SocialIcon = ({ href, label, children }) => (
 );
 
 export default function Footer() {
+  const { footer: t, footerLinks, nav } = useT("common");
+
   return (
     <footer className="relative overflow-hidden bg-navy text-white">
       <div
@@ -46,14 +37,14 @@ export default function Footer() {
         <div className="container-x pt-24 lg:pt-32">
           <div className="inline-flex items-center gap-3">
             <span className="h-1 w-10 rounded-full bg-orange" aria-hidden="true" />
-            <p className="eyebrow text-white/60">Construisons la suite</p>
+            <p className="eyebrow text-white/60">{t.ctaEyebrow}</p>
           </div>
           <a
             href="/contact"
             className="mt-6 inline-flex items-baseline gap-4 font-display text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[0.95] tracking-tight text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded-md"
           >
-            <span>Parlons de votre</span>
-            <span className="italic text-orange">territoire</span>
+            <span>{t.ctaLine1}</span>
+            <span className="italic text-orange">{t.ctaLine2}</span>
             <svg
               width="36"
               height="36"
@@ -77,7 +68,7 @@ export default function Footer() {
           <div>
             <a
               href="/"
-              aria-label="AS Biz Dev — Accueil"
+              aria-label={nav.homeAria}
               className="inline-flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-white text-navy">
@@ -90,18 +81,17 @@ export default function Footer() {
                   AS Biz Dev
                 </span>
                 <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-white/60">
-                  International
+                  {t.brandTagline}
                 </span>
               </span>
             </a>
             <p className="mt-6 max-w-xs text-[0.95rem] leading-relaxed text-white/70">
-              Votre relais opérationnel pour développer vos marchés en Afrique
-              et au Moyen-Orient.
+              {t.tagline}
             </p>
             <div className="mt-8 flex items-center gap-3">
               <SocialIcon
                 href="https://www.linkedin.com/company/as-biz-dev/?originalSubdomain=fr"
-                label="LinkedIn — AS Biz Dev (nouvel onglet)"
+                label={t.linkedinLabel}
               >
                 <svg
                   width="16"
@@ -115,7 +105,7 @@ export default function Footer() {
               </SocialIcon>
               <SocialIcon
                 href="https://www.facebook.com/profile.php?id=100085701123233"
-                label="Facebook — AS Biz Dev (nouvel onglet)"
+                label={t.facebookLabel}
               >
                 <svg
                   width="16"
@@ -130,7 +120,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {Object.entries(links).map(([title, items]) => (
+          {footerLinks.map(({ title, items }) => (
             <nav key={title} aria-label={title}>
               <p className="eyebrow text-white/50">{title}</p>
               <ul className="mt-6 space-y-3">
@@ -150,10 +140,12 @@ export default function Footer() {
 
           <div className="text-center content-center">
             <a
-              href="mailto:contact@asbizdev.com"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="mt-6 inline-block text-[0.95rem] text-orange link-underline"
             >
-              contact@asbizdev.com
+              {CONTACT_EMAIL}
+              <br />
+              {CONTACT_PHONE}
             </a>
           </div>
         </div>
@@ -162,17 +154,17 @@ export default function Footer() {
         <div className="container-x mt-20 border-t border-white/10 py-8">
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-white/60 sm:flex-row sm:items-center">
             <p>
-              © {new Date().getFullYear()} AS Biz Dev. Tous droits réservés.
+              {interpolate(t.copyright, { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center gap-6">
               <a
-                href="/politiques-de-confidentialite"
+                href={ROUTES.policy}
                 className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
-                Politique de confidentialité
+                {t.policy}
               </a>
               <span className="font-display uppercase tracking-widest text-white/40">
-                v 3.0 — refreshed
+                {t.version}
               </span>
             </div>
           </div>

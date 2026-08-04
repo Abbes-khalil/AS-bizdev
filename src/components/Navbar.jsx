@@ -1,20 +1,12 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const navigation = [
-  ["Accueil", "/"],
-  ["Qui sommes-nous", "/whoiswho"],
-  ["Nos valeurs", "/nosvaleurs"],
-  ["Savoir-faire", "/notresavoirfaire"],
-  ["Solutions", "/nossolutions"],
-  ["Partenaires", "/nospartenaire"],
-  ["Actualités", "/news"],
-  ["Contact", "/contact"],
-];
+import LangSwitcher from "../i18n/LangSwitcher";
+import { useT } from "../i18n";
 
-const Logo = ({ className = "" }) => (
+const Logo = ({ label, className = "" }) => (
   <a
     href="/"
-    aria-label="AS Biz Dev — Accueil"
+    aria-label={label}
     className={`group inline-flex items-center gap-3 ${className}`}
   >
     <span className="grid h-10 w-10 place-items-center rounded-xl bg-navy text-white shadow-soft transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105">
@@ -52,6 +44,7 @@ const HamburgerIcon = ({ open }) => (
 );
 
 export default function Navbar({ active }) {
+  const { nav: t, navigation: navItems } = useT("common");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -76,52 +69,56 @@ export default function Navbar({ active }) {
   return (
     <>
       <a href="#main" className="skip-link">
-        Aller au contenu
+        {t.skipLink}
       </a>
 
       <header className="fixed inset-x-0 top-0 z-50 h-[80px] border-b border-transparent bg-white/0 backdrop-blur-0 transition-all duration-300 ease-emphasized [.is-scrolled_&]:border-gray-200 [.is-scrolled_&]:bg-white/95 [.is-scrolled_&]:backdrop-blur-lg [.is-scrolled_&]:shadow-soft">
         <div className="container-x flex h-full items-center justify-between">
-          <Logo />
+          <Logo label={t.homeAria} />
 
-          <nav
-            className="hidden items-center gap-1 lg:flex"
-            aria-label="Navigation principale"
-          >
-            {navigation.map(([label, href]) => {
-              const isActive = active === href;
-              return (
-                <a
-                  key={href}
-                  href={href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`group relative rounded-btn px-4 py-2 font-display text-[0.9rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-                    isActive ? "text-navy" : "text-gray-700 hover:text-navy"
-                  }`}
-                >
-                  {label}
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-[2px] origin-left rounded-full bg-orange transition-transform duration-300 ease-out ${
-                      isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+          <div className="flex items-center gap-3">
+            <nav
+              className="hidden items-center gap-1 lg:flex"
+              aria-label={t.primaryAria}
+            >
+              {navItems.map(([label, href]) => {
+                const isActive = active === href;
+                return (
+                  <a
+                    key={href}
+                    href={href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`group relative rounded-btn px-4 py-2 font-display text-[0.9rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                      isActive ? "text-navy" : "text-gray-700 hover:text-navy"
                     }`}
-                  />
-                </a>
-              );
-            })}
-          </nav>
+                  >
+                    {label}
+                    <span
+                      aria-hidden="true"
+                      className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-[2px] origin-left rounded-full bg-orange transition-transform duration-300 ease-out ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                      }`}
+                    />
+                  </a>
+                );
+              })}
+            </nav>
 
-          <button
-            type="button"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            onClick={() => setOpen(!open)}
-            className="grid h-11 w-11 place-items-center rounded-btn border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white lg:hidden"
-          >
-            <HamburgerIcon open={open} />
-          </button>
+            <LangSwitcher className="hidden lg:inline-flex" />
+
+            <button
+              type="button"
+              aria-label={open ? t.closeMenu : t.openMenu}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(!open)}
+              className="grid h-11 w-11 place-items-center rounded-btn border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white lg:hidden"
+            >
+              <HamburgerIcon open={open} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -134,12 +131,12 @@ export default function Navbar({ active }) {
         aria-hidden={!open}
         role="dialog"
         aria-modal="true"
-        aria-label="Menu mobile"
+        aria-label={t.mobileAria}
       >
         <div className="container-x flex h-full flex-col justify-between pb-10 pt-6">
-          <nav aria-label="Navigation mobile">
+          <nav aria-label={t.mobileAria}>
             <ul className="space-y-1">
-              {navigation.map(([label, href], idx) => (
+              {navItems.map(([label, href], idx) => (
                 <li
                   key={href}
                   className="border-b border-gray-200"
@@ -177,16 +174,17 @@ export default function Navbar({ active }) {
               ))}
             </ul>
           </nav>
-          <div className="space-y-3">
+          <div className="space-y-4">
+            <LangSwitcher />
             <a
               href="/contact"
               onClick={() => setOpen(false)}
               className="btn-primary w-full"
             >
-              Contactez-nous
+              {t.mobileCta}
             </a>
             <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
-              France · Afrique · Moyen-Orient
+              {t.mobileCaption}
             </p>
           </div>
         </div>
