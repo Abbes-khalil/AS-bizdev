@@ -147,10 +147,12 @@ submit → validate → POST to VITE_CONTACT_ENDPOINT → ✅ success
                                              (message preserved in the form)
 ```
 
-- 🍯 **Honeypot** — an invisible field, `tabIndex={-1}`, inside `aria-hidden`. Bots fill it; humans and screen readers never see it. Checked client *and* server side.
+**No backend.** A plain JSON POST to a form service — nothing of ours to deploy, run or pay for.
+
+- 🍯 **Honeypot** — an invisible field, `tabIndex={-1}`, inside `aria-hidden`. Bots fill it; humans and screen readers never see it. Named `_gotcha`, which Formspree discards natively.
 - ⏱️ **15s `AbortController` timeout** so a hung request can't spin forever.
-- 🔌 **Endpoint-agnostic** — Formspree, Web3Forms, Netlify, or the bundled serverless relay.
-- 📮 **`api/contact.js`** — zero-dependency Web-standard handler (runs on Vercel / Netlify / Cloudflare unchanged) that validates, escapes HTML, and emails via Resend.
+- 🔌 **Endpoint-agnostic** — Formspree, Web3Forms, or anything accepting a JSON POST.
+- 📮 **Never loses a lead** — if the endpoint is missing or down, it falls back to a pre-filled `mailto:` and keeps the text in the form.
 
 Setup is one environment variable — see [`.env.example`](.env.example).
 
@@ -180,7 +182,7 @@ The useful part is **`ROUTE_ALIASES`**: the origin's WordPress URLs (`/who-is-wh
 | **Styling** | Tailwind 3.4 | Utility-first, arbitrary values, zero CSS files |
 | **Motion** | Framer Motion 12 | Declarative viewport animation |
 | **Icons** | lucide-react | Tree-shaken SVGs |
-| **Classes** | clsx + tailwind-merge | Conflict-free conditional classes |
+| **Forms** | Native + fetch | No form library — 6 runtime deps total |
 | **Types** | TypeScript 7 | Gradual — `.tsx` where types earn their keep |
 | **i18n** | Hand-rolled | ~30 lines beats a 40 kB dependency |
 
@@ -203,7 +205,8 @@ src/
 ├─ pages/               Home · WhoIsWho · ContentPage · Partners
 │                       News · Contact · Policy
 └─ utils/               submitContact.js
-api/                    Serverless contact relay (optional)
+public/brand_assets/    Images — served at /brand_assets/…
+vercel.json             SPA rewrites + asset caching
 ```
 
 **The rule:** components hold *structure*, `i18n/content/` holds *words*. No hardcoded copy in a component, ever.
@@ -236,7 +239,7 @@ Not an afterthought: skip-to-content link, semantic landmarks, `aria-label` on e
 
 - [ ] Set `VITE_CONTACT_ENDPOINT` — until then the form falls back to email
 - [ ] Get the English approved — see [`TRANSLATIONS-REVIEW.md`](TRANSLATIONS-REVIEW.md), 334 strings side-by-side
-- [ ] Add an SPA rewrite rule on the host so deep links don't 404
+- [x] SPA rewrite rule — `vercel.json` (deep links no longer 404)
 
 **Nice to have:** language in the URL (`/en/…`) so English pages can be shared and indexed · React Router if the page count grows · code-splitting to trim the 141 kB gzip.
 

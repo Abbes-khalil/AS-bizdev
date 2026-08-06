@@ -1,38 +1,21 @@
 import { CONTACT_EMAIL } from "../components/siteData";
 
+/**
+ * Contact form submission — a plain POST to a form service (Formspree,
+ * Web3Forms, …). No backend of our own to run or maintain.
+ *
+ * Configure the destination in `.env`:
+ *   VITE_CONTACT_ENDPOINT=https://formspree.io/f/xxxxxxx
+ */
 const ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT;
 const TIMEOUT_MS = 15000;
 
-/** Reasons a submission can fail, so the UI can react differently to each. */
-export const FAILURE = {
-  UNCONFIGURED: "unconfigured",
-  NETWORK: "network",
-  SERVER: "server",
-};
-
-export class ContactError extends Error {
-  constructor(reason, status) {
-    super(`Contact submission failed: ${reason}`);
-    this.name = "ContactError";
-    this.reason = reason;
-    this.status = status;
-  }
-}
-
-export const isEndpointConfigured = () => Boolean(ENDPOINT);
-
 /**
- * Fallback route when the endpoint is missing or unreachable — opens the
- * visitor's mail client with the message they already typed, so a lead is
- * never silently dropped.
+ * Fallback when the endpoint is missing or unreachable — opens the visitor's
+ * mail client with what they already typed, so a lead is never lost.
  */
 export const buildMailtoHref = ({ name, prenom, email, message }, subject) => {
-  const body = [
-    `${prenom || ""} ${name || ""}`.trim(),
-    email,
-    "",
-    message,
-  ]
+  const body = [`${prenom || ""} ${name || ""}`.trim(), email, "", message]
     .filter(Boolean)
     .join("\n");
 
@@ -40,26 +23,28 @@ export const buildMailtoHref = ({ name, prenom, email, message }, subject) => {
 };
 
 export async function submitContact(payload) {
-  if (!ENDPOINT) throw new ContactError(FAILURE.UNCONFIGURED);
+  if (!ENDPOINT) throw new Error("VITE_CONTACT_ENDPOINT is not configured");
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
-  let response;
   try {
-    response = await fetch(ENDPOINT, {
+    const response = await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify(payload),
       signal: controller.signal,
     });
-  } catch {
-    throw new ContactError(FAILURE.NETWORK);
+
+    if (!response.ok) {
+      throw new Error(`Contact endpoint returned ${response.status}`);
+    }
+
+    return response;
   } finally {
-    clearTimeout(timeout);
+    clearTimeout(timer);
   }
-
-  if (!response.ok) throw new ContactError(FAILURE.SERVER, response.status);
-
-  return response;
 }

@@ -162,7 +162,7 @@ export default function Contact() {
       prenom: form.prenom.value.trim(),
       email: form.email.value.trim(),
       message: form.message.value.trim(),
-      website: form.website.value, // honeypot — see the hidden field below
+      _gotcha: form.elements._gotcha.value, // honeypot — see the hidden field below
     };
 
     setStatus({ state: "submitting", message: t.status.submitting });
@@ -266,13 +266,14 @@ export default function Contact() {
                 {/*
                   Honeypot: hidden from users and screen readers, and skipped by
                   keyboard. Bots fill every field, so a value here marks spam.
+                  Named `_gotcha` — Formspree discards such submissions natively.
                 */}
                 <div className="absolute left-[-9999px]" aria-hidden="true">
                   <label>
                     Website
                     <input
                       type="text"
-                      name="website"
+                      name="_gotcha"
                       tabIndex={-1}
                       autoComplete="off"
                     />
