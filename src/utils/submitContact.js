@@ -8,6 +8,13 @@ import { CONTACT_EMAIL } from "../components/siteData";
  *   VITE_CONTACT_ENDPOINT=https://formspree.io/f/xxxxxxx
  */
 const ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT;
+
+/**
+ * Only needed by services that identify the form through the request body
+ * (Web3Forms). Formspree encodes identity in the URL and ignores this.
+ */
+const ACCESS_KEY = import.meta.env.VITE_CONTACT_ACCESS_KEY;
+
 const TIMEOUT_MS = 15000;
 
 /**
@@ -35,7 +42,14 @@ export async function submitContact(payload) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        ...payload,
+        ...(ACCESS_KEY && {
+          access_key: ACCESS_KEY,
+          subject: `Nouveau contact — ${`${payload.prenom || ""} ${payload.name || ""}`.trim()}`,
+          from_name: "asbizdev.com",
+        }),
+      }),
       signal: controller.signal,
     });
 

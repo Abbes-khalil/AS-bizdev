@@ -1,3 +1,4 @@
+import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import { CONTACT_EMAIL } from "../components/siteData";
 import { useT } from "../i18n";
@@ -7,36 +8,10 @@ export default function Policy() {
 
   return (
     <main>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          className="pointer-events-none absolute inset-0 pattern-dots opacity-[0.12]"
-          aria-hidden="true"
-        />
-        <div className="relative container-x py-20 lg:py-28">
-          <RevealOnScroll variant="up" className="max-w-3xl">
-            <div className="inline-flex items-center gap-3">
-              <span
-                className="h-1 w-10 rounded-full bg-orange"
-                aria-hidden="true"
-              />
-              <p className="eyebrow text-orange">{t.hero.eyebrow}</p>
-            </div>
-            <h1 className="mt-6 font-display display-xl font-semibold text-navy text-balance">
-              {t.hero.titleLead}{" "}
-              <span className="italic text-orange">{t.hero.titleAccent}</span>
-            </h1>
-            <p className="mt-8 text-[1.0625rem] leading-[1.7] text-gray-700">
-              {t.hero.intro}
-            </p>
-            <p className="mt-6 text-[1rem] text-gray-700">
-              {t.hero.effectiveDate}
-            </p>
-            <p className="mt-2 text-[1rem] text-gray-700">
-              {t.hero.updatedDate}
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <PageHero {...t.hero}>
+        <p className="mt-6 text-[1rem] text-gray-700">{t.hero.effectiveDate}</p>
+        <p className="mt-2 text-[1rem] text-gray-700">{t.hero.updatedDate}</p>
+      </PageHero>
 
       <section className="bg-white pb-24 lg:pb-32">
         <div className="container-x">

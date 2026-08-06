@@ -6,7 +6,7 @@
 const CTA_FR = {
   eyebrow: "Aller plus loin",
   heading: "Prêt à transformer ces principes en croissance ?",
-  label: "Contacez-nous",
+  label: "Contactez-nous",
   href: "/contact",
 };
 
@@ -61,6 +61,8 @@ const pages = {
           title: "Responsabilité",
           intro:
             "AS Biz Dev n'est pas le fruit d'une ambition personnelle détachée des enjeux écologiques et sociétaux.",
+          teaser:
+            "AS Biz Dev n'est pas le fruit d'une ambition personnelle détachée des enjeux écologiques et sociétaux. Nous souhaitons, au contraire, apporter notre petite pierre à l'édifice vertueux du développement durable.",
           body: "Nous souhaitons, au contraire, apporter notre petite pierre à l'édifice vertueux du développement durable. Notre responsabilité est triple : économique (tarification équitable, factures payées en temps et en heure, soutien aux fournisseurs locaux), sociale (respect des droits des travailleurs, développement de l'égalité des chances et de la diversité, garantie des conditions d'hygiène et de sécurité au travail, formation des collaborateurs) et environnementale (limitation de notre empreinte carbone en ne nous déplaçant que lorsque c'est indispensable, limitation et tri des déchets, incitation à l'utilisation de matériaux recyclés, et favorisation des circuits courts de distribution et d'approvisionnement).",
         },
       ],
@@ -106,16 +108,22 @@ const pages = {
         {
           src: "nossolutions/La-gestion-de-projet.webp",
           title: "La gestion de projet",
+          teaser:
+            "Lancer un produit, conquérir un marché ou plus simplement trouver de nouveaux fournisseurs ne s'improvise pas…",
           body: "Lancer un produit, conquérir un marché ou plus simplement trouver de nouveaux fournisseurs ne s'improvise pas. Cela nécessite une parfaite connaissance de la gestion de projet car de son efficacité, dépend souvent la réussite de ce dernier. C'est justement là où AS Biz Dev vous sera précieuse : rédaction d'un business plan, planification et coordination des tâches, mise en œuvre de solutions logistiques et opérationnelles, contrôle d'exécution, optimisation des ressources, gestion des risques, nous maîtrisons tous les maillons de la chaîne. Avec nous, vous gagnerez du temps et de l'argent en mobilisant vos ressources a minima.",
         },
         {
           src: "nossolutions/Le-developpement-0Acommercial-copie.webp",
           title: "Le développement commercial",
+          teaser:
+            "Vous possédez un réel savoir-faire mais vous ne savez pas comment le faire savoir…",
           body: "Vous possédez un réel savoir-faire mais vous ne savez pas comment le faire savoir. AS Biz Dev peut vous y aider en devenant votre porte-voix. Nous sommes à même de vous proposer une stratégie de distribution efficace que nous développons à vos côtés : nous identifions de futurs partenaires locaux et vous mettons en relation avec eux. Nous concevons et adaptons des solutions techniques pour conquérir de nouveaux marchés. Nous gérons, également, la stratégie marketing et la relation client. Grâce à nous, votre développement commercial décollera et vous en serez le copilote.",
         },
         {
           src: "nossolutions/Laccompagnement-.webp",
           title: "L'accompagnement",
+          teaser:
+            "Faire évoluer une entreprise impulse souvent une nouvelle dynamique, synonyme de changements internes…",
           body: "Faire évoluer une entreprise impulse souvent une nouvelle dynamique, synonyme de changements internes. Quelles que soient leur importance, ces innovations rompent avec une organisation établie et bouleversent les habitudes. Elles sont alors trop souvent vécues dans l'inconfort et le stress liés à l'inconnu. AS Biz Dev vous permet de passer le cap en douceur grâce à sa solide expérience des situations de transition. Pour nous, l'évolution d'une entreprise n'est bénéfique que si elle est comprise et partagée par tous. Nous accompagnons donc vos collaborateurs, pas à pas, dans leur conversion, en prêtant une oreille attentive à leur ressenti et en les impliquant dans le changement d'organisation. Nous pouvons également leur proposer des formations ad hoc afin de les préparer à gérer au mieux les nouvelles perspectives de croissance qui les attendent. Parce qu'il nous semble tout aussi capital de préparer très concrètement les entrepreneurs de demain aux enjeux économiques mondiaux, AS Biz Dev est également en capacité de développer des formations thématiques de business development à destination des étudiants des universités, des écoles de commerce et de management ou des écoles d'ingénieur. La transmission fait, en effet, partie de nos valeurs et nous serons toujours heureux et fiers de partager notre savoir-faire avec le plus grand nombre.",
         },
       ],
@@ -164,6 +172,8 @@ const pages = {
           title: "Responsibility",
           intro:
             "AS Biz Dev is not the product of a personal ambition detached from ecological and societal concerns.",
+          teaser:
+            "AS Biz Dev is not the product of a personal ambition detached from ecological and societal concerns. On the contrary, we want to add our own stone to the virtuous edifice of sustainable development.",
           body: "On the contrary, we want to add our own stone to the virtuous edifice of sustainable development. Our responsibility is threefold: economic (fair pricing, invoices paid on time, support for local suppliers), social (respect for workers' rights, promoting equal opportunity and diversity, guaranteeing health and safety at work, training our people) and environmental (limiting our carbon footprint by travelling only when essential, reducing and sorting waste, encouraging the use of recycled materials, and favouring short distribution and supply chains).",
         },
       ],
@@ -209,16 +219,22 @@ const pages = {
         {
           src: "nossolutions/La-gestion-de-projet.webp",
           title: "Project management",
+          teaser:
+            "Launching a product, winning a market or simply finding new suppliers is not something you improvise…",
           body: "Launching a product, winning a market or simply finding new suppliers is not something you improvise. It requires a thorough command of project management, because a project's success often depends on how efficiently it is run. That is precisely where AS Biz Dev proves invaluable: writing the business plan, planning and coordinating tasks, implementing logistical and operational solutions, monitoring execution, optimising resources, managing risk — we master every link in the chain. With us, you save time and money while mobilising your own resources as little as possible.",
         },
         {
           src: "nossolutions/Le-developpement-0Acommercial-copie.webp",
           title: "Business development",
+          teaser:
+            "You have genuine expertise, but you don't know how to make it known…",
           body: "You have genuine expertise, but you don't know how to make it known. AS Biz Dev can help by becoming your megaphone. We can propose an effective distribution strategy and build it alongside you: we identify future local partners and connect you with them. We design and adapt technical solutions to win new markets. We also manage marketing strategy and customer relations. With us, your business development takes off — and you are the co-pilot.",
         },
         {
           src: "nossolutions/Laccompagnement-.webp",
           title: "Support & change management",
+          teaser:
+            "Growing a company often sets off a new dynamic — and with it, internal change…",
           body: "Growing a company often sets off a new dynamic, and with it internal change. Whatever their scale, these changes break with an established organisation and disrupt habits. Too often they are experienced with the discomfort and stress that come with the unknown. AS Biz Dev helps you through the transition smoothly, thanks to solid experience of situations of change. For us, a company's evolution is only beneficial if it is understood and shared by everyone. So we support your people step by step through their transition, listening carefully to how they feel and involving them in the reorganisation. We can also offer them tailored training to prepare them to make the most of the new growth prospects ahead. Because we believe it is just as vital to prepare tomorrow's entrepreneurs concretely for global economic challenges, AS Biz Dev can also develop themed business development courses for students at universities, business and management schools or engineering schools. Passing on knowledge is part of our values, and we will always be happy and proud to share our know-how as widely as possible.",
         },
       ],

@@ -8,7 +8,9 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 0.0.0.0 --port 3000",
-    "build:wp": "node scripts/build-wp.mjs"
+    "build:wp": "node scripts/build-wp.mjs",
+    "wp:sync": "node scripts/build-wp.mjs --sync",
+    "check:i18n": "node scripts/check-i18n.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

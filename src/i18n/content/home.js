@@ -48,26 +48,6 @@ const home = {
       titleAccent: "concrétiser vos projets.",
       intro:
         "Nos services sont conçus comme un parcours en trois étapes — celles-ci pouvant être également développées séparément en fonction de l'objectif à atteindre. Du diagnostic à la conquête de nouveaux marchés.",
-      items: [
-        {
-          src: "nossolutions/La-gestion-de-projet.webp",
-          title: "La gestion de projet",
-          description:
-            "Lancer un produit, conquérir un marché ou plus simplement trouver de nouveaux fournisseurs ne s'improvise pas…",
-        },
-        {
-          src: "nossolutions/Le-developpement-0Acommercial-copie.webp",
-          title: "Le développement commercial",
-          description:
-            "Vous possédez un réel savoir-faire mais vous ne savez pas comment le faire savoir…",
-        },
-        {
-          src: "nossolutions/Laccompagnement-.webp",
-          title: "L'accompagnement",
-          description:
-            "Faire évoluer une entreprise impulse souvent une nouvelle dynamique, synonyme de changements internes…",
-        },
-      ],
     },
     about: {
       eyebrow: "Notre posture",
@@ -84,26 +64,6 @@ const home = {
       titleAccent: "meilleurs.",
       intro:
         "La confiance que vous placez en nous se mérite. Pour la gagner, nous avons choisi d'être nous-mêmes, fidèles aux valeurs de loyauté, d'engagement et de responsabilité qui nous caractérisent au quotidien. Constitutives de notre ADN, elles irriguent nos choix, façonnent nos actions et nous poussent à l'excellence.",
-      items: [
-        {
-          src: "nosvaleurs/LOYAUTE.webp",
-          title: "Loyauté",
-          description:
-            "Chez AS Biz Dev, la loyauté a gardé toutes ses lettres de noblesse. Elle conditionne notre travail et constitue le pivot de la relation client.",
-        },
-        {
-          src: "nosvaleurs/ENGAGEMENT.webp",
-          title: "Engagement",
-          description:
-            "Travailler avec vous ne se résume pas à quelques signatures au dos d'un contrat.",
-        },
-        {
-          src: "nosvaleurs/RESPONSABILITE-.webp",
-          title: "Responsabilité",
-          description:
-            "AS Biz Dev n'est pas le fruit d'une ambition personnelle détachée des enjeux écologiques et sociétaux. Nous souhaitons, au contraire, apporter notre petite pierre à l'édifice vertueux du développement durable.",
-        },
-      ],
     },
   },
 
@@ -156,26 +116,6 @@ const home = {
       titleAccent: "bring your projects to life.",
       intro:
         "Our services are designed as a three-step journey — each step can also be delivered on its own, depending on the objective. From diagnosis to winning new markets.",
-      items: [
-        {
-          src: "nossolutions/La-gestion-de-projet.webp",
-          title: "Project management",
-          description:
-            "Launching a product, winning a market or simply finding new suppliers is not something you improvise…",
-        },
-        {
-          src: "nossolutions/Le-developpement-0Acommercial-copie.webp",
-          title: "Business development",
-          description:
-            "You have genuine expertise, but you don't know how to make it known…",
-        },
-        {
-          src: "nossolutions/Laccompagnement-.webp",
-          title: "Support & change management",
-          description:
-            "Growing a company often sets off a new dynamic — and with it, internal change…",
-        },
-      ],
     },
     about: {
       eyebrow: "Our stance",
@@ -192,26 +132,6 @@ const home = {
       titleAccent: "better.",
       intro:
         "The trust you place in us has to be earned. To earn it, we have chosen to be ourselves — faithful to the loyalty, commitment and responsibility that define us every day. Part of our DNA, these values run through our choices, shape our actions and push us towards excellence.",
-      items: [
-        {
-          src: "nosvaleurs/LOYAUTE.webp",
-          title: "Loyalty",
-          description:
-            "At AS Biz Dev, loyalty has lost none of its meaning. It shapes our work and is the cornerstone of the client relationship.",
-        },
-        {
-          src: "nosvaleurs/ENGAGEMENT.webp",
-          title: "Commitment",
-          description:
-            "Working with you comes down to far more than a few signatures at the back of a contract.",
-        },
-        {
-          src: "nosvaleurs/RESPONSABILITE-.webp",
-          title: "Responsibility",
-          description:
-            "AS Biz Dev is not the product of a personal ambition detached from ecological and societal concerns. On the contrary, we want to add our own stone to the virtuous edifice of sustainable development.",
-        },
-      ],
     },
   },
 };

@@ -3,7 +3,7 @@
  * at the domain root ("/") and inside a WordPress theme directory
  * ("/wp-content/themes/asbizdev/").
  */
-export const ASSET = `${import.meta.env.BASE_URL}brand_assets/`;
+export const ASSET = `${import.meta.env?.BASE_URL ?? "/"}brand_assets/`;
 
 /**
  * Route hrefs — the single source of truth for navigation targets.
