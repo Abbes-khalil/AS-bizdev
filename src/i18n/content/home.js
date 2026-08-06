@@ -9,7 +9,7 @@ const home = {
         "Nous vous offrons des solutions qui intègrent notre profonde compréhension des dynamiques spécifiques des marchés français, africains et moyen-orientaux, un accès privilégié à un réseau influent de décideurs, ainsi qu'une expertise poussée dans l'évaluation des atouts et des défis propres à ces régions.",
         "Animés par la volonté de construire avec vous des entreprises durables, profitables sur le moyen et long terme, et guidées par des valeurs fortes et saines, nous sommes vos partenaires privilégiés pour un développement pérenne.",
       ],
-      cta: "contactez-nous",
+      cta: "Contactez-nous",
       mapAlt:
         "Carte des zones d'intervention d'AS Biz Dev couvrant la France, l'Afrique et le Moyen-Orient.",
     },

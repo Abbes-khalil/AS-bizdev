@@ -6,7 +6,7 @@
 const CTA_FR = {
   eyebrow: "Aller plus loin",
   heading: "Prêt à transformer ces principes en croissance ?",
-  label: "Démarrer un projet",
+  label: "Contacez-nous",
   href: "/contact",
 };
 
@@ -39,7 +39,8 @@ const pages = {
               body: "Chaque client, du modeste PME au grand groupe industriel, en Europe, en Asie, en Amérique du Nord ou au Moyen-Orient, est considéré avec la même attention à sa culture.",
             },
             {
-              heading: "« Pour nous être loyal, c'est respecter la parole donnée »",
+              heading:
+                "« Pour nous être loyal, c'est respecter la parole donnée »",
               body: "Pas de promesses hasardeuses, pas de dérapage budgétaire : nos clients savent en permanence où ils vont. Nous nous engageons à faire ce que nous disons.",
             },
             {
@@ -137,7 +138,8 @@ const pages = {
             "At AS Biz Dev, loyalty has lost none of its meaning. It shapes our work and is the cornerstone of the client relationship.",
           subsections: [
             {
-              heading: "“To us, being loyal means deeply respecting who you are”",
+              heading:
+                "“To us, being loyal means deeply respecting who you are”",
               body: "Every client — from the smallest SME to the largest industrial group, in Europe, Asia, North America or the Middle East — is treated with the same attention to their culture.",
             },
             {
