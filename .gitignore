@@ -1,8 +1,45 @@
+# ── Secrets ──────────────────────────────────────────────────────────────────
+# Never commit real keys (RESEND_API_KEY, form endpoints…).
+# .env.example is the template and IS committed — see the negation below.
+.env
+.env.*
+!.env.example
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
 node_modules/
-.DS_Store
-.claude/
-server.log
-CLAUDE.md
-temporary screenshots/
+
+# ── Build output & caches ────────────────────────────────────────────────────
 dist/
+dist-ssr/
+.vite/
+*.tsbuildinfo
+coverage/
+*.local
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── Editors & OS ─────────────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Local working files ──────────────────────────────────────────────────────
+temporary screenshots/
+scratch-*
+*.tmp
+
+# ── Project docs kept local ──────────────────────────────────────────────────
+# Note: CLAUDE.md and .claude/settings.json are already tracked, so these
+# entries have no effect until they are untracked (`git rm --cached <file>`).
+.claude/
+CLAUDE.md
 DESIGN.md

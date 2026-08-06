@@ -62,35 +62,3 @@ export function ImageCard({ src, title, description, href = "/nossolutions", num
     </a>
   );
 }
-
-export function LogoCard({ src, description, name }) {
-  return (
-    <article
-      tabIndex={0}
-      className="group relative h-full overflow-hidden rounded-card border border-gray-200 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-    >
-      <div className="grid h-32 place-items-center">
-        <img
-          src={ASSET + src}
-          alt={`Logo ${name || "partenaire AS Biz Dev"}`}
-          loading="lazy"
-          decoding="async"
-          width="192"
-          height="80"
-          className="max-h-20 max-w-[12rem] object-contain opacity-70 transition-all duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
-        />
-      </div>
-      <div className="mt-6 flex items-center gap-3">
-        <span aria-hidden="true" className="h-px flex-1 bg-gray-200" />
-        <span className="font-display text-[0.65rem] font-medium uppercase tracking-widest text-gray-400">
-          Partenaire
-        </span>
-      </div>
-      {description && (
-        <p className="mt-3 text-[0.95rem] leading-relaxed text-gray-700">
-          {description}
-        </p>
-      )}
-    </article>
-  );
-}
