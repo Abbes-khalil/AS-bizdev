@@ -45,8 +45,134 @@ That's it. No backend required to run it.
 ```bash
 npm run build        # production bundle → dist/
 npm run preview      # serve the built bundle
-npm run typecheck    # tsc --noEmit
+npm run check:i18n   # fail if FR and EN dictionaries drift apart
 ```
+
+---
+
+## 🔧 How to modify the site
+
+**The rule that explains everything: components hold the _layout_, `src/i18n/content/` holds the _words_.** No sentence is ever written inside a component. To change text you never open a `.jsx` file.
+
+### Where each page's text lives
+
+| Page | Text file | Component |
+|---|---|---|
+| Home | `content/home.js` | `pages/Home.jsx` |
+| Who is Who | `content/team.js` | `pages/WhoIsWho.jsx` |
+| Nos valeurs | `content/pages.js` → `values` | `pages/ContentPage.jsx` |
+| Notre savoir-faire | `content/pages.js` → `expertise` | `pages/ContentPage.jsx` |
+| Nos solutions | `content/pages.js` → `solutions` | `pages/ContentPage.jsx` |
+| Nos partenaires | `content/partners.js` | `pages/Partners.jsx` |
+| News | `content/news/` (one file per article) | `pages/News.jsx` |
+| Contact | `content/contact.js` | `pages/Contact.jsx` |
+| Confidentialité | `content/policy.js` | `pages/Policy.jsx` |
+| Menu & footer | `content/common.js` | `Navbar.jsx` / `Footer.jsx` |
+
+### ✏️ Change any text
+
+Open the file from the table. Every file has the same shape — French first, English second:
+
+```js
+const home = {
+  fr: { hero: { title: "Accélérez et consolidez…" } },
+  en: { hero: { title: "Accelerate and consolidate…" } },
+};
+```
+
+**Always edit both languages.** Change `fr.hero.title` and `en.hero.title` together. Save, and `npm run dev` updates instantly.
+
+> **Why headings are split in two:** `titleLead` is normal, `titleAccent` renders italic orange.
+> `titleLead: "Parce qu'elles nous rendent"` + `titleAccent: "meilleurs."` → Parce qu'elles nous rendent *meilleurs.*
+
+### 🖼️ Change an image
+
+1. Drop the file into `public/brand_assets/` (use `.webp`, keep it under ~300 kB)
+2. Update the `src` in the matching content file — the path is relative to `brand_assets/`
+
+```js
+src: "nosvaleurs/LOYAUTE.webp",   // → public/brand_assets/nosvaleurs/LOYAUTE.webp
+```
+
+⚠️ **Filenames are case-sensitive in production.** `TS.webp` and `ts.webp` are different files on the live server, even though Windows treats them as the same. Copy the name exactly.
+
+### 🎨 Change colours or fonts
+
+Everything visual lives in `tailwind.config.js`:
+
+```js
+navy:   '#1D3D6D'   // headings, dark sections
+orange: '#FF6A00'   // accents, the italic emphasis
+ink:    '#2C2C2C'   // body text
+```
+
+Change the hex, and it updates everywhere. Fonts are in the same file under `fontFamily` (Poppins for headings, Inter for body).
+
+### 👥 Edit the team
+
+`content/team.js` → the `members` array. Add, remove or reorder freely — the grid reflows on its own.
+
+```js
+{
+  photo: "employe/khalil.webp",
+  name: "Khalil Abbes",
+  role: "Chargé junior d'efficacité commerciale et IA",
+  bio: "Optional — the card renders fine without it.",
+}
+```
+
+Names stay identical in both languages; only `role` and `bio` get translated.
+
+### 📰 Add a news article
+
+1. Copy `content/news/article-06.js` → `article-07.js`
+2. Change `number: "07"` and write the `fr` and `en` versions
+3. Register it in `content/news/index.js` (import + add to the `ARTICLES` list)
+
+Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`.
+
+```js
+{ type: "heading", text: "Conclusion" },
+{ type: "paragraph", text: "…" },
+{ type: "list", items: ["…", "…"] },
+```
+
+### 🤝 Add a partner
+
+`content/partners.js` → add to the right category's `partners` array, and put the logo in `public/brand_assets/partenaires/`.
+
+### 📄 Add a whole page
+
+Five steps, in order:
+
+1. `components/siteData.js` — add the URL to `ROUTES`
+2. `content/common.js` — add the menu label to `navigation`, **both languages**
+3. `content/mypage.js` — create the text file (`{ fr: {…}, en: {…} }`)
+4. `i18n/index.js` — import it and add it to `DICTIONARIES`
+5. `pages/MyPage.jsx` — build the page, then register it in `main.jsx`
+
+Start by copying `pages/Partners.jsx` — it shows the standard structure: `PageHero`, content, `CtaBlock`.
+
+### 🧱 Building blocks you can reuse
+
+Don't write these by hand — they already exist in `src/components/`:
+
+| Component | What it gives you |
+|---|---|
+| `PageHero` | The top-of-page header. `layout="split"`, `tone="dark"` |
+| `SectionHeading` | Eyebrow + two-tone heading + intro, inside a page |
+| `CtaBlock` | The closing "get in touch" block |
+| `ArrowIcon` | The diagonal arrow used on every link |
+| `RevealOnScroll` | Fade/slide on scroll — `variant`, `delay`, `index` to stagger |
+| `Card` → `ImageCard` | Image card with title and description |
+| `Modal` | Accessible dialog (used by News) |
+
+### ⚠️ Four rules that keep it working
+
+1. **Edit `fr` and `en` together.** They must keep the same shape — a key in one and not the other breaks that language.
+2. **After changing `.env`, rebuild.** Vite bakes those values into the JavaScript at build time; editing `.env` alone does nothing.
+3. **Run `npm run check:i18n` before you ship** — it catches a key added to one language but not the other.
+4. **Check both languages in the browser.** Click FR/EN and reread the page you touched.
 
 ---
 
@@ -98,7 +224,11 @@ No JSON key-soup, no `t("home.hero.title")` strings that break silently when you
 2. Add `"es"` to `SUPPORTED` in `LanguageProvider.jsx`
 3. Add a button to `LangSwitcher.jsx`
 
-There's a parity script in the repo history that diffs the shape of `fr` vs `en` and fails on any missing key — worth keeping in CI.
+```bash
+npm run check:i18n     # fails if fr and en drift apart
+```
+
+That script compares the shape of every dictionary across both languages and exits non-zero if a key exists in one but not the other — the failure mode that would otherwise render `undefined` on the live site. Worth running before every deploy, or wiring into CI.
 
 ---
 
@@ -183,7 +313,7 @@ The useful part is **`ROUTE_ALIASES`**: the origin's WordPress URLs (`/who-is-wh
 | **Motion** | Framer Motion 12 | Declarative viewport animation |
 | **Icons** | lucide-react | Tree-shaken SVGs |
 | **Forms** | Native + fetch | No form library — 6 runtime deps total |
-| **Types** | TypeScript 7 | Gradual — `.tsx` where types earn their keep |
+| **Language** | Plain JSX | No TypeScript — one less thing to learn to edit a page |
 | **i18n** | Hand-rolled | ~30 lines beats a 40 kB dependency |
 
 ---
@@ -193,21 +323,31 @@ The useful part is **`ROUTE_ALIASES`**: the origin's WordPress URLs (`/who-is-wh
 ```
 src/
 ├─ components/          Reusable UI — never page-specific
-│  ├─ Navbar · Footer · Layout · Card · Modal
+│  ├─ Navbar · Footer · Layout · Modal · Card · Team
+│  ├─ PageHero          Top-of-page header (split / dark variants)
+│  ├─ SectionHeading    Eyebrow + two-tone heading + intro
+│  ├─ CtaBlock          Closing call-to-action
+│  ├─ ArrowIcon         The one arrow used everywhere
 │  ├─ RevealOnScroll    Scroll animation wrapper
-│  ├─ siteData.js       ROUTES · ROUTE_ALIASES · contact details
-│  └─ ui/               team.tsx · marquee.tsx
+│  ├─ form/             Field · FormStatus
+│  └─ siteData.js       ROUTES · ROUTE_ALIASES · contact details
 ├─ i18n/                🌍 The bilingual engine
 │  ├─ LanguageProvider  Context + localStorage
 │  ├─ LangSwitcher      The FR/EN pill
 │  ├─ index.js          useT() + interpolate()
-│  └─ content/          8 dictionaries, all copy lives here
+│  └─ content/          8 dictionaries — all copy lives here
+│     └─ news/          one file per article
+├─ hooks/               useContactForm.js
 ├─ pages/               Home · WhoIsWho · ContentPage · Partners
 │                       News · Contact · Policy
 └─ utils/               submitContact.js
 public/brand_assets/    Images — served at /brand_assets/…
 vercel.json             SPA rewrites + asset caching
 ```
+
+Values and solutions are defined **once**, in `content/pages.js`. The home page
+reads the same entries and shows `teaser` where it needs a shorter version — so
+a title or image is never written in two places.
 
 **The rule:** components hold *structure*, `i18n/content/` holds *words*. No hardcoded copy in a component, ever.
 
@@ -233,7 +373,7 @@ Not an afterthought: skip-to-content link, semantic landmarks, `aria-label` on e
 
 ## 📋 Status
 
-**Working & verified** — bilingual switching across all 9 pages · FR content matched page-by-page against the origin · form submission tested in a real browser (success *and* fallback) · serverless handler unit-tested (6/6) · typecheck and build clean.
+**Working & verified** — bilingual switching across all 9 pages · FR content matched page-by-page against the origin · 30/30 images load · form submission tested in a real browser (success *and* mailto fallback) · `check:i18n` green across all 8 dictionaries · build clean.
 
 **Before going live:**
 

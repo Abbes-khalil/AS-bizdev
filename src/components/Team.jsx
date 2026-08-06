@@ -1,34 +1,11 @@
-"use client";
-
 import { useId } from "react";
 import { UserStar } from "lucide-react";
 
-import RevealOnScroll from "@/components/RevealOnScroll";
-import { ASSET } from "@/components/siteData";
-import { interpolate, useT } from "@/i18n";
+import RevealOnScroll from "./RevealOnScroll";
+import { ASSET } from "./siteData";
+import { interpolate, useT } from "../i18n";
 
-export interface TeamMember {
-  photo: string;
-  name: string;
-  role: string;
-  bio?: string;
-}
-
-export interface TeamProps {
-  members?: readonly TeamMember[];
-  title?: string;
-  description?: string;
-}
-
-const TeamCard = ({
-  member,
-  index,
-  portraitAlt,
-}: {
-  member: TeamMember;
-  index: number;
-  portraitAlt: string;
-}) => (
+const TeamCard = ({ member, index, portraitAlt }) => (
   <RevealOnScroll
     as="article"
     variant="up"
@@ -38,10 +15,7 @@ const TeamCard = ({
   >
     <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100">
       <img
-        alt={interpolate(portraitAlt, {
-          name: member.name,
-          role: member.role,
-        })}
+        alt={interpolate(portraitAlt, { name: member.name, role: member.role })}
         className="absolute inset-0 h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:scale-[1.04] group-hover:grayscale-0"
         decoding="async"
         loading="lazy"
@@ -69,11 +43,15 @@ const TeamCard = ({
   </RevealOnScroll>
 );
 
-export default function Team({ members, title, description }: TeamProps) {
+/**
+ * Team roster grid. Members come from `src/i18n/content/team.js`; pass
+ * `members` only to override them (previews, tests).
+ */
+export default function Team({ members, title, description }) {
   const t = useT("team");
   const clipId = useId().replace(/:/g, "");
 
-  const roster = members ?? (t.members as readonly TeamMember[]);
+  const roster = members ?? t.members;
   const heading = title ?? t.sectionTitle;
   const intro = description ?? t.sectionDescription;
 

@@ -1,5 +1,5 @@
 # ── Secrets ──────────────────────────────────────────────────────────────────
-# Never commit real keys (RESEND_API_KEY, form endpoints…).
+# Never commit the real contact-form endpoint or access key.
 # .env.example is the template and IS committed — see the negation below.
 .env
 .env.*
@@ -43,3 +43,4 @@ scratch-*
 .claude/
 CLAUDE.md
 DESIGN.md
+

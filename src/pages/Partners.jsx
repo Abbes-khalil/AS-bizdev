@@ -1,5 +1,7 @@
-import { ASSET, ROUTES } from "../components/siteData";
+import CtaBlock from "../components/CtaBlock";
+import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
+import { ASSET, ROUTES } from "../components/siteData";
 import { interpolate, useT } from "../i18n";
 
 const PartnerCard = ({ partner, index, partnerLabel, logoAlt }) => (
@@ -42,35 +44,7 @@ export default function Partners() {
 
   return (
     <main>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          className="pointer-events-none absolute inset-0 pattern-dots opacity-[0.15]"
-          aria-hidden="true"
-        />
-        <div className="relative container-x py-20 lg:py-28">
-          <RevealOnScroll
-            variant="up"
-            className="grid items-end gap-12 lg:grid-cols-[1fr_1fr]"
-          >
-            <div>
-              <div className="inline-flex items-center gap-3">
-                <span
-                  className="h-1 w-10 rounded-full bg-orange"
-                  aria-hidden="true"
-                />
-                <p className="eyebrow text-orange">{t.hero.eyebrow}</p>
-              </div>
-              <h1 className="mt-6 font-display display-xl font-semibold text-navy text-balance">
-                {t.hero.titleLead}{" "}
-                <span className="italic text-orange">{t.hero.titleAccent}</span>
-              </h1>
-            </div>
-            <p className="max-w-md text-[1.125rem] leading-[1.7] text-gray-700">
-              {t.hero.intro}
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <PageHero layout="split" {...t.hero} />
 
       <section className="bg-surface-alt pb-24 lg:pb-32">
         <div className="container-x space-y-20">
@@ -99,24 +73,7 @@ export default function Partners() {
             </div>
           ))}
 
-          <RevealOnScroll
-            variant="up"
-            className="mt-16 flex flex-col items-center gap-4 text-center"
-          >
-            <div className="inline-flex items-center gap-3">
-              <span
-                className="h-1 w-10 rounded-full bg-orange"
-                aria-hidden="true"
-              />
-              <p className="eyebrow text-orange">{t.cta.eyebrow}</p>
-            </div>
-            <h2 className="font-display display-md font-semibold tracking-tight text-navy text-balance">
-              {t.cta.heading}
-            </h2>
-            <a href={ROUTES.contact} className="btn-primary mt-2">
-              {t.cta.label}
-            </a>
-          </RevealOnScroll>
+          <CtaBlock {...t.cta} href={ROUTES.contact} className="mt-16" />
         </div>
       </section>
     </main>

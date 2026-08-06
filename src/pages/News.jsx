@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+import ArrowIcon from "../components/ArrowIcon";
 import Modal from "../components/Modal";
+import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import { interpolate, useT } from "../i18n";
 
@@ -60,40 +62,21 @@ export default function News() {
 
   return (
     <main>
-      <section className="relative overflow-hidden bg-navy text-white">
-        <div
-          className="pointer-events-none absolute inset-0 grid-bg-dark opacity-40"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full opacity-30 blur-3xl"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(255,106,0,0.3), transparent 70%)",
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="relative container-x py-24 lg:py-32">
-          <RevealOnScroll variant="up" className="max-w-4xl">
-            <div className="inline-flex items-center gap-3">
-              <span
-                className="h-1 w-10 rounded-full bg-orange"
-                aria-hidden="true"
-              />
-              <p className="eyebrow text-orange">{t.hero.eyebrow}</p>
-            </div>
-            <h1 className="mt-6 font-display display-xl font-semibold text-white text-balance">
-              {t.hero.titleLead}{" "}
-              <span className="italic text-orange">{t.hero.titleAccent}</span>{" "}
-              {t.hero.titleTail}
-            </h1>
-            <p className="mt-8 max-w-2xl text-[1.125rem] leading-[1.7] text-white/75">
-              {t.hero.intro}
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <PageHero
+        tone="dark"
+        className="max-w-4xl"
+        {...t.hero}
+        overlay={
+          <div
+            className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full opacity-30 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(255,106,0,0.3), transparent 70%)",
+            }}
+            aria-hidden="true"
+          />
+        }
+      />
 
       <section className="bg-white py-24 lg:py-32">
         <div className="container-x">
@@ -144,21 +127,7 @@ export default function News() {
                     className="mt-auto inline-flex w-fit items-center gap-2 pt-8 font-display text-[0.95rem] font-semibold text-navy link-underline"
                   >
                     {t.readMore}
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M1 7H13M13 7L7 1M13 7L7 13"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <ArrowIcon />
                   </button>
                 </div>
               </RevealOnScroll>

@@ -1,4 +1,8 @@
-export const ASSET = "/brand_assets/";
+/**
+ * Base path for images. Derived from Vite's BASE_URL so the app keeps working
+ * if it is ever served from a sub-path rather than the domain root.
+ */
+export const ASSET = `${import.meta.env?.BASE_URL ?? "/"}brand_assets/`;
 
 /**
  * Route hrefs — the single source of truth for navigation targets.

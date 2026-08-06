@@ -1,28 +1,14 @@
-import { ASSET, ROUTES } from "../components/siteData";
+import ArrowIcon from "../components/ArrowIcon";
 import { ImageCard } from "../components/Card";
 import RevealOnScroll from "../components/RevealOnScroll";
+import SectionHeading from "../components/SectionHeading";
+import { ASSET, ROUTES } from "../components/siteData";
 import { interpolate, useT } from "../i18n";
-
-const Arrow = ({ size = 14 }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 14 14"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path
-      d="M1 7H13M13 7L7 1M13 7L7 13"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 export default function Home() {
   const t = useT("home");
+  // Values and solutions are defined once, on their own pages.
+  const pages = useT("pages");
 
   return (
     <main>
@@ -68,14 +54,11 @@ export default function Home() {
       {/* PACKS */}
       <section className="bg-white py-20 lg:py-28">
         <div className="container-x">
-          <RevealOnScroll variant="up" className="max-w-3xl">
-            <h2 className="font-display text-[2rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[2.5rem] lg:text-[2.75rem]">
-              {t.packs.titleLead}{" "}
-              <span className="italic text-orange">{t.packs.titleAccent}</span>
-            </h2>
-            <p className="mt-6 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
-              {t.packs.intro}
-            </p>
+          <SectionHeading
+            titleLead={t.packs.titleLead}
+            titleAccent={t.packs.titleAccent}
+            intro={t.packs.intro}
+          >
             <ul className="mt-8 space-y-3 text-[1.0625rem] leading-[1.7] text-gray-700">
               {t.packs.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start gap-3">
@@ -90,7 +73,7 @@ export default function Home() {
             <p className="mt-6 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
               {t.packs.outro}
             </p>
-          </RevealOnScroll>
+          </SectionHeading>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3 lg:gap-8">
             {t.packs.items.map((pack, i) => (
@@ -113,7 +96,7 @@ export default function Home() {
                   className="mt-6 inline-flex items-center gap-2 font-display text-[0.9rem] font-medium text-navy link-underline"
                 >
                   {t.packs.more}
-                  <Arrow />
+                  <ArrowIcon />
                 </a>
               </RevealOnScroll>
             ))}
@@ -124,21 +107,15 @@ export default function Home() {
       {/* SOLUTIONS */}
       <section className="bg-surface-alt py-20 lg:py-28">
         <div className="container-x">
-          <RevealOnScroll variant="up">
-            <p className="eyebrow text-orange">{t.solutions.eyebrow}</p>
-            <h2 className="mt-4 max-w-3xl font-display text-[2rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[2.5rem] lg:text-[2.75rem]">
-              {t.solutions.titleLead}{" "}
-              <span className="italic text-orange">
-                {t.solutions.titleAccent}
-              </span>
-            </h2>
-            <p className="mt-6 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
-              {t.solutions.intro}
-            </p>
-          </RevealOnScroll>
+          <SectionHeading
+            eyebrow={t.solutions.eyebrow}
+            titleLead={t.solutions.titleLead}
+            titleAccent={t.solutions.titleAccent}
+            intro={t.solutions.intro}
+          />
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {t.solutions.items.map((item, i) => (
+            {pages.solutions.items.map((item, i) => (
               <RevealOnScroll
                 key={item.title}
                 variant="up"
@@ -148,7 +125,7 @@ export default function Home() {
                 <ImageCard
                   src={item.src}
                   title={item.title}
-                  description={item.description}
+                  description={item.teaser ?? item.intro}
                   href={ROUTES.solutions}
                 />
               </RevealOnScroll>
@@ -177,9 +154,7 @@ export default function Home() {
               <p className="eyebrow text-orange">{t.about.eyebrow}</p>
               <h2 className="mt-4 font-display text-[2rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[2.5rem] lg:text-[2.75rem]">
                 {t.about.titleLead}{" "}
-                <span className="italic text-orange">
-                  {t.about.titleAccent}
-                </span>
+                <span className="italic text-orange">{t.about.titleAccent}</span>
               </h2>
               <p className="mt-6 text-[1.0625rem] leading-[1.7] text-gray-700">
                 {t.about.body}
@@ -189,7 +164,7 @@ export default function Home() {
               </p>
               <a href={ROUTES.whoIsWho} className="btn-ghost mt-8">
                 {t.about.cta}
-                <Arrow />
+                <ArrowIcon />
               </a>
             </RevealOnScroll>
           </div>
@@ -199,19 +174,15 @@ export default function Home() {
       {/* NOS VALEURS */}
       <section className="bg-surface-alt py-20 lg:py-28">
         <div className="container-x">
-          <RevealOnScroll variant="up" className="max-w-3xl">
-            <p className="eyebrow text-orange">{t.values.eyebrow}</p>
-            <h2 className="mt-4 font-display text-[2rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[2.5rem] lg:text-[2.75rem]">
-              {t.values.titleLead}{" "}
-              <span className="italic text-orange">{t.values.titleAccent}</span>
-            </h2>
-            <p className="mt-6 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
-              {t.values.intro}
-            </p>
-          </RevealOnScroll>
+          <SectionHeading
+            eyebrow={t.values.eyebrow}
+            titleLead={t.values.titleLead}
+            titleAccent={t.values.titleAccent}
+            intro={t.values.intro}
+          />
 
           <div className="mt-12 grid gap-6 md:grid-cols-3 lg:gap-8">
-            {t.values.items.map((value, i) => (
+            {pages.values.items.map((value, i) => (
               <RevealOnScroll
                 as="article"
                 key={value.title}
@@ -236,7 +207,7 @@ export default function Home() {
                     {value.title}
                   </h3>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-gray-700">
-                    {value.description}
+                    {value.teaser ?? value.intro}
                   </p>
                 </div>
               </RevealOnScroll>
