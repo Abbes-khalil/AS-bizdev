@@ -1,0 +1,11 @@
+/*
+Theme Name: AS Biz Dev
+Theme URI: https://asbizdev.com
+Author: AS Biz Dev
+Description: React single-page application served through WordPress. The built assets live in assets/ and are enqueued by functions.php. Content is managed in the React codebase, not in the WordPress admin.
+Version: 1.0.0
+License: Proprietary
+Text Domain: asbizdev
+*/
+
+/* Intentionally empty — all styling ships in the built CSS bundle. */

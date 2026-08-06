@@ -1,0 +1,75 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# AS Biz Dev — Apache config for shared/WordPress hosting (OVH, o2switch, IONOS…)
+#
+# This file is copied into dist/ by the build. Upload the CONTENTS of dist/
+# to the site's document root (public_html / www), replacing the WordPress
+# install. See DEPLOY.md for the full procedure.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Single-page-app routing ──────────────────────────────────────────────────
+# Serve real files as-is; send everything else to index.html so the React
+# router can handle it. Without this, /who-is-who returns a 404.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS (uncomment once your SSL certificate is active)
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Never rewrite requests for files or directories that actually exist
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else → index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# ── Compression ──────────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ── Caching ──────────────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Hashed build assets never change — cache hard
+  <FilesMatch "\.(js|css)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images
+  <FilesMatch "\.(webp|jpg|jpeg|png|gif|svg|ico)$">
+    ExpiresDefault "access plus 6 months"
+  </FilesMatch>
+
+  # index.html must always be revalidated, or visitors get a stale app shell
+  <FilesMatch "index\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ── MIME types ───────────────────────────────────────────────────────────────
+# Some older shared hosts don't know .webp — images 404 or download instead
+# of rendering without this.
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType application/javascript .js
+  AddType font/woff2 .woff2
+</IfModule>
+
+# ── Basic hardening ──────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Don't expose the directory listing
+Options -Indexes

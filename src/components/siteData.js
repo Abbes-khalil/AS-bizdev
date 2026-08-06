@@ -1,4 +1,9 @@
-export const ASSET = "/brand_assets/";
+/**
+ * Base path for images. Derived from Vite's BASE_URL so the same code works
+ * at the domain root ("/") and inside a WordPress theme directory
+ * ("/wp-content/themes/asbizdev/").
+ */
+export const ASSET = `${import.meta.env.BASE_URL}brand_assets/`;
 
 /**
  * Route hrefs — the single source of truth for navigation targets.
