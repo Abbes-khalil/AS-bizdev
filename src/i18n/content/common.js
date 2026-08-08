@@ -42,7 +42,6 @@ const common = {
         key: "about",
         label: "AS Biz Dev",
         children: [
-          { key: "about", label: "Qui sommes-nous" },
           { key: "partners", label: "Nos partenaires" },
           { key: "news", label: "Actualités & Publications" },
         ],
@@ -127,7 +126,6 @@ const common = {
         key: "about",
         label: "AS Biz Dev",
         children: [
-          { key: "about", label: "Who we are" },
           { key: "partners", label: "Our partners" },
           { key: "news", label: "Articles & Insights" },
         ],

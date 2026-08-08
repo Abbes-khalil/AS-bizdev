@@ -163,12 +163,7 @@ ink:    '#2C2C2C'   // body text
 
 ### 📰 Add an article (Articles & Insights, §24)
 
-By hand:
-
-1. Copy `content/news/article-06.js` → `article-07.js`
-2. Set `number`, `key`, `slug: { fr, en }` (becomes the URL — `/news/<slug>`), `status: "published"`, and write the `fr`/`en` `title`/`preview`/`content`
-3. Add `themes`/`zones`/`countries` (keys from `content/news/taxonomy.js`) and, when known, `publishedAt`, `author`, `image`, and `source: { type, url }` for the LinkedIn attribution link — leave unknown fields `null`/`[]` rather than inventing them
-4. Register it in `content/news/index.js`'s `ARTICLES` array
+Articles are data in Supabase, not source code — publishing one doesn't require a commit or a rebuild. Full architecture, schema, and RLS model: [`docs/ARTICLES_SUPABASE.md`](docs/ARTICLES_SUPABASE.md).
 
 **Automatically, via n8n (the normal flow):** every new AS Biz Dev LinkedIn post should appear on the site with no manual step. LinkedIn's own API requires Partner approval that isn't realistically obtainable for a page this size, so the automation runs one layer up, on infrastructure the user already controls:
 
@@ -178,27 +173,21 @@ LinkedIn company page → RSS bridge → n8n (RSS Feed Trigger, polling)
                                         ▼
                               api/ingest-article.js
                        fetch() the post → parse Open Graph tags
-                     → dedupe by source.url → commit article-XX.js
-                     + updated index.js straight to the default branch
+                  → dedupe by source_url → upsert into Supabase `articles`
                                         │
                                         ▼
-                         Vercel auto-deploy → live at /news/<slug>
+                        live immediately at /news/<slug>, no rebuild
 ```
 
-Point an RSS-bridge service (generates an RSS feed from a public LinkedIn company page) at n8n's built-in **RSS Feed Trigger** node — no custom scraping code, n8n just polls the feed. On each new item, an **HTTP Request** node `POST`s `{ url, lang, themes, zones }` to `/api/ingest-article` with the shared secret in the `x-ingest-token` header. The endpoint commits directly with `status: "published"` — no PR, no review step, so a bad scrape (a truncated summary, a wrong image) can go live untouched; the only safety nets are the Open Graph title check and a dedupe guard against the same URL twice.
+Point an RSS-bridge service (generates an RSS feed from a public LinkedIn company page) at n8n's built-in **RSS Feed Trigger** node — no custom scraping code, n8n just polls the feed. On each new item, an **HTTP Request** node `POST`s `{ url, themes, zones, countries }` to `/api/ingest-article` with the shared secret in the `x-ingest-token` header. The endpoint upserts directly with `status: "published"` — no PR, no review step, so a bad scrape (a truncated summary, a wrong image) can go live untouched; the only safety nets are the Open Graph title check and a dedupe guard against the same `source_url` twice.
 
-Requires `INGEST_TOKEN`, `GITHUB_TOKEN` and `GITHUB_REPO` set as environment variables (see [`.env.example`](.env.example)). The token must only ever be stored server-side — in n8n's credential store — never inside a page a browser loads.
+Requires `INGEST_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` set as environment variables (see [`.env.example`](.env.example)). Both must only ever be stored server-side — the ingest token in n8n's credential store — never inside a page a browser loads.
 
 **Manually, as a fallback:** open `/internal/add-article.html` (not linked anywhere public — its URL should be treated as a shared secret, same as the token) to run the same ingestion by hand, e.g. for a third-party LinkedIn post that isn't AS Biz Dev's own and so wouldn't appear in the automated feed.
 
-**By hand, editing files directly:**
+Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`. Rows with `status: "draft"` don't get a page or a sitemap entry until switched to `"published"`.
 
-1. Copy `content/news/article-06.js` → `article-07.js`
-2. Set `number`, `key`, `slug: { fr, en }` (becomes the URL — `/news/<slug>`), `status: "published"`, and write the `fr`/`en` `title`/`preview`/`content`
-3. Add `themes`/`zones`/`countries` (keys from `content/news/taxonomy.js`) and, when known, `publishedAt`, `author`, `image`, and `source: { type, url }` for the LinkedIn attribution link — leave unknown fields `null`/`[]` rather than inventing them
-4. Register it in `content/news/index.js`'s `ARTICLES` array
-
-Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`. Articles with `status: "draft"` don't get a page or a sitemap entry until switched to `"published"`.
+The six original articles still live in `content/news/article-0N.js` as historical backup only — nothing in the running app reads them; see the "Legacy / retired" section of `docs/ARTICLES_SUPABASE.md`.
 
 ### 📄 Add a whole page
 
