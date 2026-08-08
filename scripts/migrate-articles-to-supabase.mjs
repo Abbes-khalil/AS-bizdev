@@ -46,6 +46,12 @@ async function main() {
     return;
   }
 
+  try {
+    process.loadEnvFile();
+  } catch {
+    // no .env file present — fall through to process.env as already set
+  }
+
   const url = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !serviceRoleKey) {

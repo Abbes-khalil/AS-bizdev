@@ -1,5 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
+// Local dev/build: pull vars from .env, since these plain Node scripts don't
+// get Vite's automatic .env loading. No-op (and silently ignored) when there
+// is no .env file, e.g. on Vercel, where the vars are injected directly into
+// process.env.
+try {
+  process.loadEnvFile();
+} catch {
+  // no .env file present — fall through to process.env as already set
+}
+
 /**
  * Read-only Supabase client for build-time scripts (sitemap, prerender route
  * list). Uses the anon key, not the service-role key — RLS already scopes
