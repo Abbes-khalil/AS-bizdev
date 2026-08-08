@@ -5,6 +5,20 @@
  */
 const article = {
   number: "06",
+  key: "article-06",
+  slug: {
+    fr: "pourquoi-futur-travail-maintenant",
+    en: "why-future-work-happening-now",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "Pourquoi le futur du travail se déroule maintenant ?",
     "preview": "Il y a quelques mois encore, tout le monde parlait de l'avenir du travail qui serait entièrement numérique. Aujourd'hui, le numérique est devenu la nouvelle norme.",

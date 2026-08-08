@@ -5,6 +5,20 @@
  */
 const article = {
   number: "02",
+  key: "article-02",
+  slug: {
+    fr: "vendre-afrique-moyen-orient-lecons-culture",
+    en: "selling-africa-middle-east-lessons-culture",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "Vendre sur l'Afrique & le Moyen-Orient : Leçons tirées de nos longues années d'expériences de la culture africaine et moyen-orientale",
     "preview": "Suivre l'évolution d'un monde de plus en plus globalisé n'est pas une mince affaire. Pour réussir en Afrique et au Moyen-Orient, il est essentiel de comprendre les cultures locales.",

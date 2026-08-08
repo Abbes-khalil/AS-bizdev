@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { allUrls } from "./siteRoutes.mjs";
 import { LANGS, PATHS, pathFor } from "../src/constants/paths.js";
 import { COUNTRIES } from "../src/data/countries.js";
+import { ARTICLES } from "../src/i18n/content/news/index.js";
 
 const SITE_URL = "https://asbizdev.com";
 const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
@@ -23,19 +24,31 @@ const LOW_PRIORITY = new Set(["policy"]);
 const absolute = (path) => `${SITE_URL}${path === "/" ? "/" : path}`;
 
 const alternatesFor = ({ key, path }) => {
-  if (key !== "country") {
-    return LANGS.map((lang) => [lang, PATHS[key][lang]]);
+  if (key === "country") {
+    const slug = path.split("/").pop();
+    const country = COUNTRIES.find(
+      (entry) => entry.slug.fr === slug || entry.slug.en === slug,
+    );
+
+    return LANGS.map((lang) => [
+      lang,
+      pathFor("country", lang, { slug: country.slug[lang] ?? country.slug.fr }),
+    ]);
   }
 
-  const slug = path.split("/").pop();
-  const country = COUNTRIES.find(
-    (entry) => entry.slug.fr === slug || entry.slug.en === slug,
-  );
+  if (key === "article") {
+    const slug = path.split("/").pop();
+    const article = ARTICLES.find(
+      (entry) => entry.slug.fr === slug || entry.slug.en === slug,
+    );
 
-  return LANGS.map((lang) => [
-    lang,
-    pathFor("country", lang, { slug: country.slug[lang] ?? country.slug.fr }),
-  ]);
+    return LANGS.map((lang) => [
+      lang,
+      pathFor("article", lang, { slug: article.slug[lang] ?? article.slug.fr }),
+    ]);
+  }
+
+  return LANGS.map((lang) => [lang, PATHS[key][lang]]);
 };
 
 const urlEntry = (url) => {
@@ -51,7 +64,15 @@ const urlEntry = (url) => {
     `    <loc>${absolute(url.path)}</loc>`,
     links,
     `    <changefreq>${url.key === "news" ? "weekly" : "monthly"}</changefreq>`,
-    `    <priority>${LOW_PRIORITY.has(url.key) ? "0.2" : url.key === "home" ? "1.0" : "0.8"}</priority>`,
+    `    <priority>${
+      LOW_PRIORITY.has(url.key)
+        ? "0.2"
+        : url.key === "home"
+          ? "1.0"
+          : url.key === "article"
+            ? "0.6"
+            : "0.8"
+    }</priority>`,
     "  </url>",
   ].join("\n");
 };

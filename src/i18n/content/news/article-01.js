@@ -5,6 +5,20 @@
  */
 const article = {
   number: "01",
+  key: "article-01",
+  slug: {
+    fr: "surmonter-barrieres-paiement-commerce-afrique",
+    en: "overcoming-payment-barriers-trade-africa",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "Surmonter les Barrières de Paiement dans le Commerce avec l'Afrique : Stratégies et Solutions",
     "preview": "Lors de mes récentes rencontres professionnelles à Paris, une préoccupation commune a émergé : la crainte des paiements en retard, partiels ou des impayés dans le commerce avec l'Afrique.",

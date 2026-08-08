@@ -6,13 +6,13 @@ import article05 from "./article-05.js";
 import article06 from "./article-06.js";
 
 /**
- * News page copy.
- *
- * Each article lives in its own file with its French and English versions
- * side by side. To add one: copy an existing `article-XX.js`, give it the next
- * number, and add it to the list below.
+ * Articles & Insights (§24) — LinkedIn-sourced content republished on the
+ * site. Each article lives in its own file with its French and English
+ * versions side by side. To add one: copy an existing `article-XX.js`, give
+ * it the next number, and add it to the list below (or use the ingestion
+ * endpoint, see `api/ingest-article.js`).
  */
-const ARTICLES = [
+export const ARTICLES = [
   article01,
   article02,
   article03,
@@ -21,9 +21,43 @@ const ARTICLES = [
   article06,
 ];
 
-/** Flattens the per-article files into the flat shape the page expects. */
+/** Flattens the per-article files into the flat shape the listing page expects. */
 const forLang = (lang) =>
-  ARTICLES.map(({ number, [lang]: copy }) => ({ number, ...copy }));
+  ARTICLES.filter((article) => article.status === "published").map(
+    ({
+      number,
+      key,
+      slug,
+      status,
+      publishedAt,
+      author,
+      image,
+      source,
+      themes,
+      zones,
+      countries,
+      [lang]: copy,
+    }) => ({
+      number,
+      key,
+      slug,
+      status,
+      publishedAt,
+      author,
+      image,
+      source,
+      themes,
+      zones,
+      countries,
+      ...copy,
+    }),
+  );
+
+/** Finds an article from a slug in either language — used to resolve routes. */
+export const findArticleBySlug = (slug) =>
+  ARTICLES.find(
+    (article) => article.slug.fr === slug || article.slug.en === slug,
+  );
 
 const news = {
   fr: {
@@ -33,12 +67,19 @@ const news = {
       titleAccent: "conversations",
       titleTail: "qui comptent.",
       intro:
-        "Une sélection de perspectives pour mieux comprendre les dynamiques de développement en Afrique et au Moyen-Orient.",
+        "Une sélection d'articles et de publications LinkedIn d'AS Biz Dev sur le développement commercial en Afrique et au Moyen-Orient.",
     },
     selection: "Sélection — {count} articles",
     period: "2026 / Q3",
     readMore: "Lire la suite",
-    label: "News / asbizdev",
+    label: "Actualités & Publications",
+    dateToValidate: "Date à valider",
+    authorToValidate: "Auteur à valider",
+    sourceLabel: "Voir sur LinkedIn",
+    filters: {
+      all: "Tous les thèmes",
+      allZones: "Toutes les zones",
+    },
     articles: forLang("fr"),
   },
 
@@ -49,12 +90,19 @@ const news = {
       titleAccent: "conversations",
       titleTail: "that matter.",
       intro:
-        "A selection of perspectives to better understand the growth dynamics across Africa and the Middle East.",
+        "A selection of AS Biz Dev's LinkedIn articles and posts on business development across Africa and the Middle East.",
     },
     selection: "Selection — {count} articles",
     period: "2026 / Q3",
     readMore: "Read more",
-    label: "News / asbizdev",
+    label: "Articles & Insights",
+    dateToValidate: "Date to be confirmed",
+    authorToValidate: "Author to be confirmed",
+    sourceLabel: "View on LinkedIn",
+    filters: {
+      all: "All themes",
+      allZones: "All zones",
+    },
     articles: forLang("en"),
   },
 };

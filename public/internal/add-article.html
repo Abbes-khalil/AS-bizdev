@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>AS Biz Dev — Ajouter un article LinkedIn</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 3rem auto; padding: 0 1.5rem; color: #0f172a; }
+  h1 { font-size: 1.5rem; }
+  p.hint { color: #64748b; font-size: 0.9rem; }
+  label { display: block; margin-top: 1.25rem; font-weight: 600; font-size: 0.9rem; }
+  input[type="text"], input[type="url"], input[type="password"] {
+    width: 100%; padding: 0.6rem 0.75rem; margin-top: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem;
+  }
+  fieldset { margin-top: 1.25rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem 1rem; }
+  legend { font-weight: 600; font-size: 0.9rem; padding: 0 0.3rem; }
+  .checks label { font-weight: 400; display: inline-flex; align-items: center; gap: 0.4rem; margin: 0.3rem 0.8rem 0.3rem 0; }
+  button { margin-top: 1.5rem; padding: 0.7rem 1.4rem; background: #0f172a; color: white; border: none; border-radius: 0.5rem; font-size: 1rem; cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  #result { margin-top: 1.5rem; padding: 1rem; border-radius: 0.5rem; display: none; }
+  #result.ok { background: #ecfdf5; border: 1px solid #10b981; display: block; }
+  #result.error { background: #fef2f2; border: 1px solid #ef4444; display: block; }
+</style>
+</head>
+<body>
+  <h1>Ajouter un article LinkedIn</h1>
+  <p class="hint">
+    Colle l'URL d'une publication LinkedIn publique. Le titre, le résumé et l'image sont
+    récupérés automatiquement et l'article est publié directement sur le site au prochain
+    déploiement — usage manuel de secours ; le flux normal passe par le pipeline n8n automatisé.
+  </p>
+
+  <form id="ingest-form">
+    <label for="token">Jeton d'accès</label>
+    <input type="password" id="token" required autocomplete="off" />
+
+    <label for="url">URL LinkedIn</label>
+    <input type="url" id="url" placeholder="https://www.linkedin.com/..." required />
+
+    <label for="lang">Langue de la publication</label>
+    <select id="lang" style="width:100%; padding:0.6rem 0.75rem; margin-top:0.4rem; border:1px solid #cbd5e1; border-radius:0.5rem;">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+    </select>
+
+    <fieldset>
+      <legend>Thèmes</legend>
+      <div class="checks" id="themes-checks"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Zones</legend>
+      <div class="checks" id="zones-checks"></div>
+    </fieldset>
+
+    <button type="submit">Récupérer et ouvrir une pull request</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const THEMES = [
+      ["businessDevelopment", "Développement commercial"],
+      ["export", "Export"],
+      ["distribution", "Distribution"],
+    ];
+    const ZONES = [
+      ["africa", "Afrique"],
+      ["middleEast", "Moyen-Orient"],
+    ];
+
+    const renderChecks = (container, entries, name) => {
+      container.innerHTML = entries
+        .map(
+          ([key, label]) =>
+            `<label><input type="checkbox" name="${name}" value="${key}" /> ${label}</label>`,
+        )
+        .join("");
+    };
+    renderChecks(document.getElementById("themes-checks"), THEMES, "themes");
+    renderChecks(document.getElementById("zones-checks"), ZONES, "zones");
+
+    const checkedValues = (name) =>
+      Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(
+        (el) => el.value,
+      );
+
+    const form = document.getElementById("ingest-form");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = form.querySelector("button");
+      button.disabled = true;
+      result.className = "";
+      result.textContent = "Traitement en cours…";
+      result.style.display = "block";
+
+      try {
+        const res = await fetch("/api/ingest-article", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-ingest-token": document.getElementById("token").value,
+          },
+          body: JSON.stringify({
+            url: document.getElementById("url").value,
+            lang: document.getElementById("lang").value,
+            themes: checkedValues("themes"),
+            zones: checkedValues("zones"),
+          }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Échec de la requête");
+
+        result.className = "ok";
+        result.textContent = data.skipped
+          ? "Déjà ingéré — aucun doublon créé."
+          : `Publié : ${data.article} (slug: ${data.slug}). En ligne après le prochain déploiement.`;
+      } catch (err) {
+        result.className = "error";
+        result.textContent = err.message;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

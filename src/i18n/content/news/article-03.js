@@ -5,6 +5,20 @@
  */
 const article = {
   number: "03",
+  key: "article-03",
+  slug: {
+    fr: "trois-choses-a-eviter-sales-enablement",
+    en: "three-things-avoid-sales-enablement",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "Trois choses à éviter pour ne pas rater ton projet de Sales Enablement",
     "preview": "Afin de renforcer leurs équipes de vente, les entreprises doivent utiliser les solutions technologiques dont elles disposent. Le Sales Enablement est une réponse clé.",

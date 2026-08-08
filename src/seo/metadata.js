@@ -144,14 +144,14 @@ export const SEO_META = {
 
   news: {
     fr: {
-      title: withBrand("Actualités"),
+      title: withBrand("Articles & Insights — Actualités & Publications"),
       description:
-        "Publications d'AS Biz Dev sur le développement commercial et les marchés export en Afrique et au Moyen-Orient.",
+        "Articles et publications LinkedIn d'AS Biz Dev sur le développement commercial et les marchés export en Afrique et au Moyen-Orient.",
     },
     en: {
-      title: withBrand("News"),
+      title: withBrand("Articles & Insights"),
       description:
-        "AS Biz Dev publications on business development and export markets across Africa and the Middle East.",
+        "AS Biz Dev's LinkedIn articles and posts on business development and export markets across Africa and the Middle East.",
     },
   },
 
@@ -209,4 +209,14 @@ export const countryMeta = (country, lang) => {
         title: withBrand(`Développement commercial ${name}`),
         description: `Développement commercial, recherche de distributeurs et pilotage commercial export ${inName} avec AS Biz Dev.`,
       };
+};
+
+/** Article pages (§24) are generated from data, so their metadata is too. */
+export const articleMeta = (article, lang) => {
+  const copy = article[lang] ?? article.fr;
+
+  return {
+    title: withBrand(copy.title),
+    description: copy.preview,
+  };
 };

@@ -36,10 +36,11 @@ export const PATHS = {
   partners: { fr: "/nos-partenaires", en: "/en/our-partners" },
   policy: { fr: "/politiques-de-confidentialite", en: "/en/privacy-policy" },
   country: { fr: "/marches/:slug", en: "/en/markets/:slug" },
+  article: { fr: "/news/:slug", en: "/en/news/:slug" },
 };
 
 /** Page keys carrying a `:slug`, so callers know params are required. */
-export const DYNAMIC_KEYS = ["country"];
+export const DYNAMIC_KEYS = ["country", "article"];
 
 /**
  * Builds the URL of a page in a given language.

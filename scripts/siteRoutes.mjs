@@ -1,4 +1,5 @@
 import { COUNTRIES } from "../src/data/countries.js";
+import { ARTICLES } from "../src/i18n/content/news/index.js";
 import { LANGS, PATHS, pathFor } from "../src/constants/paths.js";
 
 /**
@@ -10,7 +11,7 @@ export const allUrls = () => {
   const urls = [];
 
   for (const key of Object.keys(PATHS)) {
-    if (key === "country") continue;
+    if (key === "country" || key === "article") continue;
     for (const lang of LANGS) urls.push({ key, lang, path: PATHS[key][lang] });
   }
 
@@ -21,6 +22,18 @@ export const allUrls = () => {
         lang,
         path: pathFor("country", lang, {
           slug: country.slug[lang] ?? country.slug.fr,
+        }),
+      });
+    }
+  }
+
+  for (const article of ARTICLES.filter((a) => a.status === "published")) {
+    for (const lang of LANGS) {
+      urls.push({
+        key: "article",
+        lang,
+        path: pathFor("article", lang, {
+          slug: article.slug[lang] ?? article.slug.fr,
         }),
       });
     }

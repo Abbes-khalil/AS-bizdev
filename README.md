@@ -79,7 +79,8 @@ npm run typecheck
 | Devenir partenaire | `/devenir-partenaire` · `/en/become-a-partner` | `content/partnerProgram.js` | `pages/BecomePartner.jsx` |
 | Contact | `/contact` · `/en/contact` | `content/contact.js` | `pages/Contact.jsx` |
 | Nos partenaires | `/nos-partenaires` · `/en/our-partners` | `content/partners.js` | `pages/Partners.jsx` |
-| Actualités | `/news` · `/en/news` | `content/news/` (one file per article) | `pages/News.jsx` |
+| Articles & Insights | `/news` · `/en/news` | `content/news/` (one file per article) | `pages/News.jsx` |
+| — article detail | `/news/<slug>` · `/en/news/<slug>` | `content/news/article-XX.js` | `pages/Article.jsx` |
 | Confidentialité | `/politiques-de-confidentialite` · `/en/privacy-policy` | `content/policy.js` | `pages/Policy.jsx` |
 | Menu & footer | — | `content/common.js` | `Navbar.jsx` / `Footer.jsx` |
 
@@ -160,13 +161,44 @@ ink:    '#2C2C2C'   // body text
 
 `content/team.js` → the `members` array. Names stay identical in both languages; only `role` and `bio` get translated.
 
-### 📰 Add a news article
+### 📰 Add an article (Articles & Insights, §24)
+
+By hand:
 
 1. Copy `content/news/article-06.js` → `article-07.js`
-2. Change `number: "07"` and write the `fr` and `en` versions
-3. Register it in `content/news/index.js`
+2. Set `number`, `key`, `slug: { fr, en }` (becomes the URL — `/news/<slug>`), `status: "published"`, and write the `fr`/`en` `title`/`preview`/`content`
+3. Add `themes`/`zones`/`countries` (keys from `content/news/taxonomy.js`) and, when known, `publishedAt`, `author`, `image`, and `source: { type, url }` for the LinkedIn attribution link — leave unknown fields `null`/`[]` rather than inventing them
+4. Register it in `content/news/index.js`'s `ARTICLES` array
 
-Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`.
+**Automatically, via n8n (the normal flow):** every new AS Biz Dev LinkedIn post should appear on the site with no manual step. LinkedIn's own API requires Partner approval that isn't realistically obtainable for a page this size, so the automation runs one layer up, on infrastructure the user already controls:
+
+```
+LinkedIn company page → RSS bridge → n8n (RSS Feed Trigger, polling)
+                                        │  HTTP Request node, POST + x-ingest-token header
+                                        ▼
+                              api/ingest-article.js
+                       fetch() the post → parse Open Graph tags
+                     → dedupe by source.url → commit article-XX.js
+                     + updated index.js straight to the default branch
+                                        │
+                                        ▼
+                         Vercel auto-deploy → live at /news/<slug>
+```
+
+Point an RSS-bridge service (generates an RSS feed from a public LinkedIn company page) at n8n's built-in **RSS Feed Trigger** node — no custom scraping code, n8n just polls the feed. On each new item, an **HTTP Request** node `POST`s `{ url, lang, themes, zones }` to `/api/ingest-article` with the shared secret in the `x-ingest-token` header. The endpoint commits directly with `status: "published"` — no PR, no review step, so a bad scrape (a truncated summary, a wrong image) can go live untouched; the only safety nets are the Open Graph title check and a dedupe guard against the same URL twice.
+
+Requires `INGEST_TOKEN`, `GITHUB_TOKEN` and `GITHUB_REPO` set as environment variables (see [`.env.example`](.env.example)). The token must only ever be stored server-side — in n8n's credential store — never inside a page a browser loads.
+
+**Manually, as a fallback:** open `/internal/add-article.html` (not linked anywhere public — its URL should be treated as a shared secret, same as the token) to run the same ingestion by hand, e.g. for a third-party LinkedIn post that isn't AS Biz Dev's own and so wouldn't appear in the automated feed.
+
+**By hand, editing files directly:**
+
+1. Copy `content/news/article-06.js` → `article-07.js`
+2. Set `number`, `key`, `slug: { fr, en }` (becomes the URL — `/news/<slug>`), `status: "published"`, and write the `fr`/`en` `title`/`preview`/`content`
+3. Add `themes`/`zones`/`countries` (keys from `content/news/taxonomy.js`) and, when known, `publishedAt`, `author`, `image`, and `source: { type, url }` for the LinkedIn attribution link — leave unknown fields `null`/`[]` rather than inventing them
+4. Register it in `content/news/index.js`'s `ARTICLES` array
+
+Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`. Articles with `status: "draft"` don't get a page or a sitemap entry until switched to `"published"`.
 
 ### 📄 Add a whole page
 
@@ -310,7 +342,7 @@ Legacy paths (`/who-is-who`, `/nosvaleurs`, `/category/news`…) 301 to their ne
 | **Routing** | React Router 7 | Bilingual paths, `:slug` country pages, lazy pages |
 | **Styling** | Tailwind 3.4 | Utility-first, arbitrary values, zero CSS files |
 | **Motion** | Framer Motion 12 | Declarative viewport animation |
-| **Prerender** | Puppeteer (dev only) | Static HTML per route, no SSR server to run |
+| **Prerender** | puppeteer-core + `@sparticuz/chromium` (Linux build) / system Chrome (local) | Static HTML per route, no SSR server to run |
 | **Forms** | Native + fetch | No form library |
 | **i18n** | Hand-rolled | ~30 lines beats a 40 kB dependency |
 

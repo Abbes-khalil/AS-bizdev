@@ -1,66 +1,133 @@
 import { useState } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
-import Modal from "../components/Modal";
+import ExternalLink from "../components/ExternalLink";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
+import RouteLink from "../components/RouteLink";
 import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
+import { useLang } from "../i18n/LanguageProvider";
+import { THEMES, ZONES, themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
 
-const ContentBlock = ({ block, id }) => {
-  if (block.type === "heading") {
-    return (
-      <h3 className="pt-5 font-display text-2xl font-semibold leading-tight text-navy sm:text-3xl">
-        {block.text}
-      </h3>
-    );
-  }
+const FilterChip = ({ active, onClick, children }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`rounded-full border px-4 py-1.5 text-[0.85rem] font-medium transition-colors ${
+      active
+        ? "border-orange bg-orange text-white"
+        : "border-gray-200 text-gray-600 hover:border-orange hover:text-orange"
+    }`}
+  >
+    {children}
+  </button>
+);
 
-  if (block.type === "subheading") {
-    return (
-      <h4 className="pt-2 font-display text-xl font-semibold leading-tight text-navy">
-        {block.text}
-      </h4>
-    );
-  }
+const ArticleCard = ({ article, index, lang, t }) => {
+  const slug = article.slug[lang] ?? article.slug.fr;
 
-  if (block.type === "list") {
-    return (
-      <ul className="space-y-3">
-        {block.items.map((item, i) => (
-          <li
-            key={`${id}-${i}`}
-            className="flex items-start gap-3 text-[1rem] leading-8 text-gray-700"
+  return (
+    <RevealOnScroll
+      as="article"
+      variant="up"
+      delay={0.05}
+      index={index}
+      className="group relative flex flex-col overflow-hidden rounded-card border border-gray-200 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-1 w-0 bg-orange transition-all duration-500 group-hover:w-full"
+      />
+
+      {article.image ? (
+        <img
+          src={article.image}
+          alt=""
+          className="h-44 w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div className="h-44 w-full bg-surface-alt" aria-hidden="true" />
+      )}
+
+      <div className="flex flex-1 flex-col p-8 lg:p-10">
+        <div className="flex items-baseline justify-between gap-4">
+          <span className="eyebrow text-orange">{t.label}</span>
+          <span className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
+            {article.number}
+          </span>
+        </div>
+
+        <p className="mt-3 text-[0.8rem] text-gray-400">
+          {article.publishedAt ?? t.dateToValidate}
+          {" — "}
+          {article.author ?? t.authorToValidate}
+        </p>
+
+        <h2 className="mt-4 font-display text-[1.5rem] font-semibold leading-tight tracking-tight text-navy lg:text-[1.625rem]">
+          {article.title}
+        </h2>
+
+        <p className="mt-5 line-clamp-6 text-[0.95rem] leading-relaxed text-gray-700">
+          {article.preview}
+        </p>
+
+        {(article.themes.length > 0 || article.zones.length > 0) && (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {article.themes.map((key) => (
+              <span
+                key={key}
+                className="rounded-full bg-surface-alt px-3 py-1 text-[0.75rem] font-medium text-gray-600"
+              >
+                {themeLabel(key, lang)}
+              </span>
+            ))}
+            {article.zones.map((key) => (
+              <span
+                key={key}
+                className="rounded-full bg-surface-alt px-3 py-1 text-[0.75rem] font-medium text-gray-600"
+              >
+                {zoneLabel(key, lang)}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
+          <RouteLink
+            routeKey="article"
+            params={{ slug }}
+            className="inline-flex items-center gap-2 font-display text-[0.95rem] font-semibold text-navy link-underline"
           >
-            <span
-              className="mt-[0.8rem] h-1.5 w-1.5 shrink-0 rounded-full bg-orange"
-              aria-hidden="true"
-            />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+            {t.readMore}
+            <ArrowIcon />
+          </RouteLink>
 
-  if (block.type === "highlight") {
-    return (
-      <div className="border-l-4 border-orange bg-orange-50 px-5 py-4">
-        <p className="font-medium leading-8 text-navy">{block.text}</p>
+          {article.source?.url && (
+            <ExternalLink href={article.source.url} className="text-gray-500">
+              {t.sourceLabel}
+            </ExternalLink>
+          )}
+        </div>
       </div>
-    );
-  }
-
-  return <p className="text-[1rem] leading-8 text-gray-700">{block.text}</p>;
+    </RevealOnScroll>
+  );
 };
 
 export default function News() {
   const t = useT("news");
+  const { lang } = useLang();
   useSeo("news");
-  const [selectedNumber, setSelectedNumber] = useState(null);
 
-  const selectedArticle =
-    t.articles.find((article) => article.number === selectedNumber) ?? null;
+  const [activeTheme, setActiveTheme] = useState(null);
+  const [activeZone, setActiveZone] = useState(null);
+
+  const filteredArticles = t.articles.filter(
+    (article) =>
+      (!activeTheme || article.themes.includes(activeTheme)) &&
+      (!activeZone || article.zones.includes(activeZone)),
+  );
 
   return (
     <main>
@@ -82,10 +149,10 @@ export default function News() {
 
       <section className="bg-white py-24 lg:py-32">
         <div className="container-x">
-          <div className="mb-10 flex items-end justify-between border-b border-gray-200 pb-6">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-6">
             <p className="eyebrow text-orange">
               {interpolate(t.selection, {
-                count: t.articles.length.toString().padStart(2, "0"),
+                count: filteredArticles.length.toString().padStart(2, "0"),
               })}
             </p>
             <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
@@ -93,86 +160,49 @@ export default function News() {
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            {t.articles.map((article, i) => (
-              <RevealOnScroll
-                as="article"
-                key={article.number}
-                variant="up"
-                delay={0.05}
-                index={i}
-                className="group relative flex flex-col overflow-hidden rounded-card border border-gray-200 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift"
+          <div className="mb-10 flex flex-wrap gap-2">
+            <FilterChip active={!activeTheme} onClick={() => setActiveTheme(null)}>
+              {t.filters.all}
+            </FilterChip>
+            {THEMES.map((theme) => (
+              <FilterChip
+                key={theme.key}
+                active={activeTheme === theme.key}
+                onClick={() => setActiveTheme(theme.key)}
               >
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 top-0 h-1 w-0 bg-orange transition-all duration-500 group-hover:w-full"
-                />
-                <div className="p-8 lg:p-10">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <span className="eyebrow text-orange">{t.label}</span>
-                    <span className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
-                      {article.number}
-                    </span>
-                  </div>
+                {theme.label[lang]}
+              </FilterChip>
+            ))}
 
-                  <h2 className="mt-12 font-display text-[1.5rem] font-semibold leading-tight tracking-tight text-navy lg:text-[1.625rem]">
-                    {article.title}
-                  </h2>
+            <span className="mx-2 hidden self-center text-gray-300 sm:inline">|</span>
 
-                  <p className="mt-5 line-clamp-6 text-[0.95rem] leading-relaxed text-gray-700">
-                    {article.preview}
-                  </p>
+            <FilterChip active={!activeZone} onClick={() => setActiveZone(null)}>
+              {t.filters.allZones}
+            </FilterChip>
+            {ZONES.map((zone) => (
+              <FilterChip
+                key={zone.key}
+                active={activeZone === zone.key}
+                onClick={() => setActiveZone(zone.key)}
+              >
+                {zone.label[lang]}
+              </FilterChip>
+            ))}
+          </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setSelectedNumber(article.number)}
-                    className="mt-auto inline-flex w-fit items-center gap-2 pt-8 font-display text-[0.95rem] font-semibold text-navy link-underline"
-                  >
-                    {t.readMore}
-                    <ArrowIcon />
-                  </button>
-                </div>
-              </RevealOnScroll>
+          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
+            {filteredArticles.map((article, i) => (
+              <ArticleCard
+                key={article.key}
+                article={article}
+                index={i}
+                lang={lang}
+                t={t}
+              />
             ))}
           </div>
         </div>
       </section>
-
-      <Modal
-        isOpen={selectedArticle !== null}
-        onClose={() => setSelectedNumber(null)}
-        titleId="selected-article-title"
-      >
-        {selectedArticle && (
-          <article>
-            <div className="pr-12 sm:pr-14">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-5">
-                <span className="eyebrow text-orange">{t.label}</span>
-                <span className="font-display text-xs font-medium uppercase tracking-widest text-gray-400">
-                  {selectedArticle.number}
-                </span>
-              </div>
-
-              <h2
-                id="selected-article-title"
-                className="mt-8 font-display text-3xl font-semibold leading-tight tracking-tight text-navy sm:text-4xl"
-              >
-                {selectedArticle.title}
-              </h2>
-            </div>
-
-            <div className="mt-8 space-y-6">
-              {selectedArticle.content.map((block, i) => (
-                <ContentBlock
-                  key={`${selectedArticle.number}-${i}`}
-                  id={`${selectedArticle.number}-${i}`}
-                  block={block}
-                />
-              ))}
-            </div>
-          </article>
-        )}
-      </Modal>
     </main>
   );
 }

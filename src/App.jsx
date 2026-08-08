@@ -15,6 +15,7 @@ const Pilotage = lazy(() => import("./pages/Pilotage"));
 const Markets = lazy(() => import("./pages/Markets"));
 const Zone = lazy(() => import("./pages/Zone"));
 const Country = lazy(() => import("./pages/Country"));
+const Article = lazy(() => import("./pages/Article"));
 const About = lazy(() => import("./pages/About"));
 const BecomePartner = lazy(() => import("./pages/BecomePartner"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -37,6 +38,7 @@ const ELEMENTS = {
   becomePartner: <BecomePartner />,
   contact: <Contact />,
   news: <News />,
+  article: <Article />,
   partners: <Partners />,
   policy: <Policy />,
 };

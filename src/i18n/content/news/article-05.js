@@ -5,6 +5,20 @@
  */
 const article = {
   number: "05",
+  key: "article-05",
+  slug: {
+    fr: "developpement-commercial-vs-entreprise-durable-responsable",
+    en: "business-development-vs-sustainable-responsible-company",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "Le développement commercial vs entreprise durable et responsable",
     "preview": "Le développement commercial est un élément clé dans la création d'une entreprise durable et socialement responsable.",

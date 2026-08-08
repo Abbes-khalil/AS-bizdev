@@ -5,6 +5,20 @@
  */
 const article = {
   number: "04",
+  key: "article-04",
+  slug: {
+    fr: "surmonter-incertitudes-complexite-apporteurs-affaires-2023",
+    en: "overcome-uncertainty-complexity-business-introducers-2023",
+  },
+  status: "published",
+  publishedAt: null,
+  author: null,
+  image: null,
+  // [INFORMATION À VALIDER PAR AS BIZ DEV] — original LinkedIn URL to add.
+  source: { type: "linkedin-article", url: null },
+  themes: [],
+  zones: [],
+  countries: [],
   "fr": {
     "title": "En 2023 « Surmontez les incertitudes et la complexité » ! Faites confiance à des apporteurs d'affaires experts en Afrique et au Moyen-Orient !",
     "preview": "Le paysage commercial en Afrique et au Moyen-Orient connaît une transformation importante. Avec l'essor de la technologie, la région attire de nombreuses entreprises internationales.",
