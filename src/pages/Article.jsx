@@ -1,11 +1,11 @@
 import { Navigate, useParams } from "react-router-dom";
+import { Globe2 } from "lucide-react";
 
-import ContentBlock from "../components/ContentBlock";
 import ExternalLink from "../components/ExternalLink";
-import PageHero from "../components/PageHero";
 import PageLoader from "../components/PageLoader";
 import RouteLink from "../components/RouteLink";
 import Section from "../components/Section";
+import { OG_IMAGE, SITE_NAME } from "../constants/site";
 import { pathFor } from "../constants/routes";
 import { themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
 import useArticle from "../hooks/useArticle";
@@ -14,16 +14,30 @@ import { articleMeta } from "../seo/metadata";
 import { useLang } from "../i18n/LanguageProvider";
 import { useT } from "../i18n";
 
-const Badge = ({ children }) => (
-  <span className="rounded-full border border-gray-200 px-3 py-1 text-[0.8rem] font-medium text-gray-600">
-    {children}
-  </span>
-);
+const PostText = ({ block, id }) => {
+  if (block.type === "list") {
+    return (
+      <ul className="list-disc space-y-1 pl-5 text-[0.95rem] leading-7 text-gray-800">
+        {block.items.map((item, i) => (
+          <li key={`${id}-${i}`}>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <p className="whitespace-pre-line text-[0.95rem] leading-7 text-gray-800">
+      {block.text}
+    </p>
+  );
+};
 
 /**
- * Article detail page (§24). Data-driven from Supabase — see
- * docs/ARTICLES_SUPABASE.md. Fields AS Biz Dev hasn't supplied yet (date,
- * author, image) show placeholder copy rather than invented values.
+ * Article detail page (§24) — styled like a native LinkedIn post rather
+ * than an editorial article, since the content is scraped from LinkedIn.
+ * Data-driven from Supabase — see docs/ARTICLES_SUPABASE.md. Fields AS Biz
+ * Dev hasn't supplied yet (date, author, image) show placeholder copy
+ * rather than invented values.
  */
 export default function Article() {
   const { slug } = useParams();
@@ -50,63 +64,81 @@ export default function Article() {
 
   const content = article[lang] ?? article.fr;
   const dateLabel = article.publishedAt ?? t.dateToValidate;
-  const authorLabel = article.author ?? t.authorToValidate;
+  const hashtags = [
+    ...article.themes.map((key) => themeLabel(key, lang)),
+    ...article.zones.map((key) => zoneLabel(key, lang)),
+  ];
 
   return (
     <main>
-      <PageHero
-        tone="dark"
-        className="max-w-4xl"
-        eyebrow={t.label}
-        titleLead={content.title}
-        titleAccent=""
-      >
-        <RouteLink routeKey="news" className="btn-ghost mt-8">
-          {t.label}
-        </RouteLink>
-      </PageHero>
+      <Section tone="alt">
+        <div className="mx-auto max-w-2xl">
+          <RouteLink
+            routeKey="news"
+            className="mb-6 inline-flex items-center gap-2 text-[0.9rem] font-medium text-gray-500 link-underline"
+          >
+            ← {t.label}
+          </RouteLink>
 
-      <Section tone="white">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex flex-wrap items-center gap-3 border-b border-gray-200 pb-6">
-            <Badge>{dateLabel}</Badge>
-            <Badge>{authorLabel}</Badge>
-            {article.themes.map((key) => (
-              <Badge key={key}>{themeLabel(key, lang)}</Badge>
-            ))}
-            {article.zones.map((key) => (
-              <Badge key={key}>{zoneLabel(key, lang)}</Badge>
-            ))}
-          </div>
-
-          {article.source?.url && (
-            <p className="mt-6 text-[0.9rem] text-gray-500">
-              {lang === "en"
-                ? "Originally published on LinkedIn."
-                : "Publié initialement sur LinkedIn."}{" "}
-              <ExternalLink href={article.source.url} className="text-orange">
-                {t.sourceLabel}
-              </ExternalLink>
-            </p>
-          )}
-
-          <div className="mt-10 space-y-6">
-            {content.content.map((block, i) => (
-              <ContentBlock key={`${article.key}-${i}`} id={`${article.key}-${i}`} block={block} />
-            ))}
-          </div>
-
-          {article.source?.url && (
-            <div className="mt-12 border-t border-gray-200 pt-8">
-              <ExternalLink href={article.source.url}>
-                {lang === "en"
-                  ? "Read the original post on LinkedIn"
-                  : "Lire la publication originale sur LinkedIn"}
-              </ExternalLink>
+          <article className="overflow-hidden rounded-[1rem] border border-gray-200 bg-white shadow-soft">
+            <div className="flex items-start gap-3 p-6">
+              <img
+                src={OG_IMAGE}
+                alt=""
+                className="h-12 w-12 shrink-0 rounded-full border border-gray-200 bg-white object-contain p-1"
+              />
+              <div className="min-w-0">
+                <p className="truncate font-display text-[1rem] font-semibold text-navy">
+                  {SITE_NAME}
+                </p>
+                <p className="truncate text-[0.85rem] text-gray-500">{t.label}</p>
+                <p className="mt-0.5 flex items-center gap-1 text-[0.8rem] text-gray-400">
+                  {article.author ?? dateLabel}
+                  <span aria-hidden="true">·</span>
+                  <Globe2
+                    size={13}
+                    aria-label={lang === "en" ? "Public post" : "Publication publique"}
+                  />
+                </p>
+              </div>
             </div>
-          )}
+
+            <div className="space-y-4 px-6 pb-2">
+              <h1 className="font-display text-[1.15rem] font-semibold leading-snug text-navy">
+                {content.title}
+              </h1>
+
+              {content.content.map((block, i) => (
+                <PostText key={`${article.key}-${i}`} id={`${article.key}-${i}`} block={block} />
+              ))}
+
+              {hashtags.length > 0 && (
+                <p className="text-[0.9rem] font-medium text-navy/80">
+                  {hashtags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}
+                </p>
+              )}
+            </div>
+
+            {article.image && (
+              <img
+                src={article.image}
+                alt=""
+                className="mt-4 w-full object-cover"
+                loading="lazy"
+              />
+            )}
+
+            {article.source?.url && (
+              <div className="border-t border-gray-200 px-6 py-4">
+                <ExternalLink href={article.source.url} className="text-orange">
+                  {t.sourceLabel}
+                </ExternalLink>
+              </div>
+            )}
+          </article>
         </div>
       </Section>
     </main>
   );
+
 }

@@ -6,21 +6,19 @@
  * user's own infrastructure, not this repo) watches an RSS bridge on AS Biz
  * Dev's LinkedIn company page and POSTs each new post's URL here. This
  * endpoint pulls the Open Graph metadata (title, summary, image, published
- * date) LinkedIn exposes for link previews, commits a new `article-XX.js`
- * straight to the default branch with `status: "published"`, and updates the
- * `ARTICLES` index so it's picked up by the next build — no human step, no
- * PR to merge.
+ * date) LinkedIn exposes for link previews and upserts a row straight into
+ * Supabase's `articles` table with `status: "published"` — no human step, no
+ * deploy needed, picked up by the frontend and next build's sitemap/prerender
+ * immediately.
  *
  * This is deliberately called only server-to-server (n8n's HTTP Request
  * node, credential stored in n8n) — never from a public browser page — so
  * the shared secret never ships inside anything a visitor's browser loads.
  *
- * Env vars required: INGEST_TOKEN, GITHUB_TOKEN, GITHUB_REPO ("owner/repo"),
- * GITHUB_DEFAULT_BRANCH (optional, defaults to "master").
+ * Env vars required: INGEST_TOKEN, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
+ * See docs/ARTICLES_SUPABASE.md for the schema and RLS model.
  */
-import { ARTICLES } from "../src/i18n/content/news/index.js";
-
-const GITHUB_API = "https://api.github.com";
+import { createClient } from "@supabase/supabase-js";
 
 const decodeHtmlEntities = (text) =>
   text
@@ -53,57 +51,22 @@ const slugify = (text) =>
     .replace(/(^-+|-+$)/g, "")
     .slice(0, 80);
 
-const nextArticleKey = () => {
-  const numbers = ARTICLES.map((a) => Number(a.number));
-  const next = (numbers.length ? Math.max(...numbers) : 0) + 1;
-  return String(next).padStart(2, "0");
-};
-
-/** Already ingested? Checked against the ARTICLES snapshot bundled at deploy
- * time — good enough for a low-frequency poller, not a hard lock against a
- * near-simultaneous duplicate before the next deploy. */
-const alreadyIngested = (url) =>
-  ARTICLES.some((article) => article.source?.url === url);
-
-const githubRequest = async (path, options = {}) => {
-  const res = await fetch(`${GITHUB_API}${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-      Accept: "application/vnd.github+json",
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`GitHub API ${path} failed (${res.status}): ${body}`);
+/** Appends a short numeric suffix until the slug is free, so two posts that
+ * happen to share a title don't collide on the unique slug_fr/slug_en columns. */
+const uniqueSlug = async (supabase, base) => {
+  let candidate = base;
+  let attempt = 1;
+  for (;;) {
+    const { data, error } = await supabase
+      .from("articles")
+      .select("id")
+      .or(`slug_fr.eq.${candidate},slug_en.eq.${candidate}`)
+      .maybeSingle();
+    if (error) throw new Error(`Supabase slug check failed: ${error.message}`);
+    if (!data) return candidate;
+    attempt += 1;
+    candidate = `${base}-${attempt}`;
   }
-  return res.json();
-};
-
-/**
- * Inserts the new article's import + array entry into index.js's source
- * text. Tolerates CRLF (the repo's checked-out line ending on Windows) as
- * well as LF, since either could arrive depending on how the file was last
- * committed.
- */
-const withArticleRegistered = (indexSource, key) => {
-  const varName = key.replace("article-", "article");
-  const eol = indexSource.includes("\r\n") ? "\r\n" : "\n";
-  const importLine = `import ${varName} from "./${key}.js";`;
-
-  const importBlock = /(^import article\d+ from "\.\/article-\d+\.js";\r?\n)+/m;
-  const withImport = indexSource.replace(
-    importBlock,
-    (match) => `${match}${importLine}${eol}`,
-  );
-
-  const arrayBlock = /(export const ARTICLES = \[\r?\n)([\s\S]*?)(\]\s*;)/;
-  return withImport.replace(arrayBlock, (_match, open, body, close) => {
-    const trimmed = body.replace(/\s+$/, "");
-    return `${open}${trimmed}${eol}  ${varName},${eol}${close}`;
-  });
 };
 
 export default async function handler(req, res) {
@@ -119,7 +82,6 @@ export default async function handler(req, res) {
 
   const {
     url,
-    lang = "fr",
     themes = [],
     zones = [],
     countries = [],
@@ -132,10 +94,36 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (alreadyIngested(url)) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) {
     res
-      .status(200)
-      .json({ ok: true, skipped: true, reason: "duplicate source.url" });
+      .status(500)
+      .json({ error: "Missing SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY" });
+    return;
+  }
+  const supabase = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
+  const { data: existing, error: existingError } = await supabase
+    .from("articles")
+    .select("slug_fr")
+    .eq("source_url", url)
+    .maybeSingle();
+  if (existingError) {
+    res
+      .status(500)
+      .json({ error: `Supabase lookup failed: ${existingError.message}` });
+    return;
+  }
+  if (existing) {
+    res.status(200).json({
+      ok: true,
+      skipped: true,
+      reason: "duplicate source_url",
+      slug: existing.slug_fr,
+    });
     return;
   }
 
@@ -163,82 +151,40 @@ export default async function handler(req, res) {
       );
     }
 
-    const number = nextArticleKey();
-    const key = `article-${number}`;
-    const slug = slugify(title);
+    const slug = await uniqueSlug(supabase, slugify(title));
+    // Only the source language is filled from the scrape; the other language
+    // mirrors it as a starting point rather than shipping empty —
+    // [INFORMATION À VALIDER PAR AS BIZ DEV]: translation not yet reviewed.
     const copy = {
       title,
       preview: preview ?? "",
       content: [{ type: "paragraph", text: preview ?? "" }],
     };
 
-    const article = {
-      number,
-      key,
-      slug: { fr: slug, en: slug },
+    const row = {
+      source_url: url,
       status: "published",
-      publishedAt: publishedAt ? publishedAt.slice(0, 10) : null,
+      published_at: publishedAt ? publishedAt.slice(0, 10) : null,
       author: null,
       image: image ?? null,
-      source: { type: "linkedin-post", url },
+      source_type: "linkedin-post",
       themes,
       zones,
       countries,
-      // Only the source language is filled from the scrape; the other
-      // language mirrors it as a starting point rather than shipping empty —
-      // [INFORMATION À VALIDER PAR AS BIZ DEV]: translation not yet reviewed.
+      slug_fr: slug,
+      slug_en: slug,
       fr: copy,
       en: copy,
     };
 
-    const repo = process.env.GITHUB_REPO;
-    const base = process.env.GITHUB_DEFAULT_BRANCH ?? "master";
-    const articlePath = `src/i18n/content/news/${key}.js`;
-    const indexPath = "src/i18n/content/news/index.js";
+    const { error: upsertError } = await supabase
+      .from("articles")
+      .upsert(row, { onConflict: "source_url" });
+    if (upsertError) {
+      throw new Error(`Supabase upsert failed: ${upsertError.message}`);
+    }
 
-    const fileContents = [
-      "/**",
-      ` * ${key} — auto-ingested from LinkedIn via the n8n pipeline.`,
-      " * Translation into the other language is a straight copy from the",
-      " * source post and has not been reviewed.",
-      " *",
-      " * Content blocks: paragraph | heading | subheading | list | highlight.",
-      " */",
-      `const article = ${JSON.stringify(article, null, 2)};`,
-      "",
-      "export default article;",
-      "",
-    ].join("\n");
-
-    await githubRequest(`/repos/${repo}/contents/${articlePath}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        message: `Ingest LinkedIn post: ${title}`,
-        content: Buffer.from(fileContents, "utf8").toString("base64"),
-        branch: base,
-      }),
-    });
-
-    const currentIndex = await githubRequest(
-      `/repos/${repo}/contents/${indexPath}?ref=${base}`,
-    );
-    const currentIndexSource = Buffer.from(
-      currentIndex.content,
-      "base64",
-    ).toString("utf8");
-    const nextIndexSource = withArticleRegistered(currentIndexSource, key);
-
-    await githubRequest(`/repos/${repo}/contents/${indexPath}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        message: `Register ${key} in ARTICLES`,
-        content: Buffer.from(nextIndexSource, "utf8").toString("base64"),
-        sha: currentIndex.sha,
-        branch: base,
-      }),
-    });
-
-    res.status(200).json({ ok: true, article: key, slug });
+    res.status(200).json({ ok: true, slug });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

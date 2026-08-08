@@ -123,9 +123,8 @@ already applied. Safe to re-run — it upserts on `slug_fr`.
   `forLang`/`findArticleBySlug` helpers and the `articles` key in the `news` i18n
   dictionary were removed once nothing consumed them client-side.
 - `api/ingest-article.js` no longer commits to GitHub — it upserts into Supabase. The
-  `GITHUB_TOKEN`/`GITHUB_REPO`/`GITHUB_DEFAULT_BRANCH` env vars are unused; kept in
-  `.env.example` as placeholders in case another script still references them, marked
-  legacy.
+  `GITHUB_TOKEN`/`GITHUB_REPO`/`GITHUB_DEFAULT_BRANCH` env vars are unused and have been
+  removed from `.env.example`.
 - `public/internal/add-article.html` remains as the manual fallback UI, now posting through
   to the Supabase-backed endpoint. Its `countries` field is still not exposed in the form
   (pre-existing gap — the API accepts `countries` but the form never sent it); left as-is

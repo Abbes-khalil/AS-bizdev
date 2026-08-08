@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
 import ExternalLink from "../components/ExternalLink";
@@ -9,22 +9,8 @@ import useArticles from "../hooks/useArticles";
 import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
 import { useLang } from "../i18n/LanguageProvider";
-import { THEMES, ZONES, themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
+import { themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
 import { flattenForLang } from "../services/articles";
-
-const FilterChip = ({ active, onClick, children }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`rounded-full border px-4 py-1.5 text-[0.85rem] font-medium transition-colors ${
-      active
-        ? "border-orange bg-orange text-white"
-        : "border-gray-200 text-gray-600 hover:border-orange hover:text-orange"
-    }`}
-  >
-    {children}
-  </button>
-);
 
 const ArticleCard = ({ article, index, lang, t }) => {
   const slug = article.slug[lang] ?? article.slug.fr;
@@ -118,8 +104,8 @@ const ERROR_MESSAGE = {
   en: "Could not load articles right now. Please try again later.",
 };
 const EMPTY_MESSAGE = {
-  fr: "Aucun article ne correspond à ces filtres pour le moment.",
-  en: "No articles match these filters right now.",
+  fr: "Aucun article n'est publié pour le moment.",
+  en: "No articles are published right now.",
 };
 
 export default function News() {
@@ -127,19 +113,11 @@ export default function News() {
   const { lang } = useLang();
   useSeo("news");
 
-  const [activeTheme, setActiveTheme] = useState(null);
-  const [activeZone, setActiveZone] = useState(null);
   const { articles, loading, error } = useArticles();
 
   const localizedArticles = useMemo(
     () => articles.map((article) => flattenForLang(article, lang)),
     [articles, lang],
-  );
-
-  const filteredArticles = localizedArticles.filter(
-    (article) =>
-      (!activeTheme || article.themes.includes(activeTheme)) &&
-      (!activeZone || article.zones.includes(activeZone)),
   );
 
   return (
@@ -165,42 +143,12 @@ export default function News() {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-6">
             <p className="eyebrow text-orange">
               {interpolate(t.selection, {
-                count: filteredArticles.length.toString().padStart(2, "0"),
+                count: localizedArticles.length.toString().padStart(2, "0"),
               })}
             </p>
             <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
               {t.period}
             </p>
-          </div>
-
-          <div className="mb-10 flex flex-wrap gap-2">
-            <FilterChip active={!activeTheme} onClick={() => setActiveTheme(null)}>
-              {t.filters.all}
-            </FilterChip>
-            {THEMES.map((theme) => (
-              <FilterChip
-                key={theme.key}
-                active={activeTheme === theme.key}
-                onClick={() => setActiveTheme(theme.key)}
-              >
-                {theme.label[lang]}
-              </FilterChip>
-            ))}
-
-            <span className="mx-2 hidden self-center text-gray-300 sm:inline">|</span>
-
-            <FilterChip active={!activeZone} onClick={() => setActiveZone(null)}>
-              {t.filters.allZones}
-            </FilterChip>
-            {ZONES.map((zone) => (
-              <FilterChip
-                key={zone.key}
-                active={activeZone === zone.key}
-                onClick={() => setActiveZone(zone.key)}
-              >
-                {zone.label[lang]}
-              </FilterChip>
-            ))}
           </div>
 
           {loading && (
@@ -219,15 +167,15 @@ export default function News() {
             </p>
           )}
 
-          {!loading && !error && filteredArticles.length === 0 && (
+          {!loading && !error && localizedArticles.length === 0 && (
             <p className="py-16 text-center text-[0.95rem] text-gray-600">
               {EMPTY_MESSAGE[lang] ?? EMPTY_MESSAGE.fr}
             </p>
           )}
 
-          {!loading && !error && filteredArticles.length > 0 && (
+          {!loading && !error && localizedArticles.length > 0 && (
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-              {filteredArticles.map((article, i) => (
+              {localizedArticles.map((article, i) => (
                 <ArticleCard
                   key={article.key}
                   article={article}

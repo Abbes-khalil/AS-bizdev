@@ -38,10 +38,6 @@ const news = {
     dateToValidate: "Date à valider",
     authorToValidate: "Auteur à valider",
     sourceLabel: "Voir sur LinkedIn",
-    filters: {
-      all: "Tous les thèmes",
-      allZones: "Toutes les zones",
-    },
   },
 
   en: {
@@ -60,10 +56,6 @@ const news = {
     dateToValidate: "Date to be confirmed",
     authorToValidate: "Author to be confirmed",
     sourceLabel: "View on LinkedIn",
-    filters: {
-      all: "All themes",
-      allZones: "All zones",
-    },
   },
 };
 

@@ -1,5 +1,34 @@
 import { supabase } from "../lib/supabase";
 
+/**
+ * Normalizes one language's copy into `{ title, preview, content }`.
+ *
+ * The documented shape (see docs/ARTICLES_SUPABASE.md) is a jsonb object.
+ * In practice, posts written by the n8n LinkedIn pipeline land as a raw
+ * string instead: `"<title>...//<title>\n\n<body paragraphs>\n\n#tags"`.
+ * The part before `//` is a truncated duplicate of the title, so everything
+ * after it is the real post; blank-line-separated chunks become paragraphs.
+ */
+const normalizeCopy = (raw) => {
+  if (!raw) return { title: "", preview: "", content: [] };
+
+  if (typeof raw === "string") {
+    const full = raw.includes("//") ? raw.slice(raw.indexOf("//") + 2) : raw;
+    const [title, ...body] = full.trim().split(/\n{2,}/).filter(Boolean);
+    return {
+      title: title ?? "",
+      preview: body[0] ?? "",
+      content: body.map((text) => ({ type: "paragraph", text })),
+    };
+  }
+
+  return {
+    title: raw.title ?? "",
+    preview: raw.preview ?? "",
+    content: Array.isArray(raw.content) ? raw.content : [],
+  };
+};
+
 /** Converts a Supabase `articles` row into the bilingual shape pages expect. */
 const mapArticleRow = (row) => ({
   key: row.slug_fr,
@@ -12,8 +41,8 @@ const mapArticleRow = (row) => ({
   themes: row.themes ?? [],
   zones: row.zones ?? [],
   countries: row.countries ?? [],
-  fr: row.fr,
-  en: row.en,
+  fr: normalizeCopy(row.fr),
+  en: normalizeCopy(row.en),
 });
 
 /** Flattens an article's localized copy to the top level, matching the old `forLang` shape. */
