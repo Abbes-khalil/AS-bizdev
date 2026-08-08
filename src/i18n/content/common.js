@@ -38,7 +38,15 @@ const common = {
           { key: "middleEast", label: "Moyen-Orient" },
         ],
       },
-      { key: "about", label: "AS Biz Dev" },
+      {
+        key: "about",
+        label: "AS Biz Dev",
+        children: [
+          { key: "about", label: "Qui sommes-nous" },
+          { key: "partners", label: "Nos partenaires" },
+          { key: "news", label: "Actualités & Publications" },
+        ],
+      },
       { key: "becomePartner", label: "Devenir partenaire" },
       { key: "contact", label: "Contact" },
     ],
@@ -115,7 +123,15 @@ const common = {
           { key: "middleEast", label: "Middle East" },
         ],
       },
-      { key: "about", label: "AS Biz Dev" },
+      {
+        key: "about",
+        label: "AS Biz Dev",
+        children: [
+          { key: "about", label: "Who we are" },
+          { key: "partners", label: "Our partners" },
+          { key: "news", label: "Articles & Insights" },
+        ],
+      },
       { key: "becomePartner", label: "Become a partner" },
       { key: "contact", label: "Contact" },
     ],

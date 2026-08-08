@@ -157,13 +157,14 @@ export const SEO_META = {
 
   partners: {
     fr: {
-      title: withBrand("Nos partenaires"),
+      title: withBrand("Références clients & partenaires"),
       description:
-        "Les partenaires avec lesquels AS Biz Dev travaille sur ses marchés.",
+        "Découvrez les entreprises accompagnées par AS Biz Dev et son écosystème de partenaires en développement commercial et export.",
     },
     en: {
-      title: withBrand("Our partners"),
-      description: "The partners AS Biz Dev works with across its markets.",
+      title: withBrand("Client References & Partners"),
+      description:
+        "Discover the companies supported by AS Biz Dev and its ecosystem of partners in business development and export.",
     },
   },
 
