@@ -1,9 +1,18 @@
+import FieldLabel from "./FieldLabel";
+
 export const inputClasses = (hasError) =>
-  `min-h-14 rounded-btn border bg-white px-4 text-[1rem] text-navy outline-none transition-all focus:bg-white focus:ring-4 ${
+  `min-h-14 rounded-btn border bg-white px-4 text-[1rem] text-navy outline-none transition-all placeholder:text-gray-400 focus:bg-white focus:ring-4 ${
     hasError
       ? "border-orange focus:border-orange focus:ring-orange/20"
       : "border-gray-200 focus:border-navy focus:ring-navy/15"
   }`;
+
+export const FieldError = ({ id, message }) =>
+  message ? (
+    <p id={id} className="text-xs text-orange">
+      {message}
+    </p>
+  ) : null;
 
 /**
  * Labelled text input with inline error message.
@@ -17,27 +26,25 @@ const Field = ({
   error,
   onBlur,
   requiredAria,
+  optionalLabel,
+  placeholder,
   required = true,
   type = "text",
   autoComplete,
   inputMode,
 }) => (
   <label className="grid gap-2">
-    <span className="font-display text-[0.8125rem] font-medium tracking-wide text-gray-700">
-      {label}
-      {required && (
-        <>
-          {" "}
-          <span className="text-orange" aria-label={requiredAria}>
-            *
-          </span>
-        </>
-      )}
-    </span>
+    <FieldLabel
+      label={label}
+      required={required}
+      requiredAria={requiredAria}
+      optionalLabel={optionalLabel}
+    />
     <input
       required={required}
       type={type}
       name={name}
+      placeholder={placeholder}
       autoComplete={autoComplete}
       inputMode={inputMode}
       aria-invalid={Boolean(error)}
@@ -45,11 +52,7 @@ const Field = ({
       onBlur={onBlur}
       className={inputClasses(Boolean(error))}
     />
-    {error && (
-      <p id={`err-${name}`} className="text-xs text-orange">
-        {error}
-      </p>
-    )}
+    <FieldError id={`err-${name}`} message={error} />
   </label>
 );
 

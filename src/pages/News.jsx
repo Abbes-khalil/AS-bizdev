@@ -4,6 +4,7 @@ import ArrowIcon from "../components/ArrowIcon";
 import Modal from "../components/Modal";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
+import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
 
 const ContentBlock = ({ block, id }) => {
@@ -55,6 +56,7 @@ const ContentBlock = ({ block, id }) => {
 
 export default function News() {
   const t = useT("news");
+  useSeo("news");
   const [selectedNumber, setSelectedNumber] = useState(null);
 
   const selectedArticle =

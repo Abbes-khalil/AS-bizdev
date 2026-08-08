@@ -33,7 +33,7 @@ const news = {
       titleAccent: "conversations",
       titleTail: "qui comptent.",
       intro:
-        "Une sélection de perspectives pour mieux comprendre les dynamiques de développement entre la France, l'Afrique et le Moyen-Orient.",
+        "Une sélection de perspectives pour mieux comprendre les dynamiques de développement en Afrique et au Moyen-Orient.",
     },
     selection: "Sélection — {count} articles",
     period: "2026 / Q3",
@@ -49,7 +49,7 @@ const news = {
       titleAccent: "conversations",
       titleTail: "that matter.",
       intro:
-        "A selection of perspectives to better understand the growth dynamics between France, Africa and the Middle East.",
+        "A selection of perspectives to better understand the growth dynamics across Africa and the Middle East.",
     },
     selection: "Selection — {count} articles",
     period: "2026 / Q3",

@@ -1,10 +1,12 @@
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
-import { CONTACT_EMAIL } from "../components/siteData";
+import { CONTACT_EMAIL } from "../constants/site";
+import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 export default function Policy() {
   const t = useT("policy");
+  useSeo("policy");
 
   return (
     <main>

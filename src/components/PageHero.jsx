@@ -44,7 +44,7 @@ const PageHero = ({
           variant="up"
           className={
             layout === "split"
-              ? "grid items-end gap-12 lg:grid-cols-[1fr_1fr]"
+              ? "grid items-end gap-12 lg:grid-cols-[1.4fr_0.6fr]"
               : className
           }
         >

@@ -1,137 +1,176 @@
+/**
+ * Home page copy.
+ *
+ * Written against the editorial brief: no invented figures, clients or
+ * coverage claims (§16), no filler superlatives, and a visitor who should
+ * understand in a few seconds who we help, what we do, where, and how (§1).
+ */
 const home = {
   fr: {
     hero: {
-      title:
-        "Accélérez et consolidez votre développement en France, Afrique et Moyen-Orient",
+      titleLead: "Accélérez votre développement commercial en",
+      titleAccent: "Afrique & Moyen-Orient",
       paragraphs: [
-        "Notre approche agile est au cœur de notre capacité à vous aider à détecter et capitaliser sur les opportunités de croissance, en vous permettant d'agir avec précision et efficacité.",
-        "Spécialisés dans le développement commercial, nous opérons principalement dans deux domaines étroitement liés : les solutions industrielles innovantes et la digitalisation des processus industriels et commerciaux.",
-        "Nous vous offrons des solutions qui intègrent notre profonde compréhension des dynamiques spécifiques des marchés français, africains et moyen-orientaux, un accès privilégié à un réseau influent de décideurs, ainsi qu'une expertise poussée dans l'évaluation des atouts et des défis propres à ces régions.",
-        "Animés par la volonté de construire avec vous des entreprises durables, profitables sur le moyen et long terme, et guidées par des valeurs fortes et saines, nous sommes vos partenaires privilégiés pour un développement pérenne.",
+        "AS Biz Dev accompagne les PME dans l'ouverture, le développement et le pilotage de leurs marchés export.",
+        "De la recherche de clients et de distributeurs jusqu'au pilotage commercial externalisé de votre activité locale.",
       ],
-      cta: "Contactez-nous",
+      ctaPrimary: "Parlons de votre marché",
+      ctaSecondary: "Découvrir notre approche",
       mapAlt:
-        "Carte des zones d'intervention d'AS Biz Dev couvrant la France, l'Afrique et le Moyen-Orient.",
+        "Carte des zones d'intervention d'AS Biz Dev en Afrique et au Moyen-Orient.",
     },
-    packs: {
-      titleLead: "Transformez vos ambitions en",
-      titleAccent: "succès durable !",
+
+    twoWays: {
+      eyebrow: "Deux façons de travailler avec AS Biz Dev",
+      titleLead: "Développer un marché, ou en",
+      titleAccent: "piloter l'activité.",
       intro:
-        "Que vous soyez une modeste PME locale ou un groupe industriel mondial, nos solutions s'ajustent à vos besoins en toute flexibilité.",
-      bullets: [
-        "Notre offre claire,",
-        "Notre réseau étendu de partenaires stratégiques,",
-        "Notre expertise approfondie des langues, des spécificités politiques et culturelles de la région,",
-      ],
-      outro:
-        "Font de nous le partenaire de confiance idéal pour accompagner votre expansion.",
-      itemLabel: "Pack « {title} »",
+        "Nous intervenons à deux moments différents de la vie commerciale d'une zone. Les deux offres se combinent ou se choisissent séparément.",
       more: "En savoir plus",
       items: [
         {
-          title: "Découverte",
-          body: "Obtenez une évaluation précise du potentiel de votre marché avec notre expertise spécialisée.",
+          routeKey: "acceleration",
+          label: "Accélérer un marché",
+          body: "Vous souhaitez ouvrir un pays, développer une zone, identifier des clients ou construire un réseau de distribution. AS Biz Dev transforme votre ambition de développement en plan d'action commercial et accompagne son exécution sur le terrain.",
         },
         {
-          title: "Conquête",
-          body: "Profitez de notre réseau étendu et de notre rôle d'agent pour faciliter vos transactions commerciales.",
-        },
-        {
-          title: "Développement",
-          body: "Choisissez une solution tout-en-un pour votre présence commerciale sur la zone, sans impacter votre P&L.",
+          routeKey: "pilotage",
+          label: "Externaliser le pilotage commercial",
+          body: "Vous disposez déjà de clients, de distributeurs ou d'opportunités mais manquez de ressources pour animer et développer efficacement votre activité. AS Biz Dev prend en charge tout ou partie du pilotage commercial de la zone : distributeurs, pipeline, forecast, plans d'action et reporting.",
         },
       ],
     },
-    solutions: {
-      eyebrow: "Nos solutions",
-      titleLead: "Trois piliers pour",
-      titleAccent: "concrétiser vos projets.",
+
+    approach: {
+      eyebrow: "Notre différence",
+      titleLead: "Stratégie",
+      titleAccent: "et exécution.",
       intro:
-        "Nos services sont conçus comme un parcours en trois étapes — celles-ci pouvant être également développées séparément en fonction de l'objectif à atteindre. Du diagnostic à la conquête de nouveaux marchés.",
+        "Nous ne nous limitons pas à définir une stratégie ou à remettre des recommandations. Selon les besoins de l'entreprise, nous identifions les opportunités, recherchons les partenaires locaux, développons les marchés puis assurons dans la durée le pilotage commercial de la zone confiée.",
+      steps: [
+        {
+          title: "Comprendre",
+          body: "Potentiel réel du marché, concurrence en place, circuits de décision.",
+        },
+        {
+          title: "Prioriser",
+          body: "Cibles, comptes et canaux retenus, séquence d'attaque du marché.",
+        },
+        {
+          title: "Agir",
+          body: "Prise de contact, prospection, rendez-vous, recherche de distributeurs.",
+        },
+        {
+          title: "Piloter",
+          body: "Pipeline, plans d'action, animation des partenaires locaux.",
+        },
+        {
+          title: "Mesurer",
+          body: "Prévisions de ventes, écarts, résultats, prochaines étapes.",
+        },
+      ],
     },
-    about: {
-      eyebrow: "Notre posture",
-      titleLead: "Accélérateur",
-      titleAccent: "de particules.",
-      body: "Heureusement pour vous, AS Biz Dev n'est pas du tout celle que vous croyez ! Nous ne sommes pas cette énième start-up de business development qui vous vend du rêve à la pelle et des solutions miracle pour vous rendre plus beaux et plus forts. À dire vrai, nous sommes même tout le contraire. Chez AS Biz Dev, nous savons garder les pieds sur terre et tenir nos engagements. Nous trouvons les réponses les plus adaptées à vos besoins en développant, à vos côtés, des projets clés en main que nous exécutons de bout en bout, et plus particulièrement sur la zone Afrique & Moyen-Orient.",
-      quote: "Votre réussite est notre marque de fabrique.",
-      cta: "Découvrir l'équipe",
-      imageAlt: "L'équipe AS Biz Dev au travail — accélérateur de particules.",
-    },
-    values: {
-      eyebrow: "Nos valeurs",
-      titleLead: "Parce qu'elles nous rendent",
-      titleAccent: "meilleurs.",
+
+    markets: {
+      eyebrow: "Marchés",
+      titleLead: "Des marchés nommés,",
+      titleAccent: "pas une carte du monde.",
       intro:
-        "La confiance que vous placez en nous se mérite. Pour la gagner, nous avons choisi d'être nous-mêmes, fidèles aux valeurs de loyauté, d'engagement et de responsabilité qui nous caractérisent au quotidien. Constitutives de notre ADN, elles irriguent nos choix, façonnent nos actions et nous poussent à l'excellence.",
+        "Nous n'annonçons pas une présence mondiale. Nous travaillons sur des marchés identifiés en Afrique et au Moyen-Orient, et nous les nommons.",
+      cta: "Voir les marchés",
+    },
+
+    partner: {
+      eyebrow: "Devenir partenaire",
+      titleLead: "Vous connaissez votre marché.",
+      titleAccent: "Construisons des opportunités ensemble.",
+      intro:
+        "AS Biz Dev développe un réseau ciblé de partenaires commerciaux et sectoriels sur ses marchés prioritaires en Afrique et au Moyen-Orient.",
+      cta: "Référencer mon profil",
     },
   },
 
   en: {
     hero: {
-      title:
-        "Accelerate and consolidate your growth across France, Africa and the Middle East",
+      titleLead: "Accelerate your business development across",
+      titleAccent: "Africa & the Middle East",
       paragraphs: [
-        "Our agile approach is at the heart of our ability to help you spot and capitalise on growth opportunities, so you can act with precision and efficiency.",
-        "Specialised in business development, we operate mainly in two closely related fields: innovative industrial solutions, and the digitalisation of industrial and commercial processes.",
-        "We offer solutions built on a deep understanding of the specific dynamics of the French, African and Middle Eastern markets, privileged access to an influential network of decision-makers, and thorough expertise in assessing the strengths and challenges unique to these regions.",
-        "Driven by the ambition to build sustainable businesses with you — profitable over the medium and long term, and guided by strong, healthy values — we are your partner of choice for lasting growth.",
+        "AS Biz Dev helps SMEs open, grow and run their export markets.",
+        "From finding customers and distributors through to managing your local sales activity on your behalf.",
       ],
-      cta: "contact us",
+      ctaPrimary: "Let's talk about your market",
+      ctaSecondary: "See how we work",
       mapAlt:
-        "Map of AS Biz Dev's areas of operation covering France, Africa and the Middle East.",
+        "Map of AS Biz Dev's areas of operation across Africa and the Middle East.",
     },
-    packs: {
-      titleLead: "Turn your ambitions into",
-      titleAccent: "lasting success!",
+
+    twoWays: {
+      eyebrow: "Two ways to work with AS Biz Dev",
+      titleLead: "Grow a market, or",
+      titleAccent: "run it for you.",
       intro:
-        "Whether you are a small local SME or a global industrial group, our solutions flex to fit your needs.",
-      bullets: [
-        "A clear offer,",
-        "An extensive network of strategic partners,",
-        "In-depth expertise in the languages and the political and cultural specifics of the region,",
-      ],
-      outro:
-        "That is what makes us the ideal trusted partner to support your expansion.",
-      itemLabel: "“{title}” Pack",
+        "We step in at two different moments in the commercial life of a region. The two offers can be combined or taken separately.",
       more: "Learn more",
       items: [
         {
-          title: "Discovery",
-          body: "Get an accurate assessment of your market's potential, backed by our specialised expertise.",
+          routeKey: "acceleration",
+          label: "Accelerate a market",
+          body: "You want to open a country, grow a region, find customers or build a distribution network. AS Biz Dev turns your growth ambition into a commercial action plan and supports its execution in the field.",
         },
         {
-          title: "Conquest",
-          body: "Draw on our extensive network and our role as agent to make your commercial transactions easier.",
-        },
-        {
-          title: "Growth",
-          body: "Choose an all-in-one solution for your commercial presence in the region, without impacting your P&L.",
+          routeKey: "pilotage",
+          label: "Outsource sales management",
+          body: "You already have customers, distributors or opportunities but lack the resources to manage and grow the activity properly. AS Biz Dev takes on all or part of the sales management for the region: distributors, pipeline, forecast, action plans and reporting.",
         },
       ],
     },
-    solutions: {
-      eyebrow: "Our solutions",
-      titleLead: "Three pillars to",
-      titleAccent: "bring your projects to life.",
+
+    approach: {
+      eyebrow: "What sets us apart",
+      titleLead: "Strategy",
+      titleAccent: "and execution.",
       intro:
-        "Our services are designed as a three-step journey — each step can also be delivered on its own, depending on the objective. From diagnosis to winning new markets.",
+        "We do not stop at defining a strategy or handing over recommendations. Depending on what the company needs, we identify the opportunities, find the local partners, develop the markets, and then run the sales activity for the region over time.",
+      steps: [
+        {
+          title: "Understand",
+          body: "Real market potential, competition in place, decision-making circuits.",
+        },
+        {
+          title: "Prioritise",
+          body: "Selected targets, accounts and channels, and the sequence to attack them.",
+        },
+        {
+          title: "Act",
+          body: "First contact, prospecting, meetings, distributor search.",
+        },
+        {
+          title: "Manage",
+          body: "Pipeline, action plans, day-to-day management of local partners.",
+        },
+        {
+          title: "Measure",
+          body: "Sales forecasts, gaps, results, next steps.",
+        },
+      ],
     },
-    about: {
-      eyebrow: "Our stance",
-      titleLead: "Particle",
-      titleAccent: "accelerator.",
-      body: "Fortunately for you, AS Biz Dev is not at all what you might think! We are not yet another business development start-up selling you dreams by the shovel and miracle solutions to make you bigger and stronger. In truth, we are quite the opposite. At AS Biz Dev, we keep our feet on the ground and we honour our commitments. We find the answers best suited to your needs by building turnkey projects alongside you and executing them end to end — particularly across Africa and the Middle East.",
-      quote: "Your success is our trademark.",
-      cta: "Meet the team",
-      imageAlt: "The AS Biz Dev team at work — particle accelerator.",
-    },
-    values: {
-      eyebrow: "Our values",
-      titleLead: "Because they make us",
-      titleAccent: "better.",
+
+    markets: {
+      eyebrow: "Markets",
+      titleLead: "Named markets,",
+      titleAccent: "not a world map.",
       intro:
-        "The trust you place in us has to be earned. To earn it, we have chosen to be ourselves — faithful to the loyalty, commitment and responsibility that define us every day. Part of our DNA, these values run through our choices, shape our actions and push us towards excellence.",
+        "We do not claim a global presence. We work on identified markets across Africa and the Middle East, and we name them.",
+      cta: "See the markets",
+    },
+
+    partner: {
+      eyebrow: "Become a partner",
+      titleLead: "You know your market.",
+      titleAccent: "Let's build opportunities together.",
+      intro:
+        "AS Biz Dev is building a focused network of commercial and sector partners across its priority markets in Africa and the Middle East.",
+      cta: "Register my profile",
     },
   },
 };

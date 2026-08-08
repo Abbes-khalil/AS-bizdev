@@ -10,7 +10,12 @@
 const MODULES = [
   "common",
   "home",
-  "pages",
+  "solutions",
+  "acceleration",
+  "pilotage",
+  "markets",
+  "about",
+  "partnerProgram",
   "team",
   "partners",
   "news",

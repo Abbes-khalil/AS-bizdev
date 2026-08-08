@@ -1,4 +1,5 @@
-import { CONTACT_EMAIL, CONTACT_PHONE, ROUTES } from "./siteData";
+import RouteLink from "./RouteLink";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
 import { interpolate, useT } from "../i18n";
 
 const SocialIcon = ({ href, label, children }) => (
@@ -39,8 +40,8 @@ export default function Footer() {
             <span className="h-1 w-10 rounded-full bg-orange" aria-hidden="true" />
             <p className="eyebrow text-white/60">{t.ctaEyebrow}</p>
           </div>
-          <a
-            href="/contact"
+          <RouteLink
+            routeKey="contact"
             className="mt-6 inline-flex items-baseline gap-4 font-display text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[0.95] tracking-tight text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded-md"
           >
             <span>{t.ctaLine1}</span>
@@ -61,13 +62,13 @@ export default function Footer() {
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </RouteLink>
         </div>
 
         <div className="container-x mt-20 grid gap-12 border-t border-white/10 pt-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
-            <a
-              href="/"
+            <RouteLink
+              routeKey="home"
               aria-label={nav.homeAria}
               className="inline-flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
@@ -84,7 +85,7 @@ export default function Footer() {
                   {t.brandTagline}
                 </span>
               </span>
-            </a>
+            </RouteLink>
             <p className="mt-6 max-w-xs text-[0.95rem] leading-relaxed text-white/70">
               {t.tagline}
             </p>
@@ -124,14 +125,14 @@ export default function Footer() {
             <nav key={title} aria-label={title}>
               <p className="eyebrow text-white/50">{title}</p>
               <ul className="mt-6 space-y-3">
-                {items.map(([label, href]) => (
-                  <li key={href}>
-                    <a
-                      href={href}
+                {items.map(({ key, label }) => (
+                  <li key={key}>
+                    <RouteLink
+                      routeKey={key}
                       className="text-[0.95rem] text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded px-1 py-1 -mx-1"
                     >
                       {label}
-                    </a>
+                    </RouteLink>
                   </li>
                 ))}
               </ul>
@@ -157,12 +158,12 @@ export default function Footer() {
               {interpolate(t.copyright, { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center gap-6">
-              <a
-                href={ROUTES.policy}
+              <RouteLink
+                routeKey="policy"
                 className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 {t.policy}
-              </a>
+              </RouteLink>
               <span className="font-display uppercase tracking-widest text-white/40">
                 {t.version}
               </span>

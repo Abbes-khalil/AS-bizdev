@@ -3,12 +3,15 @@ import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import Field from "../components/form/Field";
 import FormStatus from "../components/form/FormStatus";
-import { CONTACT_EMAIL, CONTACT_PHONE, ROUTES } from "../components/siteData";
+import RouteLink from "../components/RouteLink";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
 import useContactForm from "../hooks/useContactForm";
+import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 export default function Contact() {
   const t = useT("contact");
+  useSeo("contact");
   const { errors, status, formRef, onSubmit, onBlur, fieldProps } =
     useContactForm(t);
 
@@ -107,12 +110,12 @@ export default function Contact() {
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                   <p className="text-xs text-gray-500">
                     {t.form.consentBefore}{" "}
-                    <a
-                      href={ROUTES.policy}
+                    <RouteLink
+                      routeKey="policy"
                       className="text-navy underline underline-offset-2 hover:text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded"
                     >
                       {t.form.consentLink}
-                    </a>
+                    </RouteLink>
                     .
                   </p>
                   <button

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const variants = {
   hidden: { opacity: 0, y: 24 },
@@ -78,6 +78,16 @@ const RevealOnScroll = ({
   const selected = VARIANTS[variant] ?? variants;
   const totalDelay = delay + index * 0.08;
   const Component = motion[as] ?? motion.div;
+  const reduceMotion = useReducedMotion();
+
+  // Never let a motion preference hide content: render it plainly instead.
+  if (reduceMotion) {
+    return (
+      <Component className={className} {...rest}>
+        {children}
+      </Component>
+    );
+  }
 
   return (
     <Component

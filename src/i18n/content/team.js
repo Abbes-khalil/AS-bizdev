@@ -23,7 +23,7 @@ const team = {
     },
     sectionTitle: "L'équipe AS Biz Dev",
     sectionDescription:
-      "Des profils opérationnels au service de votre développement — entre la France, l'Afrique et le Moyen-Orient.",
+      "Des profils opérationnels au service de votre développement commercial en Afrique et au Moyen-Orient.",
     portraitAlt: "Portrait de {name}, {role}",
     members: [
       {
@@ -78,7 +78,7 @@ const team = {
     },
     sectionTitle: "The AS Biz Dev team",
     sectionDescription:
-      "Hands-on profiles at the service of your growth — across France, Africa and the Middle East.",
+      "Hands-on profiles at the service of your business development across Africa and the Middle East.",
     portraitAlt: "Portrait of {name}, {role}",
     members: [
       {

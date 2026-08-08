@@ -1,14 +1,16 @@
+import { Link } from "react-router-dom";
+
 import { useLang } from "./LanguageProvider";
 import common from "./content/common";
 
+const LABELS = { fr: "Français", en: "English" };
+
 /**
- * LangSwitcher — small pill that toggles between FR and EN.
- * - aria-label announces the language that will be selected on activation.
- * - aria-pressed reflects the active language for assistive tech.
+ * FR / EN switch. Real links to the twin URL rather than a state toggle, so
+ * both language trees stay crawlable and a middle-click still works.
  */
 const LangSwitcher = ({ className = "" }) => {
-  const { lang, setLang } = useLang();
-  const isFr = lang === "fr";
+  const { lang, alternates } = useLang();
 
   return (
     <div
@@ -16,32 +18,24 @@ const LangSwitcher = ({ className = "" }) => {
       aria-label={common[lang].nav.language}
       className={`inline-flex items-center rounded-full border border-gray-200 bg-white p-1 text-[0.78rem] font-semibold tracking-tight text-navy shadow-soft ${className}`}
     >
-      <button
-        type="button"
-        onClick={() => setLang("fr")}
-        aria-pressed={isFr}
-        aria-label="Français"
-        className={`rounded-full px-3 py-1.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-          isFr
-            ? "bg-navy text-white"
-            : "text-gray-500 hover:text-navy"
-        }`}
-      >
-        FR
-      </button>
-      <button
-        type="button"
-        onClick={() => setLang("en")}
-        aria-pressed={!isFr}
-        aria-label="English"
-        className={`rounded-full px-3 py-1.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-          !isFr
-            ? "bg-navy text-white"
-            : "text-gray-500 hover:text-navy"
-        }`}
-      >
-        EN
-      </button>
+      {Object.entries(alternates).map(([code, href]) => {
+        const active = code === lang;
+
+        return (
+          <Link
+            key={code}
+            to={href}
+            hrefLang={code}
+            aria-label={LABELS[code]}
+            aria-current={active ? "true" : undefined}
+            className={`rounded-full px-3 py-1.5 uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+              active ? "bg-navy text-white" : "text-gray-500 hover:text-navy"
+            }`}
+          >
+            {code}
+          </Link>
+        );
+      })}
     </div>
   );
 };

@@ -43,8 +43,8 @@ const contact = {
     },
     aside: {
       eyebrow: "AS Biz Dev",
-      heading: "France · Afrique · Moyen-Orient",
-      body: "Nous intervenons à vos côtés, de la stratégie au déploiement opérationnel. Un premier échange, sans engagement.",
+      heading: "Afrique · Moyen-Orient",
+      body: "Décrivez votre marché cible, vos distributeurs ou vos opportunités en cours. Un premier échange, sans engagement.",
     },
   },
 
@@ -91,8 +91,8 @@ const contact = {
     },
     aside: {
       eyebrow: "AS Biz Dev",
-      heading: "France · Africa · Middle East",
-      body: "We work alongside you, from strategy through to operational delivery. A first conversation, with no strings attached.",
+      heading: "Africa · Middle East",
+      body: "Tell us about your target market, your distributors or the opportunities already on the table. A first conversation, no strings attached.",
     },
   },
 };

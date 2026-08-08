@@ -1,56 +1,31 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
-const STORAGE_KEY = "asbizdev.lang";
-const SUPPORTED = ["fr", "en"];
-const DEFAULT_LANG = "fr";
+import { DEFAULT_LANG, langFromPath } from "../constants/routes";
+import { alternatesOf } from "../utils/routing";
 
+/**
+ * The active language is derived from the URL prefix (`/en/…`), never from
+ * client state: each language has its own indexable URLs, and a shared link
+ * always opens in the language it was written in.
+ */
 const LanguageContext = createContext({
   lang: DEFAULT_LANG,
-  setLang: () => {},
-  toggle: () => {},
+  alternates: { fr: "/", en: "/en" },
 });
 
-const readInitialLang = () => {
-  if (typeof window === "undefined") return DEFAULT_LANG;
-  try {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved && SUPPORTED.includes(saved)) return saved;
-  } catch {
-    // ignore storage errors (private mode etc.)
-  }
-  return DEFAULT_LANG;
-};
-
 export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(readInitialLang);
+  const { pathname } = useLocation();
+  const lang = langFromPath(pathname);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = lang;
-    }
-    try {
-      window.localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      // ignore
-    }
+    document.documentElement.lang = lang;
   }, [lang]);
 
-  const setLang = useCallback((next) => {
-    if (SUPPORTED.includes(next)) setLangState(next);
-  }, []);
-
-  const toggle = useCallback(() => {
-    setLangState((prev) => (prev === "fr" ? "en" : "fr"));
-  }, []);
-
-  const value = useMemo(() => ({ lang, setLang, toggle }), [lang, setLang, toggle]);
+  const value = useMemo(
+    () => ({ lang, alternates: alternatesOf(pathname) }),
+    [lang, pathname],
+  );
 
   return (
     <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>

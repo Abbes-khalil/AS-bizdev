@@ -1,23 +1,33 @@
 import { useLang } from "./LanguageProvider";
 
+import about from "./content/about";
+import acceleration from "./content/acceleration";
 import common from "./content/common";
-import home from "./content/home";
-import pages from "./content/pages";
-import team from "./content/team";
-import partners from "./content/partners";
-import news from "./content/news";
 import contact from "./content/contact";
+import home from "./content/home";
+import markets from "./content/markets";
+import news from "./content/news";
+import partnerProgram from "./content/partnerProgram";
+import partners from "./content/partners";
+import pilotage from "./content/pilotage";
 import policy from "./content/policy";
+import solutions from "./content/solutions";
+import team from "./content/team";
 
 const DICTIONARIES = {
+  about,
+  acceleration,
   common,
-  home,
-  pages,
-  team,
-  partners,
-  news,
   contact,
+  home,
+  markets,
+  news,
+  partnerProgram,
+  partners,
+  pilotage,
   policy,
+  solutions,
+  team,
 };
 
 /**

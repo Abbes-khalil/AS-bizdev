@@ -5,35 +5,10 @@
 export const ASSET = `${import.meta.env?.BASE_URL ?? "/"}brand_assets/`;
 
 /**
- * Route hrefs — the single source of truth for navigation targets.
- * Localised labels live in `src/i18n/content/common.js`.
+ * Routes moved to `src/constants/routes.js` when the site became bilingual by
+ * URL: a page now has one path per language, so a flat map of hrefs no longer
+ * describes it. Contact details moved to `src/constants/site.js` alongside the
+ * other site-wide facts. Both are re-exported here so existing imports keep
+ * working.
  */
-export const ROUTES = {
-  home: "/",
-  whoIsWho: "/who-is-who",
-  values: "/nos-valeurs",
-  expertise: "/notre-savoir-faire",
-  solutions: "/nos-solutions",
-  partners: "/nos-partenaires",
-  news: "/news",
-  contact: "/contact",
-  policy: "/politiques-de-confidentialite",
-};
-
-/**
- * Legacy paths kept alive so inbound links and search results still resolve:
- * the un-hyphenated slugs used by the previous build, plus the origin's
- * WordPress `/category/news/` archive path.
- */
-export const ROUTE_ALIASES = {
-  "/whoiswho": ROUTES.whoIsWho,
-  "/nosvaleurs": ROUTES.values,
-  "/notresavoirfaire": ROUTES.expertise,
-  "/nossolutions": ROUTES.solutions,
-  "/nospartenaire": ROUTES.partners,
-  "/nospartenaires": ROUTES.partners,
-  "/category/news": ROUTES.news,
-};
-
-export const CONTACT_EMAIL = "contact@asbizdev.com";
-export const CONTACT_PHONE = "+33 06 07 38 69 63";
+export { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";

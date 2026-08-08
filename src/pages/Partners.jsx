@@ -1,7 +1,8 @@
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
-import { ASSET, ROUTES } from "../components/siteData";
+import { ASSET } from "../components/siteData";
+import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
 
 const PartnerCard = ({ partner, index, partnerLabel, logoAlt }) => (
@@ -41,6 +42,7 @@ const PartnerCard = ({ partner, index, partnerLabel, logoAlt }) => (
 
 export default function Partners() {
   const t = useT("partners");
+  useSeo("partners");
 
   return (
     <main>
@@ -73,7 +75,7 @@ export default function Partners() {
             </div>
           ))}
 
-          <CtaBlock {...t.cta} href={ROUTES.contact} className="mt-16" />
+          <CtaBlock {...t.cta} className="mt-16" />
         </div>
       </section>
     </main>

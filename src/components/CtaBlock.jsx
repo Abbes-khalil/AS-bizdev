@@ -1,12 +1,20 @@
 import ArrowIcon from "./ArrowIcon";
 import Eyebrow from "./Eyebrow";
 import RevealOnScroll from "./RevealOnScroll";
+import RouteLink from "./RouteLink";
 
 /**
- * Centred closing call-to-action, shared by the long-form content pages and
- * the partners page.
+ * Centred closing call-to-action, shared by every content page.
+ * Targets a route key so the link follows the visitor's language.
  */
-const CtaBlock = ({ eyebrow, heading, label, href, className = "" }) => (
+const CtaBlock = ({
+  eyebrow,
+  heading,
+  label,
+  routeKey = "contact",
+  params,
+  className = "",
+}) => (
   <RevealOnScroll
     variant="up"
     className={`flex flex-col items-center gap-4 text-center ${className}`}
@@ -17,10 +25,10 @@ const CtaBlock = ({ eyebrow, heading, label, href, className = "" }) => (
       {heading}
     </h2>
 
-    <a href={href} className="btn-primary mt-2">
+    <RouteLink routeKey={routeKey} params={params} className="btn-primary mt-2">
       {label}
       <ArrowIcon />
-    </a>
+    </RouteLink>
   </RevealOnScroll>
 );
 
