@@ -27,8 +27,8 @@
   <h1>Ajouter un article LinkedIn</h1>
   <p class="hint">
     Colle l'URL d'une publication LinkedIn publique. Le titre, le résumé et l'image sont
-    récupérés automatiquement et l'article est publié directement sur le site au prochain
-    déploiement — usage manuel de secours ; le flux normal passe par le pipeline n8n automatisé.
+    récupérés automatiquement et l'article est publié immédiatement (aucun déploiement
+    nécessaire) — usage manuel de secours ; le flux normal passe par le pipeline n8n automatisé.
   </p>
 
   <form id="ingest-form">
@@ -54,7 +54,7 @@
       <div class="checks" id="zones-checks"></div>
     </fieldset>
 
-    <button type="submit">Récupérer et ouvrir une pull request</button>
+    <button type="submit">Récupérer et publier</button>
   </form>
 
   <div id="result"></div>
@@ -117,8 +117,8 @@
 
         result.className = "ok";
         result.textContent = data.skipped
-          ? "Déjà ingéré — aucun doublon créé."
-          : `Publié : ${data.article} (slug: ${data.slug}). En ligne après le prochain déploiement.`;
+          ? `Déjà ingéré — aucun doublon créé (slug: ${data.slug}).`
+          : `Publié et en ligne immédiatement (slug: ${data.slug}).`;
       } catch (err) {
         result.className = "error";
         result.textContent = err.message;

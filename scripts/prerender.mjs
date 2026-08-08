@@ -84,7 +84,7 @@ try {
   // Keep the shell as the SPA fallback for unknown URLs.
   const shell = await readFile(join(DIST, "index.html"), "utf8");
 
-  for (const { path } of allUrls()) {
+  for (const { path } of await allUrls()) {
     const response = await page.goto(`${ORIGIN}${path}`, {
       waitUntil: "networkidle0",
       timeout: 30000,

@@ -10,10 +10,9 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { allUrls } from "./siteRoutes.mjs";
+import { allUrls, getPublishedArticles } from "./siteRoutes.mjs";
 import { LANGS, PATHS, pathFor } from "../src/constants/paths.js";
 import { COUNTRIES } from "../src/data/countries.js";
-import { ARTICLES } from "../src/i18n/content/news/index.js";
 
 const SITE_URL = "https://asbizdev.com";
 const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
@@ -22,6 +21,10 @@ const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
 const LOW_PRIORITY = new Set(["policy"]);
 
 const absolute = (path) => `${SITE_URL}${path === "/" ? "/" : path}`;
+
+// Fetched once, reused by every `alternatesFor` call below — `allUrls()`
+// (called further down) already triggers/reuses this same memoized fetch.
+const articleRows = await getPublishedArticles();
 
 const alternatesFor = ({ key, path }) => {
   if (key === "country") {
@@ -38,13 +41,15 @@ const alternatesFor = ({ key, path }) => {
 
   if (key === "article") {
     const slug = path.split("/").pop();
-    const article = ARTICLES.find(
-      (entry) => entry.slug.fr === slug || entry.slug.en === slug,
+    const article = articleRows.find(
+      (entry) => entry.slug_fr === slug || entry.slug_en === slug,
     );
 
     return LANGS.map((lang) => [
       lang,
-      pathFor("article", lang, { slug: article.slug[lang] ?? article.slug.fr }),
+      pathFor("article", lang, {
+        slug: article[`slug_${lang}`] ?? article.slug_fr,
+      }),
     ]);
   }
 
@@ -94,7 +99,7 @@ const robots = [
   "",
 ].join("\n");
 
-const urls = allUrls();
+const urls = await allUrls();
 
 await mkdir(DIST, { recursive: true });
 await writeFile(join(DIST, "sitemap.xml"), sitemap(urls), "utf8");

@@ -6,11 +6,11 @@ import article05 from "./article-05.js";
 import article06 from "./article-06.js";
 
 /**
- * Articles & Insights (§24) — LinkedIn-sourced content republished on the
- * site. Each article lives in its own file with its French and English
- * versions side by side. To add one: copy an existing `article-XX.js`, give
- * it the next number, and add it to the list below (or use the ingestion
- * endpoint, see `api/ingest-article.js`).
+ * Articles & Insights (§24) — legacy static content, kept only as historical
+ * backup and as the source for `scripts/migrate-articles-to-supabase.mjs`.
+ * The live site reads articles from Supabase (see
+ * docs/ARTICLES_SUPABASE.md) — nothing here is imported by `News.jsx` or
+ * `Article.jsx` anymore.
  */
 export const ARTICLES = [
   article01,
@@ -20,44 +20,6 @@ export const ARTICLES = [
   article05,
   article06,
 ];
-
-/** Flattens the per-article files into the flat shape the listing page expects. */
-const forLang = (lang) =>
-  ARTICLES.filter((article) => article.status === "published").map(
-    ({
-      number,
-      key,
-      slug,
-      status,
-      publishedAt,
-      author,
-      image,
-      source,
-      themes,
-      zones,
-      countries,
-      [lang]: copy,
-    }) => ({
-      number,
-      key,
-      slug,
-      status,
-      publishedAt,
-      author,
-      image,
-      source,
-      themes,
-      zones,
-      countries,
-      ...copy,
-    }),
-  );
-
-/** Finds an article from a slug in either language — used to resolve routes. */
-export const findArticleBySlug = (slug) =>
-  ARTICLES.find(
-    (article) => article.slug.fr === slug || article.slug.en === slug,
-  );
 
 const news = {
   fr: {
@@ -80,7 +42,6 @@ const news = {
       all: "Tous les thèmes",
       allZones: "Toutes les zones",
     },
-    articles: forLang("fr"),
   },
 
   en: {
@@ -103,7 +64,6 @@ const news = {
       all: "All themes",
       allZones: "All zones",
     },
-    articles: forLang("en"),
   },
 };
 

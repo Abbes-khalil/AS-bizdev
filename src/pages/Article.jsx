@@ -3,11 +3,12 @@ import { Navigate, useParams } from "react-router-dom";
 import ContentBlock from "../components/ContentBlock";
 import ExternalLink from "../components/ExternalLink";
 import PageHero from "../components/PageHero";
+import PageLoader from "../components/PageLoader";
 import RouteLink from "../components/RouteLink";
 import Section from "../components/Section";
 import { pathFor } from "../constants/routes";
-import { findArticleBySlug } from "../i18n/content/news";
 import { themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
+import useArticle from "../hooks/useArticle";
 import useSeo from "../hooks/useSeo";
 import { articleMeta } from "../seo/metadata";
 import { useLang } from "../i18n/LanguageProvider";
@@ -20,22 +21,23 @@ const Badge = ({ children }) => (
 );
 
 /**
- * Article detail page (§24). Entirely data-driven: publishing an article
- * means adding an entry to `src/i18n/content/news`. Fields AS Biz Dev hasn't
- * supplied yet (date, author, image) show placeholder copy rather than
- * invented values.
+ * Article detail page (§24). Data-driven from Supabase — see
+ * docs/ARTICLES_SUPABASE.md. Fields AS Biz Dev hasn't supplied yet (date,
+ * author, image) show placeholder copy rather than invented values.
  */
 export default function Article() {
   const { slug } = useParams();
   const { lang } = useLang();
   const t = useT("news");
 
-  const article = findArticleBySlug(slug);
+  const { article, loading, error } = useArticle(slug);
   const meta = article ? articleMeta(article, lang) : undefined;
 
   useSeo("news", meta);
 
-  if (!article || article.status !== "published") {
+  if (loading) return <PageLoader />;
+
+  if (error || !article) {
     return <Navigate to={pathFor("news", lang)} replace />;
   }
 

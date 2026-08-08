@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
 import ExternalLink from "../components/ExternalLink";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import RouteLink from "../components/RouteLink";
+import useArticles from "../hooks/useArticles";
 import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
 import { useLang } from "../i18n/LanguageProvider";
 import { THEMES, ZONES, themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
+import { flattenForLang } from "../services/articles";
 
 const FilterChip = ({ active, onClick, children }) => (
   <button
@@ -52,12 +54,7 @@ const ArticleCard = ({ article, index, lang, t }) => {
       )}
 
       <div className="flex flex-1 flex-col p-8 lg:p-10">
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="eyebrow text-orange">{t.label}</span>
-          <span className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
-            {article.number}
-          </span>
-        </div>
+        <span className="eyebrow text-orange">{t.label}</span>
 
         <p className="mt-3 text-[0.8rem] text-gray-400">
           {article.publishedAt ?? t.dateToValidate}
@@ -115,6 +112,16 @@ const ArticleCard = ({ article, index, lang, t }) => {
   );
 };
 
+const LOADING_LABEL = { fr: "Chargement des articles", en: "Loading articles" };
+const ERROR_MESSAGE = {
+  fr: "Impossible de charger les articles pour le moment. Merci de réessayer plus tard.",
+  en: "Could not load articles right now. Please try again later.",
+};
+const EMPTY_MESSAGE = {
+  fr: "Aucun article ne correspond à ces filtres pour le moment.",
+  en: "No articles match these filters right now.",
+};
+
 export default function News() {
   const t = useT("news");
   const { lang } = useLang();
@@ -122,8 +129,14 @@ export default function News() {
 
   const [activeTheme, setActiveTheme] = useState(null);
   const [activeZone, setActiveZone] = useState(null);
+  const { articles, loading, error } = useArticles();
 
-  const filteredArticles = t.articles.filter(
+  const localizedArticles = useMemo(
+    () => articles.map((article) => flattenForLang(article, lang)),
+    [articles, lang],
+  );
+
+  const filteredArticles = localizedArticles.filter(
     (article) =>
       (!activeTheme || article.themes.includes(activeTheme)) &&
       (!activeZone || article.zones.includes(activeZone)),
@@ -190,17 +203,41 @@ export default function News() {
             ))}
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            {filteredArticles.map((article, i) => (
-              <ArticleCard
-                key={article.key}
-                article={article}
-                index={i}
-                lang={lang}
-                t={t}
+          {loading && (
+            <div role="status" aria-live="polite" className="grid place-items-center py-16">
+              <span className="sr-only">{LOADING_LABEL[lang] ?? LOADING_LABEL.fr}</span>
+              <span
+                aria-hidden="true"
+                className="h-10 w-10 animate-spin rounded-full border-2 border-gray-200 border-t-orange"
               />
-            ))}
-          </div>
+            </div>
+          )}
+
+          {!loading && error && (
+            <p role="alert" className="py-16 text-center text-[0.95rem] text-gray-600">
+              {ERROR_MESSAGE[lang] ?? ERROR_MESSAGE.fr}
+            </p>
+          )}
+
+          {!loading && !error && filteredArticles.length === 0 && (
+            <p className="py-16 text-center text-[0.95rem] text-gray-600">
+              {EMPTY_MESSAGE[lang] ?? EMPTY_MESSAGE.fr}
+            </p>
+          )}
+
+          {!loading && !error && filteredArticles.length > 0 && (
+            <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
+              {filteredArticles.map((article, i) => (
+                <ArticleCard
+                  key={article.key}
+                  article={article}
+                  index={i}
+                  lang={lang}
+                  t={t}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>
