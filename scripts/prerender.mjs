@@ -18,9 +18,27 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 
 import { allUrls } from "./siteRoutes.mjs";
+
+// Vercel's build runs on Linux without a system Chrome install, so the
+// prerender step needs the bundled @sparticuz/chromium binary there. Locally
+// (Windows/macOS dev machines) we drive the developer's own Chrome install
+// instead — puppeteer-core's "chrome" channel finds it without a download.
+const launchOptions =
+  process.platform === "linux"
+    ? {
+        headless: true,
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+      }
+    : {
+        headless: true,
+        channel: "chrome",
+        args: ["--no-sandbox", "--disable-dev-shm-usage"],
+      };
 
 const PORT = 4183;
 const ORIGIN = `http://localhost:${PORT}`;
@@ -59,10 +77,7 @@ let failures = 0;
 try {
   await waitForServer();
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-dev-shm-usage"],
-  });
+  const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
 
