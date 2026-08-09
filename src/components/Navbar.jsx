@@ -90,7 +90,7 @@ export default function Navbar() {
               ariaLabel={t.primaryAria}
             />
 
-            <LangSwitcher className="hidden lg:inline-flex" />
+            <LangSwitcher className="hidden xl:inline-flex" />
 
             <button
               type="button"
@@ -98,7 +98,7 @@ export default function Navbar() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               onClick={() => setOpen(!open)}
-              className="grid h-11 w-11 place-items-center rounded-btn border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white lg:hidden"
+              className="grid h-11 w-11 place-items-center rounded-btn border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white xl:hidden"
             >
               <HamburgerIcon open={open} />
             </button>

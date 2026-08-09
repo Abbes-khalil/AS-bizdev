@@ -47,7 +47,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
   return (
     <div
       id="mobile-menu"
-      className={`fixed inset-0 z-40 overflow-y-auto bg-white pt-[80px] transition-[transform,visibility] duration-500 ease-emphasized lg:hidden ${
+      className={`fixed inset-0 z-40 overflow-y-auto bg-white pt-[80px] transition-[transform,visibility] duration-500 ease-emphasized xl:hidden ${
         open ? "visible translate-y-0" : "invisible translate-y-full"
       }`}
       aria-hidden={!open}

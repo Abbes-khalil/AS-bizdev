@@ -2,7 +2,7 @@ import RouteLink from "../RouteLink";
 import { isEntryActive } from "../../hooks/useActiveRoute";
 
 const LINK_BASE =
-  "group relative rounded-btn px-4 py-2 font-display text-[0.9rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+  "group relative whitespace-nowrap rounded-btn px-3 py-2 font-display text-[0.875rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
 const Underline = ({ active }) => (
   <span
@@ -42,7 +42,7 @@ const Chevron = () => (
  * the hub page, and the children are a nested list beneath it.
  */
 const DesktopNav = ({ items, activeKey, ariaLabel }) => (
-  <nav className="hidden items-center gap-1 lg:flex" aria-label={ariaLabel}>
+  <nav className="hidden items-center gap-1 xl:flex" aria-label={ariaLabel}>
     {items.map((entry) => {
       const active = isEntryActive(entry, activeKey);
 
