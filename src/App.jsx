@@ -8,22 +8,22 @@ import { LANGS, PATHS, pathFor } from "./constants/routes";
 import { LEGACY_REDIRECTS } from "./constants/legacyRedirects";
 
 /** Pages are split per route: a visitor landing on one never downloads the rest. */
-const Home = lazy(() => import("./pages/Home"));
-const Solutions = lazy(() => import("./pages/Solutions"));
-const Acceleration = lazy(() => import("./pages/Acceleration"));
-const Pilotage = lazy(() => import("./pages/Pilotage"));
-const Markets = lazy(() => import("./pages/Markets"));
-const MarketZone = lazy(() => import("./pages/MarketZone"));
-const Article = lazy(() => import("./pages/Article"));
-const About = lazy(() => import("./pages/About"));
-const Sectors = lazy(() => import("./pages/Sectors"));
-const Network = lazy(() => import("./pages/Network"));
-const BecomePartner = lazy(() => import("./pages/BecomePartner"));
-const Contact = lazy(() => import("./pages/Contact"));
-const News = lazy(() => import("./pages/News"));
-const Partners = lazy(() => import("./pages/Partners"));
-const Policy = lazy(() => import("./pages/Policy"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Home = lazy(() => import("./views/Home"));
+const Solutions = lazy(() => import("./views/Solutions"));
+const Acceleration = lazy(() => import("./views/Acceleration"));
+const Pilotage = lazy(() => import("./views/Pilotage"));
+const Markets = lazy(() => import("./views/Markets"));
+const MarketZone = lazy(() => import("./views/MarketZone"));
+const Article = lazy(() => import("./views/Article"));
+const About = lazy(() => import("./views/About"));
+const Sectors = lazy(() => import("./views/Sectors"));
+const Network = lazy(() => import("./views/Network"));
+const BecomePartner = lazy(() => import("./views/BecomePartner"));
+const Contact = lazy(() => import("./views/Contact"));
+const News = lazy(() => import("./views/News"));
+const Partners = lazy(() => import("./views/Partners"));
+const Policy = lazy(() => import("./views/Policy"));
+const NotFound = lazy(() => import("./views/NotFound"));
 
 /** One element per route key; the same element serves both language trees. */
 const ELEMENTS = {
