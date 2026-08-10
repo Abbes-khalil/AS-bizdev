@@ -1,3 +1,5 @@
+"use client";
+
 import ArrowIcon from "../components/ArrowIcon";
 import OfferCard from "../components/OfferCard";
 import RevealOnScroll from "../components/RevealOnScroll";
@@ -6,12 +8,10 @@ import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import StepList from "../components/StepList";
 import { ASSET } from "../components/siteData";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 export default function Home() {
   const t = useT("home");
-  useSeo("home");
 
   return (
     <main>

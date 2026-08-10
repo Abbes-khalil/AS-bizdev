@@ -1,8 +1,5 @@
-/**
- * Base path for images. Derived from Vite's BASE_URL so the app keeps working
- * if it is ever served from a sub-path rather than the domain root.
- */
-export const ASSET = `${import.meta.env?.BASE_URL ?? "/"}brand_assets/`;
+/** Base path for images, served from `public/brand_assets/`. */
+export const ASSET = "/brand_assets/";
 
 /**
  * Routes moved to `src/constants/routes.js` when the site became bilingual by

@@ -80,24 +80,21 @@ const RevealOnScroll = ({
   const Component = motion[as] ?? motion.div;
   const reduceMotion = useReducedMotion();
 
-  // Never let a motion preference hide content: render it plainly instead.
-  if (reduceMotion) {
-    return (
-      <Component className={className} {...rest}>
-        {children}
-      </Component>
-    );
-  }
-
+  // Keep the same element/prop shape regardless of the motion preference so
+  // server- and client-rendered markup never diverge: a reduced-motion client
+  // that differed structurally from the SSR-rendered "hidden" markup left
+  // opacity:0 stuck forever, since React doesn't patch that mismatch up.
   return (
     <Component
       data-scroll-reveal={variant}
       className={className}
-      initial="hidden"
-      whileInView="visible"
+      initial={reduceMotion ? false : "hidden"}
+      animate={reduceMotion ? "visible" : undefined}
+      whileInView={reduceMotion ? undefined : "visible"}
       viewport={{ once: true, amount }}
       variants={selected}
       transition={{ delay: totalDelay }}
+      suppressHydrationWarning
       {...rest}
     >
       {children}
