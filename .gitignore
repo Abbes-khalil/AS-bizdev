@@ -12,6 +12,7 @@ node_modules/
 dist/
 dist-ssr/
 .vite/
+.next/
 *.tsbuildinfo
 coverage/
 *.local
