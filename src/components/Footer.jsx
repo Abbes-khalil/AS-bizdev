@@ -1,3 +1,5 @@
+"use client";
+
 import RouteLink from "./RouteLink";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
 import { interpolate, useT } from "../i18n";

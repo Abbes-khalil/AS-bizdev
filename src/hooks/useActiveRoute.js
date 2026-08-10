@@ -1,4 +1,6 @@
-import { useLocation } from "react-router-dom";
+"use client";
+
+import { usePathname } from "next/navigation";
 
 import { matchRoute } from "../constants/routes";
 
@@ -7,7 +9,7 @@ import { matchRoute } from "../constants/routes";
  * Used to mark the active navigation entry, including its parent.
  */
 export default function useActiveRoute() {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   return matchRoute(pathname)?.key ?? null;
 }
 

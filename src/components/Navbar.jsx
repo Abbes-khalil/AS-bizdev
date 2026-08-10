@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 
 import DesktopNav from "./nav/DesktopNav";
 import LangSwitcher from "../i18n/LangSwitcher";
@@ -48,7 +50,7 @@ const HamburgerIcon = ({ open }) => (
 export default function Navbar() {
   const { nav: t, navigation } = useT("common");
   const activeKey = useActiveRoute();
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

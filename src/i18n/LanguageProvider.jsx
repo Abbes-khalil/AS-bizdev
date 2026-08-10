@@ -1,5 +1,7 @@
+"use client";
+
 import { createContext, useContext, useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 
 import { DEFAULT_LANG, langFromPath } from "../constants/routes";
 import { alternatesOf } from "../utils/routing";
@@ -15,7 +17,7 @@ const LanguageContext = createContext({
 });
 
 export function LanguageProvider({ children }) {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const lang = langFromPath(pathname);
 
   useEffect(() => {

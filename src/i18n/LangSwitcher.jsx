@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 
 import { useLang } from "./LanguageProvider";
 import common from "./content/common";
@@ -24,7 +26,7 @@ const LangSwitcher = ({ className = "" }) => {
         return (
           <Link
             key={code}
-            to={href}
+            href={href}
             hrefLang={code}
             aria-label={LABELS[code]}
             aria-current={active ? "true" : undefined}

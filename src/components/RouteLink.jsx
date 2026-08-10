@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 
 import { pathFor } from "../constants/routes";
 import { useLang } from "../i18n/LanguageProvider";
@@ -15,7 +17,7 @@ const RouteLink = ({ routeKey, params, className = "", children, ...rest }) => {
   const { lang } = useLang();
 
   return (
-    <Link to={pathFor(routeKey, lang, params)} className={className} {...rest}>
+    <Link href={pathFor(routeKey, lang, params)} className={className} {...rest}>
       {children}
     </Link>
   );
