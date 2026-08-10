@@ -234,6 +234,7 @@ git commit -m "Add Next.js root layout with global styles and default metadata"
 - Modify: `src/hooks/useActiveRoute.js`
 - Modify: `src/i18n/LangSwitcher.jsx`
 - Modify: `src/components/Navbar.jsx`
+- Modify: `src/components/Footer.jsx`
 - Modify: `app/layout.jsx`
 
 **Interfaces:**
@@ -433,7 +434,19 @@ to:
 
 Everything else in the file (the `useEffect`s, the JSX) stays identical.
 
-- [ ] **Step 6: Wire `LanguageProvider` and `Layout` into the root layout**
+- [ ] **Step 6: Add the client directive to `Footer`**
+
+`Footer.jsx` has no react-router imports, but it does call `useT("common")`, which reads `LanguageProvider`'s React context via `useContext` — any component reading context must be a Client Component. Add the directive as the first line of `src/components/Footer.jsx`:
+
+```jsx
+"use client";
+
+import RouteLink from "./RouteLink";
+```
+
+(This is the only change — `Footer.jsx`'s existing first two lines were `import RouteLink from "./RouteLink";` followed by the `CONTACT_EMAIL`/`interpolate`/`useT` import line; only the new `"use client";` directive and a blank line are added above them. Nothing else in the file changes.)
+
+- [ ] **Step 7: Wire `LanguageProvider` and `Layout` into the root layout**
 
 Modify `app/layout.jsx` to nest the provider and the Navbar/Footer shell around `children`, matching the current `src/main.jsx` → `App.jsx` nesting order (`LanguageProvider` outermost, then `Layout`):
 
@@ -466,7 +479,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-- [ ] **Step 7: Verify the Navbar renders against the placeholder page**
+- [ ] **Step 8: Verify the Navbar renders against the placeholder page**
 
 Run: `npm run dev`
 
@@ -483,10 +496,10 @@ AS Biz Dev
 
 Stop the dev server.
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
-git add app/layout.jsx src/i18n/LanguageProvider.jsx src/components/RouteLink.jsx src/hooks/useActiveRoute.js src/i18n/LangSwitcher.jsx src/components/Navbar.jsx
+git add app/layout.jsx src/i18n/LanguageProvider.jsx src/components/RouteLink.jsx src/hooks/useActiveRoute.js src/i18n/LangSwitcher.jsx src/components/Navbar.jsx src/components/Footer.jsx
 git commit -m "Port i18n and navigation primitives from react-router to next/navigation"
 ```
 
