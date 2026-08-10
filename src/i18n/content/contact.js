@@ -13,6 +13,7 @@ const contact = {
       firstName: "Prénom",
       email: "E-mail",
       message: "Votre message",
+      marketPrefill: "Marché concerné :",
       messagePlaceholder:
         "Décrivez votre projet, vos marchés cibles, vos contraintes…",
       consentBefore: "En soumettant ce formulaire, vous acceptez notre",
@@ -62,6 +63,7 @@ const contact = {
       firstName: "First name",
       email: "Email",
       message: "Your message",
+      marketPrefill: "Market:",
       messagePlaceholder:
         "Describe your project, your target markets, your constraints…",
       consentBefore: "By submitting this form, you accept our",

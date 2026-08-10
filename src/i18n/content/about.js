@@ -85,8 +85,7 @@ const about = {
           body: "Un développement export change l'organisation interne. Nous accompagnons les équipes concernées, et nous formons quand c'est nécessaire.",
         },
       ],
-      sectorsNote:
-        "[INFORMATION À VALIDER PAR AS BIZ DEV] — liste des secteurs industriels réellement ciblés.",
+      sectorsCta: "Voir nos secteurs",
     },
 
     cta: {
@@ -174,8 +173,7 @@ const about = {
           body: "Export growth changes the internal organisation. We support the teams involved, and we train them where that is needed.",
         },
       ],
-      sectorsNote:
-        "[INFORMATION TO BE CONFIRMED BY AS BIZ DEV] — list of the industrial sectors actually targeted.",
+      sectorsCta: "See our sectors",
     },
 
     cta: {

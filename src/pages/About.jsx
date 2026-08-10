@@ -2,28 +2,13 @@ import BulletList from "../components/BulletList";
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
+import RouteLink from "../components/RouteLink";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import Team from "../components/Team";
+import TextCard from "../components/TextCard";
 import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
-
-const TextCard = ({ item, index }) => (
-  <RevealOnScroll
-    as="article"
-    variant="up"
-    delay={0.05}
-    index={index}
-    className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
-  >
-    <h3 className="font-display text-[1.25rem] font-semibold leading-[1.25] tracking-[-0.02em] text-navy">
-      {item.title}
-    </h3>
-    <p className="mt-[0.875rem] text-[0.9375rem] leading-[1.7] text-gray-700">
-      {item.body}
-    </p>
-  </RevealOnScroll>
-);
 
 /** AS Biz Dev — positioning, method, principles, know-how, team (§2, §5). */
 export default function About() {
@@ -106,9 +91,9 @@ export default function About() {
         </div>
 
         <RevealOnScroll variant="up" className="mt-[2rem]">
-          <p className="rounded-btn border border-gray-200 px-[1.25rem] py-[1rem] text-[0.875rem] leading-[1.6] text-gray-500">
-            {t.expertise.sectorsNote}
-          </p>
+          <RouteLink routeKey="sectors" className="btn-ghost">
+            {t.expertise.sectorsCta}
+          </RouteLink>
         </RevealOnScroll>
       </Section>
 

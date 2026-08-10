@@ -30,21 +30,22 @@ export const PATHS = {
   africa: { fr: "/marches/afrique", en: "/en/markets/africa" },
   middleEast: { fr: "/marches/moyen-orient", en: "/en/markets/middle-east" },
   about: { fr: "/as-biz-dev", en: "/en/about" },
+  sectors: { fr: "/nos-secteurs", en: "/en/sectors" },
+  network: { fr: "/notre-reseau", en: "/en/our-network" },
   becomePartner: { fr: "/devenir-partenaire", en: "/en/become-a-partner" },
   contact: { fr: "/contact", en: "/en/contact" },
   news: { fr: "/news", en: "/en/news" },
   partners: { fr: "/nos-partenaires", en: "/en/our-partners" },
   policy: { fr: "/politiques-de-confidentialite", en: "/en/privacy-policy" },
-  country: { fr: "/marches/:slug", en: "/en/markets/:slug" },
   article: { fr: "/news/:slug", en: "/en/news/:slug" },
 };
 
 /** Page keys carrying a `:slug`, so callers know params are required. */
-export const DYNAMIC_KEYS = ["country", "article"];
+export const DYNAMIC_KEYS = ["article"];
 
 /**
  * Builds the URL of a page in a given language.
- * `pathFor("country", "en", { slug: "senegal" })` → `/en/markets/senegal`
+ * `pathFor("article", "en", { slug: "example" })` → `/en/news/example`
  */
 export const pathFor = (key, lang = DEFAULT_LANG, params = {}) => {
   const pattern = PATHS[key]?.[lang] ?? PATHS[key]?.[DEFAULT_LANG];

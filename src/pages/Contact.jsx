@@ -1,3 +1,5 @@
+import { useSearchParams } from "react-router-dom";
+
 import ArrowIcon from "../components/ArrowIcon";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
@@ -5,8 +7,10 @@ import Field from "../components/form/Field";
 import FormStatus from "../components/form/FormStatus";
 import RouteLink from "../components/RouteLink";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
+import { findCountryByKey } from "../data/countries";
 import useContactForm from "../hooks/useContactForm";
 import useSeo from "../hooks/useSeo";
+import { useLang } from "../i18n/LanguageProvider";
 import { useT } from "../i18n";
 
 export default function Contact() {
@@ -14,6 +18,15 @@ export default function Contact() {
   useSeo("contact");
   const { errors, status, formRef, onSubmit, onBlur, fieldProps } =
     useContactForm(t);
+
+  // Carries the market a visitor clicked through from on /marches (§21 of
+  // the brief) into a starting line they can edit or delete.
+  const { lang } = useLang();
+  const [searchParams] = useSearchParams();
+  const marketCountry = findCountryByKey(searchParams.get("market"));
+  const messageDefault = marketCountry
+    ? `${t.form.marketPrefill} ${marketCountry.name[lang] ?? marketCountry.name.fr}\n\n`
+    : undefined;
 
   return (
     <main>
@@ -88,6 +101,7 @@ export default function Contact() {
                     required
                     name="message"
                     rows={6}
+                    defaultValue={messageDefault}
                     placeholder={t.form.messagePlaceholder}
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? "err-message" : undefined}

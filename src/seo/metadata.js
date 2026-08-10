@@ -66,12 +66,12 @@ export const SEO_META = {
 
   markets: {
     fr: {
-      title: withBrand("Marchés couverts en Afrique et au Moyen-Orient"),
+      title: withBrand("Marchés Afrique & Moyen-Orient"),
       description:
         "Les marchés sur lesquels AS Biz Dev dispose d'une capacité d'intervention en Afrique et au Moyen-Orient, pays par pays : secteurs, canaux de distribution et modes d'intervention.",
     },
     en: {
-      title: withBrand("Markets covered in Africa & the Middle East"),
+      title: withBrand("Africa & Middle East Markets"),
       description:
         "The markets where AS Biz Dev can operate across Africa and the Middle East, country by country: priority sectors, distribution channels and how we intervene.",
     },
@@ -79,27 +79,27 @@ export const SEO_META = {
 
   africa: {
     fr: {
-      title: withBrand("Développement commercial en Afrique"),
+      title: withBrand("Développement commercial Afrique"),
       description:
-        "Développement commercial, recherche de distributeurs et pilotage export sur les marchés africains prioritaires d'AS Biz Dev.",
+        "Une connaissance concrète et un réseau professionnel structuré sur des marchés ciblés en Afrique du Nord, de l'Ouest et australe — pays par pays, sans couverture uniforme revendiquée.",
     },
     en: {
-      title: withBrand("Business development in Africa"),
+      title: withBrand("Business Development in Africa"),
       description:
-        "Business development, distributor search and export sales management across AS Biz Dev's priority African markets.",
+        "Concrete knowledge and a structured professional network across targeted markets in North, West and Southern Africa — country by country, with no uniform coverage claimed.",
     },
   },
 
   middleEast: {
     fr: {
-      title: withBrand("Développement commercial au Moyen-Orient"),
+      title: withBrand("Développement commercial Moyen-Orient"),
       description:
-        "Développement commercial, recherche de distributeurs et animation de réseau sur les marchés prioritaires d'AS Biz Dev au Moyen-Orient.",
+        "Une zone stratégique de développement pour AS Biz Dev : Émirats arabes unis, Arabie saoudite, Qatar, Koweït, Bahreïn et Jordanie, avec un réseau qui se renforce progressivement.",
     },
     en: {
-      title: withBrand("Business development in the Middle East"),
+      title: withBrand("Business Development in the Middle East"),
       description:
-        "Business development, distributor search and distributor management across AS Biz Dev's priority Middle Eastern markets.",
+        "A strategic development area for AS Biz Dev: United Arab Emirates, Saudi Arabia, Qatar, Kuwait, Bahrain and Jordan, with a network that is being strengthened progressively.",
     },
   },
 
@@ -113,6 +113,32 @@ export const SEO_META = {
       title: withBrand("Accelerate. Develop. Manage."),
       description:
         "Who AS Biz Dev is: an operational sales capability to develop and run your markets across Africa and the Middle East.",
+    },
+  },
+
+  sectors: {
+    fr: {
+      title: withBrand("Secteurs & domaines de connaissance"),
+      description:
+        "Découvrez les secteurs dans lesquels AS Biz Dev mobilise sa connaissance des entreprises, réseaux de distribution et décideurs pour accompagner le développement commercial en Afrique et au Moyen-Orient.",
+    },
+    en: {
+      title: withBrand("Sectors & Industry Knowledge"),
+      description:
+        "Discover the sectors where AS Biz Dev mobilises its knowledge of companies, distribution networks and decision-makers to support business development across Africa and the Middle East.",
+    },
+  },
+
+  network: {
+    fr: {
+      title: withBrand("Notre réseau — Base de contacts et accès décideurs"),
+      description:
+        "La base propriétaire de contacts professionnels d'AS Biz Dev, l'accès aux bons niveaux de décision, et son écosystème de réseaux (APM, GIZ, Business France).",
+    },
+    en: {
+      title: withBrand("Our network — Contact base and decision-maker access"),
+      description:
+        "AS Biz Dev's proprietary base of professional contacts, access to the right decision levels, and its network ecosystem (APM, GIZ, Business France).",
     },
   },
 
@@ -157,14 +183,14 @@ export const SEO_META = {
 
   partners: {
     fr: {
-      title: withBrand("Références clients & partenaires"),
+      title: withBrand("Références & écosystème"),
       description:
-        "Découvrez les entreprises accompagnées par AS Biz Dev et son écosystème de partenaires en développement commercial et export.",
+        "Entreprises accompagnées par AS Biz Dev et réseaux professionnels & institutionnels (APM, GIZ, Business France, TAA) qui complètent son écosystème.",
     },
     en: {
-      title: withBrand("Client References & Partners"),
+      title: withBrand("References & Ecosystem"),
       description:
-        "Discover the companies supported by AS Biz Dev and its ecosystem of partners in business development and export.",
+        "Companies supported by AS Biz Dev and the professional & institutional networks (APM, GIZ, Business France, TAA) that complement its ecosystem.",
     },
   },
 
@@ -190,26 +216,6 @@ export const SEO_META = {
       description: "This page does not exist or has been moved.",
     },
   },
-};
-
-/**
- * Country pages are generated from data, so their metadata is too.
- * `inName` carries the prepositional form ("au Sénégal", "en Côte d'Ivoire",
- * "in Senegal") because French prepositions vary with the country.
- */
-export const countryMeta = (country, lang) => {
-  const name = country.name[lang] ?? country.name.fr;
-  const inName = country.inName?.[lang] ?? name;
-
-  return lang === "en"
-    ? {
-        title: withBrand(`Business development in ${name}`),
-        description: `Business development, distributor search and export sales management ${inName} with AS Biz Dev.`,
-      }
-    : {
-        title: withBrand(`Développement commercial ${name}`),
-        description: `Développement commercial, recherche de distributeurs et pilotage commercial export ${inName} avec AS Biz Dev.`,
-      };
 };
 
 /** Article pages (§24) are generated from data, so their metadata is too. */

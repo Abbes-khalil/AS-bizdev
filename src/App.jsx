@@ -13,10 +13,11 @@ const Solutions = lazy(() => import("./pages/Solutions"));
 const Acceleration = lazy(() => import("./pages/Acceleration"));
 const Pilotage = lazy(() => import("./pages/Pilotage"));
 const Markets = lazy(() => import("./pages/Markets"));
-const Zone = lazy(() => import("./pages/Zone"));
-const Country = lazy(() => import("./pages/Country"));
+const MarketZone = lazy(() => import("./pages/MarketZone"));
 const Article = lazy(() => import("./pages/Article"));
 const About = lazy(() => import("./pages/About"));
+const Sectors = lazy(() => import("./pages/Sectors"));
+const Network = lazy(() => import("./pages/Network"));
 const BecomePartner = lazy(() => import("./pages/BecomePartner"));
 const Contact = lazy(() => import("./pages/Contact"));
 const News = lazy(() => import("./pages/News"));
@@ -31,10 +32,11 @@ const ELEMENTS = {
   acceleration: <Acceleration />,
   pilotage: <Pilotage />,
   markets: <Markets />,
-  africa: <Zone zone="africa" />,
-  middleEast: <Zone zone="middleEast" />,
-  country: <Country />,
+  africa: <MarketZone continent="africa" />,
+  middleEast: <MarketZone continent="middleEast" />,
   about: <About />,
+  sectors: <Sectors />,
+  network: <Network />,
   becomePartner: <BecomePartner />,
   contact: <Contact />,
   news: <News />,

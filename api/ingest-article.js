@@ -9,7 +9,7 @@
  * date) LinkedIn exposes for link previews and upserts a row straight into
  * Supabase's `articles` table with `status: "published"` — no human step, no
  * deploy needed, picked up by the frontend and next build's sitemap/prerender
- * immediately.
+ * immediately.git
  *
  * This is deliberately called only server-to-server (n8n's HTTP Request
  * node, credential stored in n8n) — never from a public browser page — so

@@ -34,12 +34,21 @@ const common = {
         key: "markets",
         label: "Marchés",
         children: [
+          { key: "markets", label: "Nos Marchés" },
           { key: "africa", label: "Afrique" },
           { key: "middleEast", label: "Moyen-Orient" },
         ],
       },
-      { key: "about", label: "AS Biz Dev" },
-      { key: "partners", label: "Partenaires" },
+      {
+        key: "about",
+        label: "AS Biz Dev",
+        children: [
+          { key: "about", label: "À propos" },
+          { key: "network", label: "Nos Reseaux" },
+          { key: "sectors", label: "Nos Secteurs" },
+        ],
+      },
+      { key: "partners", label: "Références & Écosystème" },
       { key: "news", label: "Actualités" },
       { key: "becomePartner", label: "Devenir partenaire" },
       { key: "contact", label: "Contact" },
@@ -54,18 +63,16 @@ const common = {
       },
       {
         title: "Marchés",
-        items: [
-          { key: "markets", label: "Tous les marchés" },
-          { key: "africa", label: "Afrique" },
-          { key: "middleEast", label: "Moyen-Orient" },
-        ],
+        items: [{ key: "markets", label: "Tous les marchés" }],
       },
       {
         title: "AS Biz Dev",
         items: [
           { key: "about", label: "Qui sommes-nous" },
+          { key: "sectors", label: "Nos secteurs" },
+          { key: "network", label: "Notre réseau" },
           { key: "becomePartner", label: "Devenir partenaire" },
-          { key: "partners", label: "Nos partenaires" },
+          { key: "partners", label: "Références & écosystème" },
           { key: "news", label: "Actualités & Publications" },
           { key: "contact", label: "Contact" },
         ],
@@ -113,11 +120,20 @@ const common = {
         key: "markets",
         label: "Markets",
         children: [
+          { key: "markets", label: "All markets" },
           { key: "africa", label: "Africa" },
           { key: "middleEast", label: "Middle East" },
         ],
       },
-      { key: "about", label: "AS Biz Dev" },
+      {
+        key: "about",
+        label: "AS Biz Dev",
+        children: [
+          { key: "about", label: "Who we are" },
+          { key: "network", label: "Our network" },
+          { key: "sectors", label: "Our sectors" },
+        ],
+      },
       { key: "partners", label: "Partners" },
       { key: "news", label: "Insights" },
       { key: "becomePartner", label: "Become a partner" },
@@ -133,18 +149,16 @@ const common = {
       },
       {
         title: "Markets",
-        items: [
-          { key: "markets", label: "All markets" },
-          { key: "africa", label: "Africa" },
-          { key: "middleEast", label: "Middle East" },
-        ],
+        items: [{ key: "markets", label: "All markets" }],
       },
       {
         title: "AS Biz Dev",
         items: [
           { key: "about", label: "Who we are" },
+          { key: "sectors", label: "Our sectors" },
+          { key: "network", label: "Our network" },
           { key: "becomePartner", label: "Become a partner" },
-          { key: "partners", label: "Our partners" },
+          { key: "partners", label: "References & ecosystem" },
           { key: "news", label: "Articles & Insights" },
           { key: "contact", label: "Contact" },
         ],

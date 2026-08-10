@@ -12,7 +12,6 @@ import { fileURLToPath } from "node:url";
 
 import { allUrls, getPublishedArticles } from "./siteRoutes.mjs";
 import { LANGS, PATHS, pathFor } from "../src/constants/paths.js";
-import { COUNTRIES } from "../src/data/countries.js";
 
 const SITE_URL = "https://asbizdev.com";
 const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
@@ -27,18 +26,6 @@ const absolute = (path) => `${SITE_URL}${path === "/" ? "/" : path}`;
 const articleRows = await getPublishedArticles();
 
 const alternatesFor = ({ key, path }) => {
-  if (key === "country") {
-    const slug = path.split("/").pop();
-    const country = COUNTRIES.find(
-      (entry) => entry.slug.fr === slug || entry.slug.en === slug,
-    );
-
-    return LANGS.map((lang) => [
-      lang,
-      pathFor("country", lang, { slug: country.slug[lang] ?? country.slug.fr }),
-    ]);
-  }
-
   if (key === "article") {
     const slug = path.split("/").pop();
     const article = articleRows.find(

@@ -1,71 +1,86 @@
 /**
- * Markets hub, zone pages and the country-page template (§6, §10).
- *
- * No country is named here: the list lives in `src/data/countries.js` and is
- * empty until AS Biz Dev validates it. Until then the pages show explicit
- * "[PAYS À VALIDER]" slots — the brief forbids filling them with plausible
- * guesses (§16, §22.1).
+ * /marches — single page: interactive map + on-page market modal (§1–§23 of
+ * the brief). No separate zone or country routes; everything named here
+ * renders directly on this one page, in both languages.
  */
 const markets = {
   fr: {
-    hub: {
-      hero: {
-        eyebrow: "Marchés",
-        titleLead: "Les marchés sur lesquels nous",
-        titleAccent: "intervenons réellement.",
-        intro:
-          "Nous ne présentons pas AS Biz Dev comme un réseau international présent partout. Cette page nomme les marchés d'Afrique et du Moyen-Orient sur lesquels nous disposons d'une capacité d'intervention, ou sur lesquels nous construisons cette capacité.",
-      },
-      zones: [
-        {
-          routeKey: "africa",
-          title: "Afrique",
-          body: "Marchés couverts et marchés prioritaires en Afrique.",
-        },
-        {
-          routeKey: "middleEast",
-          title: "Moyen-Orient",
-          body: "Marchés couverts et marchés prioritaires au Moyen-Orient.",
-        },
-      ],
-      more: "Voir la zone",
-      cta: {
-        eyebrow: "Aller plus loin",
-        heading: "Votre marché ne figure pas encore ici ?",
-        label: "Parlons de votre marché",
-      },
+    hero: {
+      eyebrow: "Marchés",
+      titleLead: "Les marchés sur lesquels nous",
+      titleAccent: "intervenons réellement.",
+      intro:
+        "Nous ne présentons pas AS Biz Dev comme un réseau international présent partout. Cette carte nomme les marchés d'Afrique et du Moyen-Orient sur lesquels nous disposons d'une capacité d'intervention, ou sur lesquels nous construisons cette capacité.",
     },
 
-    zones: {
-      africa: {
-        eyebrow: "Afrique",
-        titleLead: "Marchés couverts et",
-        titleAccent: "marchés prioritaires.",
-        intro:
-          "Chaque pays dispose d'une page présentant ses secteurs prioritaires, la typologie de clients, les canaux de distribution, les enjeux du marché et notre mode d'intervention.",
+    closing: {
+      quote: "Nous ne partons pas d'une feuille blanche lorsque nous abordons un marché.",
+      body: "AS Biz Dev capitalise progressivement une connaissance des entreprises, des décideurs, des secteurs et des réseaux locaux afin d'accélérer le développement commercial de ses clients.",
+    },
+
+    mapLabel: "Carte des marchés AS Biz Dev en Afrique et au Moyen-Orient",
+
+    filters: {
+      ariaLabel: "Filtrer les marchés par région",
+      all: "Tous",
+      north: "Afrique du Nord",
+      west: "Afrique de l'Ouest",
+      south: "Afrique australe",
+      middleEast: "Moyen-Orient",
+    },
+
+    groups: {
+      north: {
+        title: "Afrique du Nord",
+        body: "AS Biz Dev dispose aujourd'hui d'une forte densité de contacts et d'une bonne connaissance des écosystèmes économiques notamment sur :",
+      },
+      west: {
+        title: "Afrique de l'Ouest",
+        body: "Notre réseau est également développé notamment sur :",
+      },
+      south: {
+        title: "Afrique australe",
+        body: "Notre base et nos réseaux comprennent également une présence significative en :",
       },
       middleEast: {
-        eyebrow: "Moyen-Orient",
-        titleLead: "Marchés couverts et",
-        titleAccent: "marchés prioritaires.",
-        intro:
-          "Chaque pays dispose d'une page présentant ses secteurs prioritaires, la typologie de clients, les canaux de distribution, les enjeux du marché et notre mode d'intervention.",
+        title: "Moyen-Orient",
+        body: "Le Moyen-Orient constitue une zone stratégique de développement pour AS Biz Dev. Notre réseau s'y développe notamment sur :",
       },
     },
 
-    empty: {
-      title: "[PAYS À VALIDER]",
-      body: "La liste des pays prioritaires est en cours de validation par AS Biz Dev. Cette page se remplira marché par marché, sans en annoncer aucun tant qu'il n'est pas confirmé.",
-      cta: "Parler d'un marché",
+    countryCta: "Voir le marché",
+
+    capabilities: {
+      eyebrow: "Ce que cela permet",
+      titleLead: "Ce que cette connaissance des marchés",
+      titleAccent: "permet concrètement.",
+      intro:
+        "Nous ne partons pas d'une feuille blanche lorsque nous abordons un marché. AS Biz Dev peut notamment :",
+      items: [
+        "Identifier les entreprises pertinentes sur un marché",
+        "Identifier des prospects et donneurs d'ordres",
+        "Rechercher des distributeurs, agents ou intégrateurs",
+        "Identifier les bons niveaux de décision",
+        "Rechercher des partenaires commerciaux locaux",
+        "Comprendre les circuits de distribution",
+        "Qualifier les opportunités",
+        "Accélérer les prises de contact",
+        "Construire ou renforcer un réseau commercial local",
+        "Accompagner les premières démarches commerciales, puis éventuellement prendre en charge le pilotage commercial de la zone",
+      ],
     },
 
-    country: {
-      backToZone: "Retour à la zone",
-      cta: {
-        eyebrow: "Aller plus loin",
-        heading: "Parler de ce marché",
-        label: "Nous contacter",
-      },
+    cta: {
+      eyebrow: "Aller plus loin",
+      heading: "Votre marché ne figure pas encore ici ?",
+      label: "Parlons de votre marché",
+    },
+
+    sectorsLink: "Découvrir nos secteurs",
+
+    modal: {
+      close: "Fermer",
+      cta: "Parler de ce marché",
       sections: {
         sectors: "Secteurs prioritaires",
         clients: "Typologie de clients",
@@ -74,69 +89,111 @@ const markets = {
         intervention: "Intervention possible d'AS Biz Dev",
         partners: "Partenaires recherchés",
       },
-      toValidate: "[INFORMATION À VALIDER PAR AS BIZ DEV]",
-    },
-  },
-
-  en: {
-    hub: {
-      hero: {
-        eyebrow: "Markets",
-        titleLead: "The markets where we",
-        titleAccent: "actually operate.",
-        intro:
-          "We do not present AS Biz Dev as an international network present everywhere. This page names the markets across Africa and the Middle East where we can operate, or where we are building that capability.",
-      },
-      zones: [
-        {
-          routeKey: "africa",
-          title: "Africa",
-          body: "Markets covered and priority markets across Africa.",
-        },
-        {
-          routeKey: "middleEast",
-          title: "Middle East",
-          body: "Markets covered and priority markets across the Middle East.",
-        },
-      ],
-      more: "See the region",
-      cta: {
-        eyebrow: "Go further",
-        heading: "Your market is not listed yet?",
-        label: "Let's talk about your market",
-      },
     },
 
     zones: {
       africa: {
-        eyebrow: "Africa",
-        titleLead: "Markets covered and",
-        titleAccent: "priority markets.",
+        eyebrow: "Afrique",
+        titleLead: "Nos marchés en",
+        titleAccent: "Afrique.",
         intro:
-          "Each country has its own page covering priority sectors, customer types, distribution channels, market challenges and how we can intervene.",
+          "AS Biz Dev développe une connaissance structurée de plusieurs marchés africains, avec une forte densité de contacts sur certains pays et un réseau progressivement renforcé sur d'autres.",
+        mapLabel: "Carte des marchés AS Biz Dev en Afrique",
       },
       middleEast: {
-        eyebrow: "Middle East",
-        titleLead: "Markets covered and",
-        titleAccent: "priority markets.",
+        eyebrow: "Moyen-Orient",
+        titleLead: "Nos marchés au",
+        titleAccent: "Moyen-Orient.",
         intro:
-          "Each country has its own page covering priority sectors, customer types, distribution channels, market challenges and how we can intervene.",
+          "Le Moyen-Orient constitue une zone stratégique de développement pour AS Biz Dev. Notre réseau s'y développe notamment sur les Émirats arabes unis, l'Arabie saoudite, le Qatar, le Koweït, le Bahreïn et la Jordanie.",
+        mapLabel: "Carte des marchés AS Biz Dev au Moyen-Orient",
+        developing: {
+          eyebrow: "Une zone stratégique",
+          titleLead: "Une zone stratégique",
+          titleAccent: "en développement.",
+          body: "Notre connaissance et nos réseaux se renforcent progressivement sur ces marchés, pays par pays, au fil des missions et des relations développées localement.",
+        },
+      },
+    },
+  },
+
+  en: {
+    hero: {
+      eyebrow: "Markets",
+      titleLead: "The markets where we",
+      titleAccent: "actually operate.",
+      intro:
+        "We do not present AS Biz Dev as an international network present everywhere. This map names the markets across Africa and the Middle East where we can operate, or where we are building that capability.",
+    },
+
+    closing: {
+      quote: "We do not start from a blank page when we approach a market.",
+      body: "AS Biz Dev progressively builds up a knowledge of companies, decision-makers, sectors and local networks in order to accelerate its clients' business development.",
+    },
+
+    mapLabel: "Map of AS Biz Dev's markets across Africa and the Middle East",
+
+    filters: {
+      ariaLabel: "Filter markets by region",
+      all: "All",
+      north: "North Africa",
+      west: "West Africa",
+      south: "Southern Africa",
+      middleEast: "Middle East",
+    },
+
+    groups: {
+      north: {
+        title: "North Africa",
+        body: "AS Biz Dev has a strong density of contacts and a good understanding of the economic ecosystems today, notably in:",
+      },
+      west: {
+        title: "West Africa",
+        body: "Our network is also developed notably in:",
+      },
+      south: {
+        title: "Southern Africa",
+        body: "Our base and networks also include a significant presence in:",
+      },
+      middleEast: {
+        title: "Middle East",
+        body: "The Middle East is a strategic development area for AS Biz Dev. Our network is growing there, notably in:",
       },
     },
 
-    empty: {
-      title: "[COUNTRY TO BE CONFIRMED]",
-      body: "The list of priority countries is being validated by AS Biz Dev. This page will fill in market by market, and will announce none of them before they are confirmed.",
-      cta: "Talk about a market",
+    countryCta: "View the market",
+
+    capabilities: {
+      eyebrow: "What this enables",
+      titleLead: "What this market knowledge",
+      titleAccent: "enables in practice.",
+      intro:
+        "We do not start from a blank page when we approach a market. AS Biz Dev can notably:",
+      items: [
+        "Identify the relevant companies in a market",
+        "Identify prospects and buyers",
+        "Find distributors, agents or integrators",
+        "Identify the right decision-making levels",
+        "Find local commercial partners",
+        "Understand distribution channels",
+        "Qualify opportunities",
+        "Speed up first contacts",
+        "Build or strengthen a local sales network",
+        "Support the first commercial steps, and possibly take over the sales management of the region",
+      ],
     },
 
-    country: {
-      backToZone: "Back to the region",
-      cta: {
-        eyebrow: "Go further",
-        heading: "Talk about this market",
-        label: "Contact us",
-      },
+    cta: {
+      eyebrow: "Go further",
+      heading: "Your market is not listed yet?",
+      label: "Let's talk about your market",
+    },
+
+    sectorsLink: "Discover our sectors",
+
+    modal: {
+      close: "Close",
+      cta: "Discuss this market",
       sections: {
         sectors: "Priority sectors",
         clients: "Customer types",
@@ -145,7 +202,31 @@ const markets = {
         intervention: "How AS Biz Dev can intervene",
         partners: "Partners we are looking for",
       },
-      toValidate: "[INFORMATION TO BE CONFIRMED BY AS BIZ DEV]",
+    },
+
+    zones: {
+      africa: {
+        eyebrow: "Africa",
+        titleLead: "Our markets in",
+        titleAccent: "Africa.",
+        intro:
+          "AS Biz Dev builds a structured knowledge of several African markets, with a strong density of contacts in some countries and a network that is progressively strengthened in others.",
+        mapLabel: "Map of AS Biz Dev's markets across Africa",
+      },
+      middleEast: {
+        eyebrow: "Middle East",
+        titleLead: "Our markets in the",
+        titleAccent: "Middle East.",
+        intro:
+          "The Middle East is a strategic development area for AS Biz Dev. Our network is growing there, notably across the United Arab Emirates, Saudi Arabia, Qatar, Kuwait, Bahrain and Jordan.",
+        mapLabel: "Map of AS Biz Dev's markets across the Middle East",
+        developing: {
+          eyebrow: "A strategic zone",
+          titleLead: "A strategic zone",
+          titleAccent: "in development.",
+          body: "Our knowledge and networks are being strengthened progressively across these markets, country by country, as missions and local relationships develop.",
+        },
+      },
     },
   },
 };

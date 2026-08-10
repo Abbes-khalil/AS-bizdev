@@ -6,11 +6,13 @@ import common from "./content/common";
 import contact from "./content/contact";
 import home from "./content/home";
 import markets from "./content/markets";
+import network from "./content/network";
 import news from "./content/news";
 import partnerProgram from "./content/partnerProgram";
 import partners from "./content/partners";
 import pilotage from "./content/pilotage";
 import policy from "./content/policy";
+import sectors from "./content/sectors";
 import solutions from "./content/solutions";
 import team from "./content/team";
 
@@ -21,11 +23,13 @@ const DICTIONARIES = {
   contact,
   home,
   markets,
+  network,
   news,
   partnerProgram,
   partners,
   pilotage,
   policy,
+  sectors,
   solutions,
   team,
 };
