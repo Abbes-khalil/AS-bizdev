@@ -1,3 +1,5 @@
+"use client";
+
 import BulletList from "../components/BulletList";
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
@@ -5,7 +7,6 @@ import RevealOnScroll from "../components/RevealOnScroll";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import StepList from "../components/StepList";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 const SituationQuote = ({ quote, index }) => (
@@ -25,7 +26,6 @@ const SituationQuote = ({ quote, index }) => (
 /** Offer 1 — Accélération commerciale (§8). */
 export default function Acceleration() {
   const t = useT("acceleration");
-  useSeo("acceleration");
 
   return (
     <main>

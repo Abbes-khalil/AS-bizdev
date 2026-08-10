@@ -1,3 +1,5 @@
+"use client";
+
 import AsBizDevEdge from "../components/AsBizDevEdge";
 import CtaBlock from "../components/CtaBlock";
 import FeaturedReferences from "../components/FeaturedReferences";
@@ -5,7 +7,6 @@ import NetworkEcosystem from "../components/NetworkEcosystem";
 import PageHero from "../components/PageHero";
 import Section from "../components/Section";
 import SecondaryReferences from "../components/SecondaryReferences";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 import { REFERENCES, SECTORS } from "../data/references";
 
@@ -22,7 +23,6 @@ const withCopy = (org, copy) => ({
 
 export default function Partners() {
   const t = useT("partners");
-  useSeo("partners");
 
   const clients = published("client").map((org) => withCopy(org, t.copy));
   const featuredClients = clients.filter((org) => org.featured);

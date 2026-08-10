@@ -1,3 +1,5 @@
+"use client";
+
 import CrossFactorDiagram from "../components/CrossFactorDiagram";
 import CtaBlock from "../components/CtaBlock";
 import OfferCard from "../components/OfferCard";
@@ -8,13 +10,11 @@ import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import SectorExplorer from "../components/SectorExplorer";
 import ArrowIcon from "../components/ArrowIcon";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 /** Sectors AS Biz Dev has a real understanding of, not a specialism list. */
 export default function Sectors() {
   const t = useT("sectors");
-  useSeo("sectors");
 
   return (
     <main>

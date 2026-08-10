@@ -1,3 +1,5 @@
+"use client";
+
 import BulletList from "../components/BulletList";
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
@@ -6,7 +8,6 @@ import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import StepList from "../components/StepList";
 import TextCard from "../components/TextCard";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 /**
@@ -16,7 +17,6 @@ import { useT } from "../i18n";
  */
 export default function Network() {
   const t = useT("network");
-  useSeo("network");
 
   return (
     <main>

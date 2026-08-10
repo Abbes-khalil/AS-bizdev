@@ -53,6 +53,8 @@ export const flattenForLang = (article, lang) => {
 
 /** All published articles, newest first. */
 export async function getPublishedArticles() {
+  if (!supabase) throw new Error("Supabase is not configured.");
+
   const { data, error } = await supabase
     .from("articles")
     .select("*")
@@ -69,6 +71,8 @@ export async function getPublishedArticles() {
  * anon client, so `null` covers both "unknown slug" and "not published".
  */
 export async function getArticleBySlug(slug) {
+  if (!supabase) throw new Error("Supabase is not configured.");
+
   const { data, error } = await supabase
     .from("articles")
     .select("*")

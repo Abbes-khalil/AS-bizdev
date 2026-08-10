@@ -1,3 +1,5 @@
+"use client";
+
 import BulletList from "../components/BulletList";
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
@@ -7,13 +9,11 @@ import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import Team from "../components/Team";
 import TextCard from "../components/TextCard";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 /** AS Biz Dev — positioning, method, principles, know-how, team (§2, §5). */
 export default function About() {
   const t = useT("about");
-  useSeo("about");
 
   return (
     <main>

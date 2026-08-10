@@ -1,4 +1,6 @@
-import { useSearchParams } from "react-router-dom";
+"use client";
+
+import { useSearchParams } from "next/navigation";
 
 import ArrowIcon from "../components/ArrowIcon";
 import PageHero from "../components/PageHero";
@@ -9,20 +11,18 @@ import RouteLink from "../components/RouteLink";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
 import { findCountryByKey } from "../data/countries";
 import useContactForm from "../hooks/useContactForm";
-import useSeo from "../hooks/useSeo";
 import { useLang } from "../i18n/LanguageProvider";
 import { useT } from "../i18n";
 
 export default function Contact() {
   const t = useT("contact");
-  useSeo("contact");
   const { errors, status, formRef, onSubmit, onBlur, fieldProps } =
     useContactForm(t);
 
   // Carries the market a visitor clicked through from on /marches (§21 of
   // the brief) into a starting line they can edit or delete.
   const { lang } = useLang();
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const marketCountry = findCountryByKey(searchParams.get("market"));
   const messageDefault = marketCountry
     ? `${t.form.marketPrefill} ${marketCountry.name[lang] ?? marketCountry.name.fr}\n\n`

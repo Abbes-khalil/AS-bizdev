@@ -1,16 +1,16 @@
+"use client";
+
 import BulletList from "../components/BulletList";
 import PageHero from "../components/PageHero";
 import PartnerForm from "../components/form/PartnerForm";
 import RevealOnScroll from "../components/RevealOnScroll";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 /** Devenir partenaire — a professional registration, not a job ad (§11–§13). */
 export default function BecomePartner() {
   const t = useT("partnerProgram");
-  useSeo("becomePartner");
 
   return (
     <main>

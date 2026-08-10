@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
@@ -14,7 +16,6 @@ import SectionHeading from "../components/SectionHeading";
 import SectorFilter from "../components/SectorFilter";
 import { COUNTRIES, SUBREGIONS } from "../data/countries";
 import useMarketSelection from "../hooks/useMarketSelection";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 /**
@@ -23,7 +24,6 @@ import { useT } from "../i18n";
  */
 export default function Markets() {
   const t = useT("markets");
-  useSeo("markets");
 
   const [activeRegion, setActiveRegion] = useState("all");
   const { selectedKey, selectedMarket, selectMarket, closeModal } = useMarketSelection();

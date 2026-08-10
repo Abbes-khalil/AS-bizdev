@@ -1,10 +1,11 @@
+"use client";
+
 import BulletList from "../components/BulletList";
 import CtaBlock from "../components/CtaBlock";
 import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 
 const FunctionCard = ({ item, index }) => (
@@ -28,7 +29,6 @@ const FunctionCard = ({ item, index }) => (
 /** Offer 2 — Pilotage commercial export externalisé (§9). */
 export default function Pilotage() {
   const t = useT("pilotage");
-  useSeo("pilotage");
 
   return (
     <main>

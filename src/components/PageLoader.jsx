@@ -1,3 +1,5 @@
+"use client";
+
 import { useLang } from "../i18n/LanguageProvider";
 
 const LABEL = { fr: "Chargement de la page", en: "Loading the page" };

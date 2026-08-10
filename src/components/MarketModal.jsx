@@ -1,6 +1,8 @@
+"use client";
+
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 import ArrowIcon from "./ArrowIcon";
 import { ASSET } from "./siteData";
@@ -157,7 +159,7 @@ const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel,
             </div>
 
             <Link
-              to={`${pathFor("contact", lang)}?market=${market.key}`}
+              href={`${pathFor("contact", lang)}?market=${market.key}`}
               className="btn-primary mt-8 self-start"
             >
               {ctaLabel}

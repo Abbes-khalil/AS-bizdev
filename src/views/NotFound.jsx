@@ -1,8 +1,9 @@
+"use client";
+
 import ArrowIcon from "../components/ArrowIcon";
 import PageHero from "../components/PageHero";
 import RouteLink from "../components/RouteLink";
 import Section from "../components/Section";
-import useSeo from "../hooks/useSeo";
 import { useLang } from "../i18n/LanguageProvider";
 
 const COPY = {
@@ -29,7 +30,6 @@ const COPY = {
 export default function NotFound() {
   const { lang } = useLang();
   const t = COPY[lang] ?? COPY.fr;
-  useSeo("notFound");
 
   return (
     <main>

@@ -1,4 +1,7 @@
-import { Navigate, useParams } from "react-router-dom";
+"use client";
+
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Globe2 } from "lucide-react";
 
 import ExternalLink from "../components/ExternalLink";
@@ -9,8 +12,6 @@ import { OG_IMAGE, SITE_NAME } from "../constants/site";
 import { pathFor } from "../constants/routes";
 import { themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
 import useArticle from "../hooks/useArticle";
-import useSeo from "../hooks/useSeo";
-import { articleMeta } from "../seo/metadata";
 import { useLang } from "../i18n/LanguageProvider";
 import { useT } from "../i18n";
 
@@ -43,23 +44,26 @@ export default function Article() {
   const { slug } = useParams();
   const { lang } = useLang();
   const t = useT("news");
+  const router = useRouter();
 
   const { article, loading, error } = useArticle(slug);
-  const meta = article ? articleMeta(article, lang) : undefined;
 
-  useSeo("news", meta);
+  const canonicalSlug = article ? (article.slug[lang] ?? article.slug.fr) : null;
+  const needsCanonicalRedirect = Boolean(article) && slug !== canonicalSlug;
+
+  useEffect(() => {
+    if (loading) return;
+    if (error || !article) {
+      router.replace(pathFor("news", lang));
+    } else if (needsCanonicalRedirect) {
+      router.replace(pathFor("article", lang, { slug: canonicalSlug }));
+    }
+  }, [loading, error, article, needsCanonicalRedirect, canonicalSlug, lang, router]);
 
   if (loading) return <PageLoader />;
 
-  if (error || !article) {
-    return <Navigate to={pathFor("news", lang)} replace />;
-  }
-
-  const canonicalSlug = article.slug[lang] ?? article.slug.fr;
-  if (slug !== canonicalSlug) {
-    return (
-      <Navigate to={pathFor("article", lang, { slug: canonicalSlug })} replace />
-    );
+  if (error || !article || needsCanonicalRedirect) {
+    return null;
   }
 
   const content = article[lang] ?? article.fr;

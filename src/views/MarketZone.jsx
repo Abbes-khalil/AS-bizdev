@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
@@ -14,7 +16,6 @@ import SectionHeading from "../components/SectionHeading";
 import SectorFilter from "../components/SectorFilter";
 import { COUNTRIES } from "../data/countries";
 import useMarketSelection from "../hooks/useMarketSelection";
-import useSeo from "../hooks/useSeo";
 import { useT } from "../i18n";
 import { viewBoxFor } from "../utils/mapViewBox";
 
@@ -30,7 +31,6 @@ const AFRICA_SUBREGIONS = ["north", "west", "south"];
  */
 export default function MarketZone({ continent }) {
   const t = useT("markets");
-  useSeo(continent);
   const zone = t.zones[continent];
 
   const isAfrica = continent === "africa";

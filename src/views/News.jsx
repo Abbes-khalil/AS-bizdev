@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 
 import ArrowIcon from "../components/ArrowIcon";
@@ -6,7 +8,6 @@ import PageHero from "../components/PageHero";
 import RevealOnScroll from "../components/RevealOnScroll";
 import RouteLink from "../components/RouteLink";
 import useArticles from "../hooks/useArticles";
-import useSeo from "../hooks/useSeo";
 import { interpolate, useT } from "../i18n";
 import { useLang } from "../i18n/LanguageProvider";
 import { themeLabel, zoneLabel } from "../i18n/content/news/taxonomy";
@@ -111,7 +112,6 @@ const EMPTY_MESSAGE = {
 export default function News() {
   const t = useT("news");
   const { lang } = useLang();
-  useSeo("news");
 
   const { articles, loading, error } = useArticles();
 
