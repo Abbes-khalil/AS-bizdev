@@ -55,6 +55,13 @@ the Supabase-backed news system, and the `ingest-article` webhook contract.
   stack and today's actual code — no conversion to `.tsx`. `tsconfig.json`
   (currently unused for real type-checking since no `.ts`/`.tsx` exists) is
   replaced by Next's generated `jsconfig.json`.
+- **`src/pages/` renamed to `src/views/`**: discovered during Phase 1
+  execution — Next.js's App Router reserves `pages/` and `src/pages/`
+  specifically for its own (legacy) Pages Router and refuses to boot
+  (`pages and app directories should be under the same folder`) once both
+  `app/` (project root) and `src/pages/` exist. The existing Vite
+  page-component directory is renamed to `src/views/`, a name Next has no
+  special meaning for; only `src/App.jsx`'s imports needed updating.
 
 ## Routing mapping
 

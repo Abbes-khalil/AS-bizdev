@@ -27,9 +27,13 @@
 - Create: `jsconfig.json`
 - Delete: `tsconfig.json`
 - Modify: `tailwind.config.js`
+- Rename: `src/pages/` → `src/views/` (all 16 files)
+- Modify: `src/App.jsx` (update its 16 page imports to `./views/...`)
 
 **Interfaces:**
-- Produces: a working `next dev` command on port 3000, and a `@/*` → `./src/*` import alias usable by every later task.
+- Produces: a working `next dev` command on port 3000, a `@/*` → `./src/*` import alias usable by every later task, and a `src/views/` directory (renamed from `src/pages/`) that later tasks (starting with Task 4) import page bodies from.
+
+**Note on the rename:** Next.js's App Router reserves `pages/` **and** `src/pages/` specifically as its own (legacy) Pages Router convention — it auto-detects `src/pages/` and refuses to boot with `Error: pages and app directories should be under the same folder`, because our new `app/` lives at the project root while `src/pages/` sits under `src/`. Renaming the existing Vite page-component directory to `src/views/` (a name Next.js has no special meaning for) removes the collision entirely, without touching Vite (Vite doesn't care what the folder is called, only that imports resolve) or any page's contents.
 
 - [ ] **Step 1: Install the `next` package**
 
@@ -43,7 +47,36 @@ Expected: `next` appears under `dependencies` in `package.json`, `package-lock.j
 
 Run: `rm tsconfig.json`
 
-- [ ] **Step 3: Create `jsconfig.json` with the `@/*` path alias**
+- [ ] **Step 3: Rename `src/pages/` to `src/views/` and fix its consumer**
+
+Rename the directory (keeps git history via a plain move — no file contents change):
+
+Run: `git mv src/pages src/views`
+
+`src/App.jsx` is the only file that imports from it (confirmed via `grep -r "pages/" src` — no other file references it). Modify `src/App.jsx`'s 16 lazy-import lines, changing `"./pages/Name"` to `"./views/Name"` for every one, e.g.:
+
+```jsx
+const Home = lazy(() => import("./views/Home"));
+const Solutions = lazy(() => import("./views/Solutions"));
+const Acceleration = lazy(() => import("./views/Acceleration"));
+const Pilotage = lazy(() => import("./views/Pilotage"));
+const Markets = lazy(() => import("./views/Markets"));
+const MarketZone = lazy(() => import("./views/MarketZone"));
+const Article = lazy(() => import("./views/Article"));
+const About = lazy(() => import("./views/About"));
+const Sectors = lazy(() => import("./views/Sectors"));
+const Network = lazy(() => import("./views/Network"));
+const BecomePartner = lazy(() => import("./views/BecomePartner"));
+const Contact = lazy(() => import("./views/Contact"));
+const News = lazy(() => import("./views/News"));
+const Partners = lazy(() => import("./views/Partners"));
+const Policy = lazy(() => import("./views/Policy"));
+const NotFound = lazy(() => import("./views/NotFound"));
+```
+
+Nothing else in `src/App.jsx` changes — only these 16 import paths.
+
+- [ ] **Step 4: Create `jsconfig.json` with the `@/*` path alias**
 
 Create `jsconfig.json`:
 
@@ -57,7 +90,7 @@ Create `jsconfig.json`:
 }
 ```
 
-- [ ] **Step 4: Create `next.config.mjs`**
+- [ ] **Step 5: Create `next.config.mjs`**
 
 `package.json` has `"type": "module"`, so the config file is named `.mjs` to be unambiguous about ESM.
 
@@ -72,7 +105,7 @@ const nextConfig = {
 export default nextConfig;
 ```
 
-- [ ] **Step 5: Point `package.json` scripts at Next for local dev**
+- [ ] **Step 6: Point `package.json` scripts at Next for local dev**
 
 Modify `package.json` — replace the `"dev"` script only (leave `build`, `preview`, `check:i18n`, `build:client`, `prerender`, `seo:files` untouched; they still serve the old Vite app until the cleanup phase, and `next build` is verified separately in Task 5 without changing the `"build"` script yet):
 
@@ -87,7 +120,7 @@ Remove this line entirely:
     "typecheck": "tsc --noEmit",
 ```
 
-- [ ] **Step 6: Add `app/` to the Tailwind content globs**
+- [ ] **Step 7: Add `app/` to the Tailwind content globs**
 
 Modify `tailwind.config.js` — the `content` array currently only scans `index.html` and `src/**/*.{js,jsx,ts,tsx}`; classes used in new `app/` files need scanning too:
 
@@ -96,7 +129,7 @@ export default {
   content: ['./index.html', './app/**/*.{js,jsx}', './src/**/*.{js,jsx,ts,tsx}'],
 ```
 
-- [ ] **Step 7: Verify `next dev` boots**
+- [ ] **Step 8: Verify `next dev` boots**
 
 Next.js requires at least one route to start cleanly. Create a throwaway placeholder so Step 7 can verify boot before Task 2 builds the real layout:
 
@@ -116,13 +149,16 @@ Run: `curl -s http://localhost:3000 | grep -o "<div>ok</div>"`
 
 Expected output: `<div>ok</div>`
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
-git add package.json package-lock.json next.config.mjs jsconfig.json tailwind.config.js app/page.jsx
+git add package.json package-lock.json next.config.mjs jsconfig.json tailwind.config.js app/page.jsx src/App.jsx
+git add src/views
 git rm tsconfig.json
 git commit -m "Add Next.js App Router scaffold alongside existing Vite app"
 ```
+
+(`git add src/views` after `git mv` stages the rename as a rename, not a delete+add, as long as the file contents are unchanged — git detects this automatically.)
 
 ---
 
@@ -460,7 +496,7 @@ git commit -m "Port i18n and navigation primitives from react-router to next/nav
 
 **Files:**
 - Modify: `src/components/siteData.js`
-- Modify: `src/pages/Home.jsx`
+- Modify: `src/views/Home.jsx`
 - Create: `app/page.jsx` (overwrites Task 1's placeholder)
 - Create: `app/en/page.jsx`
 
@@ -492,7 +528,7 @@ export { CONTACT_EMAIL, CONTACT_PHONE } from "../constants/site";
 
 `Home.jsx` calls `useT("home")`, which reads `LanguageProvider`'s React context — that requires the client directive. Its metadata job moves to `generateMetadata` in the new route files (Step 3), so the `useSeo("home")` call and its import are removed to avoid two different systems writing conflicting `<title>`/meta tags into the document.
 
-Modify `src/pages/Home.jsx` — replace the top of the file:
+Modify `src/views/Home.jsx` — replace the top of the file:
 
 ```jsx
 "use client";
@@ -518,7 +554,7 @@ export default function Home() {
 Create `app/page.jsx`:
 
 ```jsx
-import Home from "../src/pages/Home";
+import Home from "../src/views/Home";
 import { pathFor } from "../src/constants/routes";
 import { organisationJsonLd } from "../src/seo/headTags";
 import { SEO_META } from "../src/seo/metadata";
@@ -575,7 +611,7 @@ export default function HomeFr() {
 Create `app/en/page.jsx`:
 
 ```jsx
-import Home from "../../src/pages/Home";
+import Home from "../../src/views/Home";
 import { pathFor } from "../../src/constants/routes";
 import { organisationJsonLd } from "../../src/seo/headTags";
 import { SEO_META } from "../../src/seo/metadata";
@@ -650,7 +686,7 @@ Stop the dev server.
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/components/siteData.js src/pages/Home.jsx app/page.jsx app/en/page.jsx
+git add src/components/siteData.js src/views/Home.jsx app/page.jsx app/en/page.jsx
 git commit -m "Wire Home page onto Next.js App Router with fr/en metadata"
 ```
 
