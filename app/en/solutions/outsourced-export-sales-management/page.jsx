@@ -1,8 +1,8 @@
-import Pilotage from "../../../../src/views/Pilotage";
-import { pathFor } from "../../../../src/constants/routes";
-import { organisationJsonLd } from "../../../../src/seo/headTags";
-import { SEO_META } from "../../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../../src/constants/site";
+import PilotageContent from "@/components/PilotageContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.pilotage.en;
@@ -44,7 +44,7 @@ export default function PilotageEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <Pilotage />
+      <PilotageContent lang="en" />
     </>
   );
 }

@@ -1,18 +1,22 @@
-import Article from "../../../src/views/Article";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import { notFound, redirect } from "next/navigation";
 
-/**
- * Per-article title/description would need a server-side Supabase fetch here
- * (out of scope for this phase — Supabase/env wiring is untouched), so this
- * dynamic route falls back to the same static copy as the news list. The
- * client component still updates `document.title` once the article loads.
- */
-export function generateMetadata() {
-  const { title, description } = SEO_META.news.fr;
-  const url = `${SITE_URL}${pathFor("news", "fr")}`;
+import ArticleContent from "@/components/ArticleContent";
+import { getArticleBySlug } from "@/lib/data/articles";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { articleMeta } from "@/lib/seo/metadata";
+import { SITE_URL } from "@/lib/constants/site";
+
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+  if (!article) return {};
+
+  const { title, description } = articleMeta(article, "fr");
+  const canonicalSlug = article.slug.fr ?? slug;
+  const url = `${SITE_URL}${pathFor("article", "fr", { slug: canonicalSlug })}`;
 
   return {
     title,
@@ -21,27 +25,25 @@ export function generateMetadata() {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("news", "en")}`,
+        en: `${SITE_URL}${pathFor("article", "en", { slug: article.slug.en ?? canonicalSlug })}`,
         "x-default": url,
       },
     },
-    openGraph: {
-      title,
-      description,
-      url,
-      type: "website",
-      siteName: SITE_NAME,
-      locale: "fr_FR",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
+    openGraph: { title, description, url, type: "article" },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
-export default function ArticleFr() {
+export default async function ArticlePageFr({ params }) {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+  if (!article) notFound();
+
+  const canonicalSlug = article.slug.fr ?? article.slug.en;
+  if (slug !== canonicalSlug) {
+    redirect(pathFor("article", "fr", { slug: canonicalSlug }));
+  }
+
   return (
     <>
       <script
@@ -50,7 +52,7 @@ export default function ArticleFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <Article />
+      <ArticleContent article={article} lang="fr" />
     </>
   );
 }

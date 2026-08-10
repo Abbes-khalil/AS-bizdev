@@ -1,8 +1,8 @@
-import Home from "../../src/views/Home";
-import { pathFor } from "../../src/constants/routes";
-import { organisationJsonLd } from "../../src/seo/headTags";
-import { SEO_META } from "../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../src/constants/site";
+import HomeContent from "@/components/HomeContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.home.en;
@@ -35,7 +35,7 @@ export function generateMetadata() {
   };
 }
 
-export default function HomeEn() {
+export default function HomePageEn() {
   return (
     <>
       <script
@@ -44,7 +44,7 @@ export default function HomeEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <Home />
+      <HomeContent lang="en" />
     </>
   );
 }

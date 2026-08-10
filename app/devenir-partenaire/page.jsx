@@ -1,8 +1,8 @@
-import BecomePartner from "../../src/views/BecomePartner";
-import { pathFor } from "../../src/constants/routes";
-import { organisationJsonLd } from "../../src/seo/headTags";
-import { SEO_META } from "../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../src/constants/site";
+import BecomePartnerContent from "@/components/BecomePartnerContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.becomePartner.fr;
@@ -44,7 +44,7 @@ export default function BecomePartnerFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <BecomePartner />
+      <BecomePartnerContent lang="fr" />
     </>
   );
 }

@@ -1,7 +1,7 @@
 /**
  * One-off generator: turns world-atlas's TopoJSON into a static SVG path
  * dataset scoped to Africa + the Middle East, with pixel centroids for our
- * 14 active markets. Output is plain data (src/data/marketsMapData.js) — no
+ * 14 active markets. Output is plain data (lib/data/marketsMapData.js) — no
  * mapping library ships to the client, only the numbers this script computes.
  *
  *   node scripts/build-markets-map.mjs
@@ -17,7 +17,7 @@ import { feature } from "topojson-client";
 
 import topology from "world-atlas/countries-50m.json" with { type: "json" };
 
-// ISO 3166-1 numeric → our stable `key` (must match src/data/countries.js).
+// ISO 3166-1 numeric → our stable `key` (must match lib/data/countries.js).
 const ACTIVE = {
   "788": "tunisia",
   "504": "morocco",
@@ -102,6 +102,6 @@ export const MAP_COUNTRIES = ${JSON.stringify(
 export const MARKET_POSITIONS = ${JSON.stringify(markets, null, 2)};
 `;
 
-const dest = fileURLToPath(new URL("../src/data/marketsMapData.js", import.meta.url));
+const dest = fileURLToPath(new URL("../lib/data/marketsMapData.js", import.meta.url));
 await writeFile(dest, out, "utf8");
-console.log(`✓ ${countries.length} country shapes, ${Object.keys(markets).length} active markets → src/data/marketsMapData.js`);
+console.log(`✓ ${countries.length} country shapes, ${Object.keys(markets).length} active markets → lib/data/marketsMapData.js`);

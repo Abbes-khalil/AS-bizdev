@@ -1,11 +1,8 @@
-import { Suspense } from "react";
-
-import Contact from "../../src/views/Contact";
-import PageLoader from "../../src/components/PageLoader";
-import { pathFor } from "../../src/constants/routes";
-import { organisationJsonLd } from "../../src/seo/headTags";
-import { SEO_META } from "../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../src/constants/site";
+import ContactContent from "@/components/ContactContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.contact.fr;
@@ -38,7 +35,7 @@ export function generateMetadata() {
   };
 }
 
-export default function ContactFr() {
+export default function ContactPageFr() {
   return (
     <>
       <script
@@ -47,9 +44,7 @@ export default function ContactFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <Suspense fallback={<PageLoader />}>
-        <Contact />
-      </Suspense>
+      <ContactContent lang="fr" />
     </>
   );
 }

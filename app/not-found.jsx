@@ -1,6 +1,6 @@
-import NotFound from "../src/views/NotFound";
-import { organisationJsonLd } from "../src/seo/headTags";
-import { SEO_META } from "../src/seo/metadata";
+import NotFoundContent from "@/components/NotFoundContent";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
 
 /**
  * Rendered for any URL that matches no route, in either language tree —
@@ -22,7 +22,7 @@ export default function NotFoundPage() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <NotFound />
+      <NotFoundContent />
     </>
   );
 }

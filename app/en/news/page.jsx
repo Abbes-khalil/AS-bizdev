@@ -1,8 +1,10 @@
-import News from "../../../src/views/News";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import NewsContent from "@/components/NewsContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
+
+export const revalidate = 3600;
 
 export function generateMetadata() {
   const { title, description } = SEO_META.news.en;
@@ -35,7 +37,7 @@ export function generateMetadata() {
   };
 }
 
-export default function NewsEn() {
+export default function NewsPageEn() {
   return (
     <>
       <script
@@ -44,7 +46,7 @@ export default function NewsEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <News />
+      <NewsContent lang="en" />
     </>
   );
 }

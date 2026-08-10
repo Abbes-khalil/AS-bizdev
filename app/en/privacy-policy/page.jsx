@@ -1,8 +1,8 @@
-import Policy from "../../../src/views/Policy";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import PolicyContent from "@/components/PolicyContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.policy.en;
@@ -44,7 +44,7 @@ export default function PolicyEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <Policy />
+      <PolicyContent lang="en" />
     </>
   );
 }

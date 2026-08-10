@@ -1,8 +1,8 @@
-import Sectors from "../../../src/views/Sectors";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import SectorsContent from "@/components/SectorsContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.sectors.en;
@@ -44,7 +44,7 @@ export default function SectorsEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <Sectors />
+      <SectorsContent lang="en" />
     </>
   );
 }

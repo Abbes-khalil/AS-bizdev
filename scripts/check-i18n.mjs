@@ -23,7 +23,7 @@ const MODULES = [
   "policy",
 ];
 
-const BASE = new URL("../src/i18n/content/", import.meta.url);
+const BASE = new URL("../lib/i18n/content/", import.meta.url);
 
 /** Flattens a dictionary into comparable "path:type" descriptors. */
 const shape = (value, path = "") => {

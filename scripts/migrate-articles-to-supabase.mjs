@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-import { ARTICLES } from "../src/i18n/content/news/index.js";
+import { ARTICLES } from "../lib/i18n/content/news/index.js";
 
 /**
  * One-time (re-runnable) migration of the legacy static article files into
@@ -36,7 +36,7 @@ const toRow = (article) => ({
 async function main() {
   const rows = ARTICLES.map(toRow);
 
-  console.log(`Found ${rows.length} article(s) in src/i18n/content/news:`);
+  console.log(`Found ${rows.length} article(s) in lib/i18n/content/news:`);
   for (const row of rows) {
     console.log(`  - ${row.slug_fr} (${row.status}, published_at=${row.published_at ?? "null"})`);
   }

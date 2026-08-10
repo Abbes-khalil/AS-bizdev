@@ -1,11 +1,8 @@
-import { Suspense } from "react";
-
-import MarketZone from "../../../src/views/MarketZone";
-import PageLoader from "../../../src/components/PageLoader";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import MarketZoneContent from "@/components/MarketZoneContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.africa.fr;
@@ -47,9 +44,7 @@ export default function AfricaFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <Suspense fallback={<PageLoader />}>
-        <MarketZone continent="africa" />
-      </Suspense>
+      <MarketZoneContent lang="fr" continent="africa" />
     </>
   );
 }

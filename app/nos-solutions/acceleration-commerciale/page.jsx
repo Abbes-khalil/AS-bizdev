@@ -1,8 +1,8 @@
-import Acceleration from "../../../src/views/Acceleration";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import AccelerationContent from "@/components/AccelerationContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.acceleration.fr;
@@ -44,7 +44,7 @@ export default function AccelerationFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <Acceleration />
+      <AccelerationContent lang="fr" />
     </>
   );
 }

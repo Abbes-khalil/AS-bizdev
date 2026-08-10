@@ -1,8 +1,8 @@
-import Solutions from "../../src/views/Solutions";
-import { pathFor } from "../../src/constants/routes";
-import { organisationJsonLd } from "../../src/seo/headTags";
-import { SEO_META } from "../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../src/constants/site";
+import SolutionsContent from "@/components/SolutionsContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.solutions.fr;
@@ -44,7 +44,7 @@ export default function SolutionsFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <Solutions />
+      <SolutionsContent lang="fr" />
     </>
   );
 }

@@ -1,11 +1,11 @@
-import "../src/styles.css";
+import "@/styles/globals.css";
 
-import Layout from "../src/components/Layout";
-import { LanguageProvider } from "../src/i18n/LanguageProvider";
+import Layout from "@/components/Layout";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 export const metadata = {
   icons: {
-    icon: "/brand_assets/logo asbizdev.png",
+    icon: "/brand_assets/asbizdev.png",
   },
 };
 

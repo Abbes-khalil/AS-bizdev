@@ -1,11 +1,8 @@
-import { Suspense } from "react";
-
-import Markets from "../../../src/views/Markets";
-import PageLoader from "../../../src/components/PageLoader";
-import { pathFor } from "../../../src/constants/routes";
-import { organisationJsonLd } from "../../../src/seo/headTags";
-import { SEO_META } from "../../../src/seo/metadata";
-import { SITE_NAME, SITE_URL } from "../../../src/constants/site";
+import MarketsContent from "@/components/MarketsContent";
+import { pathFor } from "@/lib/constants/routes";
+import { organisationJsonLd } from "@/lib/seo/headTags";
+import { SEO_META } from "@/lib/seo/metadata";
+import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.markets.en;
@@ -47,9 +44,7 @@ export default function MarketsEn() {
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
       />
-      <Suspense fallback={<PageLoader />}>
-        <Markets />
-      </Suspense>
+      <MarketsContent lang="en" />
     </>
   );
 }

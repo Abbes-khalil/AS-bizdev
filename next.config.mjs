@@ -1,5 +1,5 @@
-import { LEGACY_REDIRECTS } from "./src/constants/legacyRedirects.js";
-import { pathFor } from "./src/constants/paths.js";
+import { LEGACY_REDIRECTS } from "./lib/constants/legacyRedirects.js";
+import { pathFor } from "./lib/constants/paths.js";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,6 +10,16 @@ const nextConfig = {
       destination: pathFor(key, "fr"),
       permanent: true,
     }));
+  },
+  async headers() {
+    return [
+      {
+        source: "/brand_assets/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
   },
 };
 
