@@ -67,7 +67,7 @@ export default function AccelerationContent({ lang }) {
           <BulletList items={t.interventions.items} columns={2} />
         </RevealOnScroll>
 
-        <CtaBlock {...t.cta} className="mt-[4rem]" />
+        <CtaBlock {...t.cta} lang={lang} className="mt-[4rem]" />
       </Section>
     </main>
   );

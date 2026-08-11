@@ -2,12 +2,14 @@ import BulletList from "@/components/BulletList";
 import CtaBlock from "@/components/CtaBlock";
 import PageHero from "@/components/PageHero";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
+import Link from "next/link";
+
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import Team from "@/components/Team";
 import TextCard from "@/components/TextCard";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 /** AS Biz Dev — positioning, method, principles, know-how, team (§2, §5). */
 export default function AboutContent({ lang }) {
@@ -89,16 +91,16 @@ export default function AboutContent({ lang }) {
         </div>
 
         <RevealOnScroll variant="up" className="mt-[2rem]">
-          <RouteLink routeKey="sectors" className="btn-ghost">
+          <Link href={ROUTES.sectors[lang]} className="btn-ghost">
             {t.expertise.sectorsCta}
-          </RouteLink>
+          </Link>
         </RevealOnScroll>
       </Section>
 
       <Team lang={lang} />
 
       <Section>
-        <CtaBlock {...t.cta} />
+        <CtaBlock {...t.cta} lang={lang} />
       </Section>
     </main>
   );

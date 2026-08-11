@@ -1,23 +1,27 @@
-import { Suspense } from "react";
+import Link from "next/link";
 
 import ArrowIcon from "@/components/ArrowIcon";
 import BulletList from "@/components/BulletList";
 import CtaBlock from "@/components/CtaBlock";
-import MarketExperience from "@/components/MarketExperience";
+import OfferCard from "@/components/OfferCard";
 import PageHero from "@/components/PageHero";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import { COUNTRIES, SUBREGIONS } from "@/lib/data/countries";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 /**
- * /marches — the main market experience: an interactive map plus an
- * accessible gallery list, both opening the same on-page modal.
+ * /marches — the main markets page: a closing quote, then a two-card fork
+ * into the Africa and Middle East zone pages (each with its own map).
  */
 export default function MarketsContent({ lang }) {
   const t = getDictionary(lang, "markets");
+
+  const zoneOffers = [
+    { routeKey: "africa", ...t.zones.africa },
+    { routeKey: "middleEast", ...t.zones.middleEast },
+  ];
 
   return (
     <main>
@@ -34,18 +38,19 @@ export default function MarketsContent({ lang }) {
         </RevealOnScroll>
       </Section>
 
-      <Suspense fallback={null}>
-        <MarketExperience
-          countries={COUNTRIES}
-          groups={t.groups}
-          filterSectors={SUBREGIONS}
-          showFilter
-          mapLabel={t.mapLabel}
-          filterLabels={t.filters}
-          countryCta={t.countryCta}
-          modalLabels={t.modal}
-        />
-      </Suspense>
+      <Section>
+        <div className="grid gap-[1.5rem] lg:grid-cols-2 lg:gap-[2rem]">
+          {zoneOffers.map((offer, index) => (
+            <OfferCard
+              key={offer.routeKey}
+              offer={{ ...offer, title: offer.titleAccent, body: offer.intro }}
+              index={index}
+              lang={lang}
+              moreLabel={t.zonesCta}
+            />
+          ))}
+        </div>
+      </Section>
 
       <Section tone="alt">
         <SectionHeading
@@ -58,15 +63,15 @@ export default function MarketsContent({ lang }) {
         <BulletList items={t.capabilities.items} className="mt-[2.5rem] max-w-2xl" />
 
         <RevealOnScroll variant="up" className="mt-[2.5rem]">
-          <RouteLink routeKey="sectors" className="btn-ghost">
+          <Link href={ROUTES.sectors[lang]} className="btn-ghost">
             {t.sectorsLink}
             <ArrowIcon />
-          </RouteLink>
+          </Link>
         </RevealOnScroll>
       </Section>
 
       <Section>
-        <CtaBlock {...t.cta} />
+        <CtaBlock {...t.cta} lang={lang} />
       </Section>
     </main>
   );

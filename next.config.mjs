@@ -1,5 +1,5 @@
 import { LEGACY_REDIRECTS } from "./lib/constants/legacyRedirects.js";
-import { pathFor } from "./lib/constants/paths.js";
+import { ROUTES } from "./lib/routes.js";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -7,7 +7,7 @@ const nextConfig = {
   async redirects() {
     return Object.entries(LEGACY_REDIRECTS).map(([from, key]) => ({
       source: from,
-      destination: pathFor(key, "fr"),
+      destination: ROUTES[key].fr,
       permanent: true,
     }));
   },

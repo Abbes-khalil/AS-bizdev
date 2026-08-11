@@ -19,12 +19,13 @@ export default function SolutionsContent({ lang }) {
               key={offer.routeKey}
               offer={offer}
               index={index}
+              lang={lang}
               moreLabel={t.more}
             />
           ))}
         </div>
 
-        <CtaBlock {...t.cta} className="mt-[4rem]" />
+        <CtaBlock {...t.cta} lang={lang} className="mt-[4rem]" />
       </Section>
     </main>
   );

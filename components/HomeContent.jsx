@@ -1,12 +1,14 @@
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import OfferCard from "@/components/OfferCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import StepList from "@/components/StepList";
 import { ASSET } from "@/lib/siteData";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 export default function HomeContent({ lang }) {
   const t = getDictionary(lang, "home");
@@ -33,13 +35,13 @@ export default function HomeContent({ lang }) {
               ))}
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <RouteLink routeKey="contact" className="btn-primary">
+                <Link href={ROUTES.contact[lang]} className="btn-primary">
                   {t.hero.ctaPrimary}
                   <ArrowIcon />
-                </RouteLink>
-                <RouteLink routeKey="solutions" className="btn-secondary">
+                </Link>
+                <Link href={ROUTES.solutions[lang]} className="btn-secondary">
                   {t.hero.ctaSecondary}
-                </RouteLink>
+                </Link>
               </div>
             </RevealOnScroll>
 
@@ -74,6 +76,7 @@ export default function HomeContent({ lang }) {
               key={offer.routeKey}
               offer={offer}
               index={index}
+              lang={lang}
               moreLabel={t.twoWays.more}
             />
           ))}
@@ -111,10 +114,10 @@ export default function HomeContent({ lang }) {
           </RevealOnScroll>
 
           <RevealOnScroll variant="up" delay={0.1} className="lg:justify-self-end">
-            <RouteLink routeKey="markets" className="btn-primary">
+            <Link href={ROUTES.markets[lang]} className="btn-primary">
               {t.markets.cta}
               <ArrowIcon />
-            </RouteLink>
+            </Link>
           </RevealOnScroll>
         </div>
       </Section>
@@ -130,10 +133,10 @@ export default function HomeContent({ lang }) {
           />
 
           <RevealOnScroll variant="up" delay={0.1} className="lg:justify-self-end">
-            <RouteLink routeKey="becomePartner" className="btn-navy">
+            <Link href={ROUTES.becomePartner[lang]} className="btn-navy">
               {t.partner.cta}
               <ArrowIcon />
-            </RouteLink>
+            </Link>
           </RevealOnScroll>
         </div>
       </Section>

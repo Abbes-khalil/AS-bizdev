@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 import ReferenceCard from "@/components/ReferenceCard";
@@ -10,6 +11,10 @@ import SectorFilter from "@/components/SectorFilter";
  * Denser mosaic of the remaining client references, filterable by sector.
  * Owns the active-tab state; filtering itself stays a one-liner so it's
  * obvious a company never renders twice even when it lists two sectors.
+ *
+ * `AnimatePresence mode="popLayout"` + each card's `layout` prop turns a
+ * filter change into a fade + reflow instead of the grid snapping to its new
+ * shape instantly.
  */
 const SecondaryReferences = ({
   orgs,
@@ -19,6 +24,8 @@ const SecondaryReferences = ({
   typeLabel,
   websiteLabel,
   logoAlt,
+  groupLabel,
+  groupsLabel,
 }) => {
   const [active, setActive] = useState("all");
 
@@ -32,18 +39,24 @@ const SecondaryReferences = ({
         <SectorFilter sectors={sectors} labels={sectorLabels} active={active} onChange={setActive} />
       </RevealOnScroll>
 
-      <ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {visible.map((org, i) => (
-          <li key={org.key}>
-            <ReferenceCard
-              org={org}
-              index={i}
-              typeLabel={typeLabel}
-              websiteLabel={websiteLabel}
-              logoAlt={logoAlt}
-            />
-          </li>
-        ))}
+      <ul role="list" className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visible.map((org, i) => (
+            <li key={org.key}>
+              <ReferenceCard
+                org={org}
+                index={i}
+                typeLabel={typeLabel}
+                websiteLabel={websiteLabel}
+                logoAlt={logoAlt}
+                sectorLabels={sectorLabels}
+                groupLabel={groupLabel}
+                groupsLabel={groupsLabel}
+                layout
+              />
+            </li>
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );

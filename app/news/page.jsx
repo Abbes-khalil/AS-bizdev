@@ -1,5 +1,5 @@
 import NewsContent from "@/components/NewsContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
@@ -8,7 +8,7 @@ export const revalidate = 3600;
 
 export function generateMetadata() {
   const { title, description } = SEO_META.news.fr;
-  const url = `${SITE_URL}${pathFor("news", "fr")}`;
+  const url = `${SITE_URL}${ROUTES.news.fr}`;
 
   return {
     title,
@@ -17,7 +17,7 @@ export function generateMetadata() {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("news", "en")}`,
+        en: `${SITE_URL}${ROUTES.news.en}`,
         "x-default": url,
       },
     },

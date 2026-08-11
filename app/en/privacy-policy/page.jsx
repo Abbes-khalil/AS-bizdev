@@ -1,12 +1,12 @@
 import PolicyContent from "@/components/PolicyContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.policy.en;
-  const url = `${SITE_URL}${pathFor("policy", "en")}`;
+  const url = `${SITE_URL}${ROUTES.policy.en}`;
 
   return {
     title,
@@ -14,9 +14,9 @@ export function generateMetadata() {
     alternates: {
       canonical: url,
       languages: {
-        fr: `${SITE_URL}${pathFor("policy", "fr")}`,
+        fr: `${SITE_URL}${ROUTES.policy.fr}`,
         en: url,
-        "x-default": `${SITE_URL}${pathFor("policy", "fr")}`,
+        "x-default": `${SITE_URL}${ROUTES.policy.fr}`,
       },
     },
     openGraph: {

@@ -1,20 +1,16 @@
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import Eyebrow from "@/components/Eyebrow";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
+import { ROUTES } from "@/lib/routes";
 
 /**
  * Centred closing call-to-action, shared by every content page.
- * Targets a route key so the link follows the visitor's language.
+ * Every page uses this to point at Contact — that's the only place it's
+ * ever pointed, so it just needs to know which language it's in.
  */
-const CtaBlock = ({
-  eyebrow,
-  heading,
-  label,
-  routeKey = "contact",
-  params,
-  className = "",
-}) => (
+const CtaBlock = ({ eyebrow, heading, label, lang, className = "" }) => (
   <RevealOnScroll
     variant="up"
     className={`flex flex-col items-center gap-4 text-center ${className}`}
@@ -25,10 +21,10 @@ const CtaBlock = ({
       {heading}
     </h2>
 
-    <RouteLink routeKey={routeKey} params={params} className="btn-primary mt-2">
+    <Link href={ROUTES.contact[lang]} className="btn-primary mt-2">
       {label}
       <ArrowIcon />
-    </RouteLink>
+    </Link>
   </RevealOnScroll>
 );
 

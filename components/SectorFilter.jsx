@@ -1,16 +1,17 @@
 /**
- * Sector tabs for the secondary references mosaic — purely presentational,
- * filtering happens in the caller.
+ * Sector filter toggles for the secondary references mosaic — purely
+ * presentational, filtering happens in the caller. These are exclusive
+ * filter buttons, not content tabs with separate panels, so they use the
+ * plain toggle-button ARIA pattern (aria-pressed) rather than role="tab" —
+ * mixing both on one control is redundant and not a standard pattern.
  */
 const SectorFilter = ({ sectors, labels, active, onChange }) => (
-  <div role="tablist" aria-label={labels.all} className="flex flex-wrap gap-2">
+  <div role="group" aria-label={labels.ariaLabel} className="flex flex-wrap gap-2">
     {["all", ...sectors].map((sector) => (
       <button
         key={sector}
         type="button"
-        role="tab"
         aria-pressed={active === sector}
-        aria-selected={active === sector}
         onClick={() => onChange(sector)}
         className={`rounded-btn px-4 py-2 font-display text-[0.85rem] font-medium transition-colors duration-300 ${
           active === sector

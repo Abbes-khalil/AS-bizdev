@@ -1,12 +1,12 @@
 import HomeContent from "@/components/HomeContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.home.fr;
-  const url = `${SITE_URL}${pathFor("home", "fr")}`;
+  const url = `${SITE_URL}${ROUTES.home.fr}`;
 
   return {
     title,
@@ -15,7 +15,7 @@ export function generateMetadata() {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("home", "en")}`,
+        en: `${SITE_URL}${ROUTES.home.en}`,
         "x-default": url,
       },
     },

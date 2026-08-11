@@ -1,11 +1,13 @@
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import ExternalLink from "@/components/ExternalLink";
 import PageHero from "@/components/PageHero";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
 import { getPublishedArticles, flattenForLang } from "@/lib/data/articles";
 import { getDictionary, interpolate } from "@/lib/i18n/dictionaries";
 import { themeLabel, zoneLabel } from "@/lib/i18n/content/news/taxonomy";
+import { articleUrl } from "@/lib/routes";
 
 const EMPTY_MESSAGE = {
   fr: "Aucun article n'est publié pour le moment.",
@@ -78,14 +80,13 @@ const ArticleCard = ({ article, index, lang, t }) => {
         )}
 
         <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
-          <RouteLink
-            routeKey="article"
-            params={{ slug }}
+          <Link
+            href={articleUrl(lang, slug)}
             className="inline-flex items-center gap-2 font-display text-[0.95rem] font-semibold text-navy link-underline"
           >
             {t.readMore}
             <ArrowIcon />
-          </RouteLink>
+          </Link>
 
           {article.source?.url && (
             <ExternalLink href={article.source.url} className="text-gray-500">

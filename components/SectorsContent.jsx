@@ -1,14 +1,16 @@
 import CrossFactorDiagram from "@/components/CrossFactorDiagram";
 import CtaBlock from "@/components/CtaBlock";
+import Link from "next/link";
+
 import OfferCard from "@/components/OfferCard";
 import PageHero from "@/components/PageHero";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import SectorExplorer from "@/components/SectorExplorer";
 import ArrowIcon from "@/components/ArrowIcon";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 /** Sectors AS Biz Dev has a real understanding of, not a specialism list. */
 export default function SectorsContent({ lang }) {
@@ -65,10 +67,10 @@ export default function SectorsContent({ lang }) {
           <p className="max-w-2xl text-[1.0625rem] leading-[1.7] text-white/75">
             {t.marketsLink.body}
           </p>
-          <RouteLink routeKey="markets" className="btn-primary mt-2">
+          <Link href={ROUTES.markets[lang]} className="btn-primary mt-2">
             {t.marketsLink.cta}
             <ArrowIcon />
-          </RouteLink>
+          </Link>
         </RevealOnScroll>
       </Section>
 
@@ -81,13 +83,13 @@ export default function SectorsContent({ lang }) {
 
         <div className="mt-[3rem] grid gap-[1.5rem] lg:grid-cols-2 lg:gap-[2rem]">
           {t.offers.items.map((offer, index) => (
-            <OfferCard key={offer.routeKey} offer={offer} index={index} moreLabel={t.offers.more} />
+            <OfferCard key={offer.routeKey} offer={offer} index={index} lang={lang} moreLabel={t.offers.more} />
           ))}
         </div>
       </Section>
 
       <Section>
-        <CtaBlock {...t.cta} />
+        <CtaBlock {...t.cta} lang={lang} />
       </Section>
     </main>
   );

@@ -81,7 +81,7 @@ export default function PilotageContent({ lang }) {
       </Section>
 
       <Section tone="alt">
-        <CtaBlock {...t.cta} />
+        <CtaBlock {...t.cta} lang={lang} />
       </Section>
     </main>
   );

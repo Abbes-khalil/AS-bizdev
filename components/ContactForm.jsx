@@ -1,14 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 import ArrowIcon from "@/components/ArrowIcon";
 import Field from "@/components/form/Field";
 import FormStatus from "@/components/form/FormStatus";
-import RouteLink from "@/components/RouteLink";
 import { findCountryByKey } from "@/lib/data/countries";
 import useContactForm from "@/hooks/useContactForm";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 /**
  * The interactive part of /contact: form state, validation, submission, and
@@ -108,12 +109,12 @@ export default function ContactForm({ lang }) {
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
         <p className="text-xs text-gray-500">
           {t.form.consentBefore}{" "}
-          <RouteLink
-            routeKey="policy"
+          <Link
+            href={ROUTES.policy[lang]}
             className="text-navy underline underline-offset-2 hover:text-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded"
           >
             {t.form.consentLink}
-          </RouteLink>
+          </Link>
           .
         </p>
         <button

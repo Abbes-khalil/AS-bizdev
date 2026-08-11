@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import DesktopNav from "@/components/nav/DesktopNav";
 import LangSwitcher from "@/lib/i18n/LangSwitcher";
 import MobileNav from "@/components/nav/MobileNav";
-import RouteLink from "@/components/RouteLink";
+import { ROUTES } from "@/lib/routes";
 import { ASSET } from "@/lib/siteData";
 import useActiveRoute from "@/hooks/useActiveRoute";
-import { useT } from "@/lib/i18n/dictionaries";
+import { useLang, useT } from "@/lib/i18n/dictionaries";
 
-const Logo = ({ label }) => (
-  <RouteLink
-    routeKey="home"
+const Logo = ({ lang, label }) => (
+  <Link
+    href={ROUTES.home[lang]}
     aria-label={label}
     className="group inline-flex items-center"
   >
@@ -22,7 +23,7 @@ const Logo = ({ label }) => (
       alt="AS Biz Dev"
       className="h-9 w-auto transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105"
     />
-  </RouteLink>
+  </Link>
 );
 
 const HamburgerIcon = ({ open }) => (
@@ -46,6 +47,7 @@ const HamburgerIcon = ({ open }) => (
 );
 
 export default function Navbar() {
+  const { lang } = useLang();
   const { nav: t, navigation } = useT("common");
   const activeKey = useActiveRoute();
   const pathname = usePathname();
@@ -81,10 +83,11 @@ export default function Navbar() {
 
       <header className="fixed inset-x-0 top-0 z-50 h-[80px] border-b border-transparent bg-white/0 backdrop-blur-0 transition-all duration-300 ease-emphasized [.is-scrolled_&]:border-gray-200 [.is-scrolled_&]:bg-white/95 [.is-scrolled_&]:backdrop-blur-lg [.is-scrolled_&]:shadow-soft">
         <div className="container-x flex h-full items-center justify-between">
-          <Logo label={t.homeAria} />
+          <Logo lang={lang} label={t.homeAria} />
 
           <div className="flex items-center gap-3">
             <DesktopNav
+              lang={lang}
               items={navigation}
               activeKey={activeKey}
               ariaLabel={t.primaryAria}
@@ -107,6 +110,7 @@ export default function Navbar() {
       </header>
 
       <MobileNav
+        lang={lang}
         open={open}
         items={navigation}
         activeKey={activeKey}

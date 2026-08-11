@@ -1,12 +1,12 @@
 import MarketsContent from "@/components/MarketsContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.markets.fr;
-  const url = `${SITE_URL}${pathFor("markets", "fr")}`;
+  const url = `${SITE_URL}${ROUTES.markets.fr}`;
 
   return {
     title,
@@ -15,7 +15,7 @@ export function generateMetadata() {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("markets", "en")}`,
+        en: `${SITE_URL}${ROUTES.markets.en}`,
         "x-default": url,
       },
     },

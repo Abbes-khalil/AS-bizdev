@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import PageHero from "@/components/PageHero";
-import RouteLink from "@/components/RouteLink";
 import Section from "@/components/Section";
 import { useLang } from "@/lib/i18n/LanguageProvider";
+import { ROUTES } from "@/lib/routes";
 
 const COPY = {
   fr: {
@@ -42,13 +44,13 @@ export default function NotFoundContent() {
 
       <Section>
         <div className="flex flex-wrap gap-4">
-          <RouteLink routeKey="home" className="btn-primary">
+          <Link href={ROUTES.home[lang]} className="btn-primary">
             {t.home}
             <ArrowIcon />
-          </RouteLink>
-          <RouteLink routeKey="markets" className="btn-secondary">
+          </Link>
+          <Link href={ROUTES.markets[lang]} className="btn-secondary">
             {t.markets}
-          </RouteLink>
+          </Link>
         </div>
       </Section>
     </main>

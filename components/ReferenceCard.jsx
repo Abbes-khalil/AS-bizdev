@@ -1,89 +1,116 @@
+"use client";
+
+import { useState } from "react";
+
 import ExternalLink from "@/components/ExternalLink";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { ASSET } from "@/lib/siteData";
 import { interpolate } from "@/lib/i18n/dictionaries";
 
+/**
+ * A logo that 404s (moved/renamed asset) must never surface the browser's
+ * broken-image icon — `logoFailed` demotes the card to the same typographic
+ * placeholder used when `org.logo` is unset, so both paths share one
+ * `showLogo` check instead of drifting into two different fallback UIs.
+ *
+ * The logo zone is a fixed-height flex box regardless of the source file's
+ * own aspect ratio (square, very wide, tall, heavily padded) — `object-fit:
+ * contain` inside a `max-width`/`max-height` box keeps every logo's true
+ * proportions while giving the grid one consistent silhouette. `logoScale`
+ * is an escape hatch (default 1) for the rare logo that's technically
+ * correctly sized but visually reads smaller/larger than its neighbours —
+ * it only nudges the render size, never the layout box.
+ *
+ * Client references show logo, name and group/brand line only — no sector
+ * tags, no description. Network/partner entries (the Écosystèmes & réseaux
+ * section) are the exception: they always show their relationship text,
+ * since explaining *why* the logo is there is the whole point of that
+ * section, not an aside.
+ */
 const ReferenceCard = ({
   org,
   index,
-  typeLabel,
   featured = false,
   websiteLabel,
   logoAlt,
-}) => (
-  <RevealOnScroll
-    as="article"
-    variant="up"
-    delay={0.05}
-    index={index}
-    className={`flex h-full flex-col rounded-card border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift ${
-      featured ? "p-8" : "p-6"
-    }`}
-  >
-    <div className={`grid place-items-center ${featured ? "h-28" : "h-20"}`}>
-      {org.logo ? (
-        <img
-          src={ASSET + org.logo}
-          alt={interpolate(logoAlt, { name: org.name })}
-          loading="lazy"
-          decoding="async"
-          width="192"
-          height="80"
-          className="max-h-20 max-w-[12rem] object-contain opacity-90 transition-all duration-500 hover:opacity-100"
-        />
-      ) : (
-        <p
-          className={`font-display font-semibold tracking-tight text-navy text-balance text-center ${
-            featured ? "text-[1.375rem]" : "text-[1.05rem]"
+  groupLabel,
+  groupsLabel,
+  layout = false,
+}) => {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const showLogo = Boolean(org.logo) && !logoFailed;
+
+  const description = org.contribution ?? org.description;
+  const showDescription = org.type !== "client" && Boolean(description);
+
+  return (
+    <RevealOnScroll
+      as="article"
+      variant="up"
+      delay={0.05}
+      index={Math.min(index, 5)}
+      layout={layout || undefined}
+      exit={layout ? { opacity: 0, scale: 0.97 } : undefined}
+      className={`group/card flex h-full flex-col rounded-card border border-gray-200 bg-white transition-all duration-200 ease-out hover:-translate-y-1 hover:border-navy hover:shadow-lift focus-visible:-translate-y-1 focus-visible:border-navy focus-visible:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 ${
+        featured ? "p-6" : "p-5"
+      }`}
+    >
+      <div
+        className={`flex shrink-0 items-center justify-center px-2 ${featured ? "h-28" : "h-24"}`}
+      >
+        {showLogo ? (
+          <img
+            src={ASSET + org.logo}
+            alt={interpolate(logoAlt, { name: org.name })}
+            loading="lazy"
+            decoding="async"
+            width="192"
+            height="80"
+            onError={() => setLogoFailed(true)}
+            style={
+              org.logoScale && org.logoScale !== 1
+                ? { transform: `scale(${org.logoScale})` }
+                : undefined
+            }
+            className="max-h-[70%] max-w-[75%] object-contain transition-transform duration-200 ease-out group-hover/card:scale-[1.02]"
+          />
+        ) : (
+          <p
+            className={`text-balance text-center font-display font-semibold tracking-tight text-navy ${
+              featured ? "text-[1.25rem]" : "text-[1.05rem]"
+            }`}
+          >
+            {org.name}
+          </p>
+        )}
+      </div>
+
+      {showLogo && (
+        <h3
+          className={`mt-4 line-clamp-2 font-display font-semibold leading-tight tracking-tight text-navy ${
+            featured ? "text-[1.125rem]" : "text-[1rem]"
           }`}
         >
           {org.name}
+        </h3>
+      )}
+
+      {org.groupBrands && (
+        <p className="mt-2 text-[0.8125rem] text-gray-500">
+          <span className="text-gray-400">
+            {org.groupBrands.length > 1 ? groupsLabel : groupLabel}
+          </span>{" "}
+          {org.groupBrands.join(" · ")}
         </p>
       )}
-    </div>
 
-    <div className="mt-6 flex items-center gap-3">
-      <span aria-hidden="true" className="h-px flex-1 bg-gray-200" />
-      <span className="font-display text-[0.65rem] font-medium uppercase tracking-widest text-gray-400">
-        {typeLabel}
-      </span>
-      <span aria-hidden="true" className="h-px flex-1 bg-gray-200" />
-    </div>
-
-    {org.logo && (
-      <h3
-        className={`mt-4 font-display font-semibold leading-tight tracking-tight text-navy ${
-          featured ? "text-[1.375rem]" : "text-[1.05rem]"
-        }`}
-      >
-        {org.name}
-      </h3>
-    )}
-
-    {org.groupBrands && (
-      <p className="mt-1 text-[0.85rem] text-gray-500">
-        {org.groupBrands.join(" · ")}
-      </p>
-    )}
-
-    {org.description && (
-      <p className="mt-3 text-[0.9rem] leading-relaxed text-gray-700">
-        {org.description}
-      </p>
-    )}
-
-    {org.contribution && (
-      <p className="mt-3 border-t border-gray-100 pt-3 text-[0.85rem] leading-relaxed text-navy">
-        {org.contribution}
-      </p>
-    )}
-
-    {org.website && (
-      <ExternalLink href={org.website} className="mt-5 text-gray-500">
-        {websiteLabel}
-      </ExternalLink>
-    )}
-  </RevealOnScroll>
-);
+      {showDescription && (
+        <p className="mt-3 line-clamp-3 text-[0.875rem] leading-relaxed text-gray-700">
+          {description}
+        </p>
+      )}
+    </RevealOnScroll>
+  );
+};
 
 export default ReferenceCard;

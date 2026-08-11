@@ -5,8 +5,8 @@ import NetworkEcosystem from "@/components/NetworkEcosystem";
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import SecondaryReferences from "@/components/SecondaryReferences";
-import { getDictionary } from "@/lib/i18n/dictionaries";
-import { REFERENCES, SECTORS } from "@/lib/data/references";
+import { getDictionary, interpolate } from "@/lib/i18n/dictionaries";
+import { NETWORK_STATS, REFERENCES, SECTORS } from "@/lib/data/references";
 
 const published = (type) =>
   REFERENCES.filter((org) => org.type === type && org.isPublished).sort(
@@ -19,6 +19,17 @@ const withCopy = (org, copy) => ({
   groupBrands: org.group?.brands,
 });
 
+const CONTACTS_PHRASE = {
+  fr: (count) =>
+    count
+      ? `près de ${count} contacts professionnels`
+      : "plusieurs milliers de contacts professionnels",
+  en: (count) =>
+    count
+      ? `close to ${count} professional contacts`
+      : "several thousand professional contacts",
+};
+
 export default function PartnersContent({ lang }) {
   const t = getDictionary(lang, "partners");
 
@@ -27,6 +38,14 @@ export default function PartnersContent({ lang }) {
   const secondaryClients = clients.filter((org) => !org.featured);
   const networkOrgs = published("network").map((org) => withCopy(org, t.copy));
   const partnerOrgs = published("partner").map((org) => withCopy(org, t.copy));
+
+  const contactsPhrase = CONTACTS_PHRASE[lang](NETWORK_STATS.contactsCount);
+  const edge = {
+    ...t.edge,
+    blocks: t.edge.blocks.map((block, i) =>
+      i === 0 ? { ...block, body: interpolate(block.body, { contactsPhrase }) } : block,
+    ),
+  };
 
   return (
     <main>
@@ -44,6 +63,9 @@ export default function PartnersContent({ lang }) {
             typeLabel={t.labels.client}
             websiteLabel={t.websiteLabel}
             logoAlt={t.logoAlt}
+            sectorLabels={t.sectorLabels}
+            groupLabel={t.groupLabel}
+            groupsLabel={t.groupsLabel}
           />
 
           <SecondaryReferences
@@ -54,6 +76,8 @@ export default function PartnersContent({ lang }) {
             typeLabel={t.labels.client}
             websiteLabel={t.websiteLabel}
             logoAlt={t.logoAlt}
+            groupLabel={t.groupLabel}
+            groupsLabel={t.groupsLabel}
           />
         </div>
       </Section>
@@ -74,11 +98,11 @@ export default function PartnersContent({ lang }) {
       />
 
       <Section tone="white">
-        <AsBizDevEdge {...t.edge} />
+        <AsBizDevEdge {...edge} />
       </Section>
 
       <Section tone="alt">
-        <CtaBlock {...t.finalCta} routeKey="contact" />
+        <CtaBlock {...t.finalCta} lang={lang} />
       </Section>
     </main>
   );

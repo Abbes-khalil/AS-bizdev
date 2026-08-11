@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { useState } from "react";
 
 import LangSwitcher from "@/lib/i18n/LangSwitcher";
-import RouteLink from "../RouteLink";
+import { ROUTES } from "@/lib/routes";
 import { interpolate } from "@/lib/i18n/dictionaries";
 import { isEntryActive } from "../../hooks/useActiveRoute";
 
@@ -41,7 +42,7 @@ const ENTRY_CLASS =
  * Closed, the sheet is `invisible`, which keeps its links out of the tab order
  * and out of the accessibility tree — `aria-hidden` alone would not.
  */
-const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
+const MobileNav = ({ open, items, activeKey, copy, onNavigate, lang }) => {
   const [expanded, setExpanded] = useState(null);
 
   return (
@@ -64,8 +65,8 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
               return (
                 <li key={entry.key} className="border-b border-gray-200">
                   <div className="flex items-center justify-between">
-                    <RouteLink
-                      routeKey={entry.key}
+                    <Link
+                      href={ROUTES[entry.key][lang]}
                       onClick={onNavigate}
                       aria-current={
                         isEntryActive(entry, activeKey) ? "page" : undefined
@@ -79,7 +80,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
                         {entry.label}
                       </span>
                       {!entry.children && <ArrowUpRight />}
-                    </RouteLink>
+                    </Link>
 
                     {entry.children && (
                       <button
@@ -106,8 +107,8 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
                     >
                       {entry.children.map((child) => (
                         <li key={child.key}>
-                          <RouteLink
-                            routeKey={child.key}
+                          <Link
+                            href={ROUTES[child.key][lang]}
                             onClick={onNavigate}
                             aria-current={
                               child.key === activeKey ? "page" : undefined
@@ -116,7 +117,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
                           >
                             {child.label}
                             <ArrowUpRight />
-                          </RouteLink>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -129,13 +130,13 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate }) => {
 
         <div className="mt-10 space-y-4">
           <LangSwitcher />
-          <RouteLink
-            routeKey="contact"
+          <Link
+            href={ROUTES.contact[lang]}
             onClick={onNavigate}
             className="btn-primary w-full"
           >
             {copy.mobileCta}
-          </RouteLink>
+          </Link>
           <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
             {copy.mobileCaption}
           </p>

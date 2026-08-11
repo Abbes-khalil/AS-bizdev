@@ -90,7 +90,7 @@ export default function NetworkContent({ lang }) {
       </Section>
 
       <Section>
-        <CtaBlock {...t.cta} />
+        <CtaBlock {...t.cta} lang={lang} />
       </Section>
     </main>
   );

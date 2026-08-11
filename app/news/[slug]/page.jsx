@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 
 import ArticleContent from "@/components/ArticleContent";
 import { getArticleBySlug } from "@/lib/data/articles";
-import { pathFor } from "@/lib/constants/routes";
+import { articleUrl } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { articleMeta } from "@/lib/seo/metadata";
 import { SITE_URL } from "@/lib/constants/site";
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 
   const { title, description } = articleMeta(article, "fr");
   const canonicalSlug = article.slug.fr ?? slug;
-  const url = `${SITE_URL}${pathFor("article", "fr", { slug: canonicalSlug })}`;
+  const url = `${SITE_URL}${articleUrl("fr", canonicalSlug)}`;
 
   return {
     title,
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("article", "en", { slug: article.slug.en ?? canonicalSlug })}`,
+        en: `${SITE_URL}${articleUrl("en", article.slug.en ?? canonicalSlug)}`,
         "x-default": url,
       },
     },
@@ -41,7 +41,7 @@ export default async function ArticlePageFr({ params }) {
 
   const canonicalSlug = article.slug.fr ?? article.slug.en;
   if (slug !== canonicalSlug) {
-    redirect(pathFor("article", "fr", { slug: canonicalSlug }));
+    redirect(articleUrl("fr", canonicalSlug));
   }
 
   return (

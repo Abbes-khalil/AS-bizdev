@@ -3,8 +3,7 @@
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 
-import { DEFAULT_LANG, langFromPath } from "@/lib/constants/routes";
-import { alternatesOf } from "@/lib/utils/routing";
+import { alternatesOf, langFromPath } from "@/lib/routes";
 
 /**
  * The active language is derived from the URL prefix (`/en/…`), never from
@@ -12,7 +11,7 @@ import { alternatesOf } from "@/lib/utils/routing";
  * always opens in the language it was written in.
  */
 const LanguageContext = createContext({
-  lang: DEFAULT_LANG,
+  lang: "fr",
   alternates: { fr: "/", en: "/en" },
 });
 
@@ -25,7 +24,7 @@ export function LanguageProvider({ children }) {
   }, [lang]);
 
   const value = useMemo(
-    () => ({ lang, alternates: alternatesOf(pathname) }),
+    () => ({ lang, alternates: alternatesOf(pathname, lang) }),
     [lang, pathname],
   );
 

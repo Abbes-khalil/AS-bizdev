@@ -1,13 +1,15 @@
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import BulletList from "@/components/BulletList";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import RouteLink from "@/components/RouteLink";
+import { ROUTES } from "@/lib/routes";
 
 /**
  * One of the two offers, as shown on the home page and the solutions hub.
  * Bullets are optional: the home page states the promise, the hub details it.
  */
-const OfferCard = ({ offer, index = 0, moreLabel }) => (
+const OfferCard = ({ offer, index = 0, lang, moreLabel }) => (
   <RevealOnScroll
     as="article"
     variant="up"
@@ -29,13 +31,13 @@ const OfferCard = ({ offer, index = 0, moreLabel }) => (
       <BulletList items={offer.bullets} className="mt-[1.5rem]" />
     )}
 
-    <RouteLink
-      routeKey={offer.routeKey}
+    <Link
+      href={ROUTES[offer.routeKey][lang]}
       className="btn-ghost mt-[2rem] self-start"
     >
       {moreLabel}
       <ArrowIcon />
-    </RouteLink>
+    </Link>
   </RevealOnScroll>
 );
 

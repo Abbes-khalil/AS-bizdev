@@ -1,12 +1,12 @@
 import NetworkContent from "@/components/NetworkContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.network.fr;
-  const url = `${SITE_URL}${pathFor("network", "fr")}`;
+  const url = `${SITE_URL}${ROUTES.network.fr}`;
 
   return {
     title,
@@ -15,7 +15,7 @@ export function generateMetadata() {
       canonical: url,
       languages: {
         fr: url,
-        en: `${SITE_URL}${pathFor("network", "en")}`,
+        en: `${SITE_URL}${ROUTES.network.en}`,
         "x-default": url,
       },
     },

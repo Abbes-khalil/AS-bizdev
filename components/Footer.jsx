@@ -1,9 +1,11 @@
 "use client";
 
-import RouteLink from "@/components/RouteLink";
+import Link from "next/link";
+
+import { ROUTES } from "@/lib/routes";
 import { ASSET } from "@/lib/siteData";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
-import { interpolate, useT } from "@/lib/i18n/dictionaries";
+import { interpolate, useLang, useT } from "@/lib/i18n/dictionaries";
 
 const SocialIcon = ({ href, label, children }) => (
   <a
@@ -18,6 +20,7 @@ const SocialIcon = ({ href, label, children }) => (
 );
 
 export default function Footer() {
+  const { lang } = useLang();
   const { footer: t, footerLinks, nav } = useT("common");
 
   return (
@@ -40,11 +43,14 @@ export default function Footer() {
         {/* Top wordmark CTA */}
         <div className="container-x pt-24 lg:pt-32">
           <div className="inline-flex items-center gap-3">
-            <span className="h-1 w-10 rounded-full bg-orange" aria-hidden="true" />
+            <span
+              className="h-1 w-10 rounded-full bg-orange"
+              aria-hidden="true"
+            />
             <p className="eyebrow text-white/60">{t.ctaEyebrow}</p>
           </div>
-          <RouteLink
-            routeKey="contact"
+          <Link
+            href={ROUTES.contact[lang]}
             className="mt-6 inline-flex items-baseline gap-4 font-display text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[0.95] tracking-tight text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded-md"
           >
             <span>{t.ctaLine1}</span>
@@ -65,13 +71,13 @@ export default function Footer() {
                 strokeLinejoin="round"
               />
             </svg>
-          </RouteLink>
+          </Link>
         </div>
 
         <div className="container-x mt-20 grid gap-12 border-t border-white/10 pt-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
-            <RouteLink
-              routeKey="home"
+            <Link
+              href={ROUTES.home[lang]}
               aria-label={nav.homeAria}
               className="inline-flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
@@ -85,7 +91,7 @@ export default function Footer() {
               <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-white/60">
                 {t.brandTagline}
               </span>
-            </RouteLink>
+            </Link>
             <p className="mt-6 max-w-xs text-[0.95rem] leading-relaxed text-white/70">
               {t.tagline}
             </p>
@@ -127,12 +133,12 @@ export default function Footer() {
               <ul className="mt-6 space-y-3">
                 {items.map(({ key, label }) => (
                   <li key={key}>
-                    <RouteLink
-                      routeKey={key}
+                    <Link
+                      href={ROUTES[key][lang]}
                       className="text-[0.95rem] text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded px-1 py-1 -mx-1"
                     >
                       {label}
-                    </RouteLink>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -158,28 +164,14 @@ export default function Footer() {
               {interpolate(t.copyright, { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center gap-6">
-              <RouteLink
-                routeKey="policy"
+              <Link
+                href={ROUTES.policy[lang]}
                 className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 {t.policy}
-              </RouteLink>
-              <span className="font-display uppercase tracking-widest text-white/40">
-                {t.version}
-              </span>
+              </Link>
             </div>
           </div>
-        </div>
-
-        {/* Watermark */}
-        <div className="pointer-events-none select-none overflow-hidden">
-          <p
-            aria-hidden="true"
-            className="font-display font-semibold leading-[0.85] tracking-tight text-white/[0.03]"
-            style={{ fontSize: "clamp(6rem, 22vw, 22rem)" }}
-          >
-            AS BIZ DEV
-          </p>
         </div>
       </div>
     </footer>

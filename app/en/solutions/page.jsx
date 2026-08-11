@@ -1,12 +1,12 @@
 import SolutionsContent from "@/components/SolutionsContent";
-import { pathFor } from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.solutions.en;
-  const url = `${SITE_URL}${pathFor("solutions", "en")}`;
+  const url = `${SITE_URL}${ROUTES.solutions.en}`;
 
   return {
     title,
@@ -14,9 +14,9 @@ export function generateMetadata() {
     alternates: {
       canonical: url,
       languages: {
-        fr: `${SITE_URL}${pathFor("solutions", "fr")}`,
+        fr: `${SITE_URL}${ROUTES.solutions.fr}`,
         en: url,
-        "x-default": `${SITE_URL}${pathFor("solutions", "fr")}`,
+        "x-default": `${SITE_URL}${ROUTES.solutions.fr}`,
       },
     },
     openGraph: {

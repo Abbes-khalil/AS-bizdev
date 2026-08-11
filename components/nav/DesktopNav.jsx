@@ -1,5 +1,7 @@
-import RouteLink from "../RouteLink";
+import Link from "next/link";
+
 import { isEntryActive } from "../../hooks/useActiveRoute";
+import { ROUTES } from "@/lib/routes";
 
 const LINK_BASE =
   "group relative whitespace-nowrap rounded-btn px-3 py-2 font-display text-[0.875rem] font-medium tracking-tight transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white";
@@ -41,37 +43,36 @@ const Chevron = () => (
  * keyboard without a JavaScript menu widget: the parent stays a real link to
  * the hub page, and the children are a nested list beneath it.
  */
-const DesktopNav = ({ items, activeKey, ariaLabel }) => (
+const DesktopNav = ({ items, activeKey, ariaLabel, lang }) => (
   <nav className="hidden items-center gap-1 xl:flex" aria-label={ariaLabel}>
     {items.map((entry) => {
       const active = isEntryActive(entry, activeKey);
 
       if (!entry.children) {
         return (
-          <RouteLink
+          <Link
             key={entry.key}
-            routeKey={entry.key}
+            href={ROUTES[entry.key][lang]}
             aria-current={active ? "page" : undefined}
             className={`${LINK_BASE} ${active ? "text-navy" : "text-gray-700 hover:text-navy"}`}
           >
             {entry.label}
             <Underline active={active} />
-          </RouteLink>
+          </Link>
         );
       }
 
       return (
         <div key={entry.key} className="group/item relative">
-          <RouteLink
-            routeKey={entry.key}
+          <Link
+            href={ROUTES[entry.key][lang]}
             aria-current={active ? "page" : undefined}
             className={`${LINK_BASE} inline-flex items-center ${active ? "text-navy" : "text-gray-700 hover:text-navy"}`}
           >
             {entry.label}
             <Chevron />
             <Underline active={active} />
-          </RouteLink>
-          
+          </Link>
 
           <ul
             role="list"
@@ -80,15 +81,15 @@ const DesktopNav = ({ items, activeKey, ariaLabel }) => (
           >
             {entry.children.map((child) => (
               <li key={child.key}>
-                <RouteLink
-                  routeKey={child.key}
+                <Link
+                  href={ROUTES[child.key][lang]}
                   aria-current={child.key === activeKey ? "page" : undefined}
                   className={`block rounded-btn px-4 py-3 font-display text-[0.875rem] font-medium leading-[1.4] tracking-tight transition-colors duration-200 hover:bg-surface-alt hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${
                     child.key === activeKey ? "text-navy" : "text-gray-700"
                   }`}
                 >
                   {child.label}
-                </RouteLink>
+                </Link>
               </li>
             ))}
           </ul>

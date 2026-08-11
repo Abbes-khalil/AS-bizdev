@@ -41,12 +41,13 @@ const NetworkEcosystem = ({
         <p className="mt-6 text-[1.0625rem] leading-[1.7] text-white/75">{intro}</p>
       </RevealOnScroll>
 
-      <ul role="list" className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <ul role="list" className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {networkOrgs.map((org, i) => (
           <li key={org.key}>
             <ReferenceCard
               org={org}
               index={i}
+              featured
               typeLabel={networkLabel}
               websiteLabel={websiteLabel}
               logoAlt={logoAlt}

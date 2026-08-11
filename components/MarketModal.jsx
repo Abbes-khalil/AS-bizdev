@@ -6,13 +6,14 @@ import Link from "next/link";
 
 import ArrowIcon from "@/components/ArrowIcon";
 import { ASSET } from "@/lib/siteData";
-import { pathFor } from "@/lib/constants/routes";
+import { TIER_LABELS } from "@/lib/data/countries";
+import { ROUTES } from "@/lib/routes";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-const OPTIONAL_SECTIONS = [
+const DETAIL_SECTIONS = [
   ["sectors", "sectors"],
   ["clientTypes", "clients"],
   ["distributionChannels", "channels"],
@@ -22,11 +23,20 @@ const OPTIONAL_SECTIONS = [
 ];
 
 /**
- * On-page market detail — never a route change (§5 of the brief). Only
- * renders the optional sections that have validated content; a market with
- * none of them just shows its description, which is the common case today.
+ * On-page market detail — never a route change (§5 of the brief). All six
+ * detail sections always show, so the modal's shape stays the same market to
+ * market; a section without validated content yet shows `emptyLabel` rather
+ * than being invented or hidden.
  */
-const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel, onClose }) => {
+const MarketModal = ({
+  market,
+  regionLabel,
+  sectionLabels,
+  ctaLabel,
+  closeLabel,
+  emptyLabel,
+  onClose,
+}) => {
   const { lang } = useLang();
   const reduceMotion = useReducedMotion();
   const dialogRef = useRef(null);
@@ -92,9 +102,13 @@ const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel,
             role="dialog"
             aria-modal="true"
             aria-labelledby="market-modal-title"
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
+            initial={
+              reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }
+            }
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
+            exit={
+              reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }
+            }
             transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
             className="relative flex max-h-[88vh] w-full flex-col overflow-y-auto rounded-t-[1.5rem] bg-white p-[1.75rem] shadow-lift sm:max-h-[85vh] sm:max-w-[38rem] sm:rounded-card sm:p-[2.5rem]"
           >
@@ -105,7 +119,13 @@ const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel,
               aria-label={closeLabel}
               className="absolute right-[1.25rem] top-[1.25rem] grid h-10 w-10 place-items-center rounded-full border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
                 <path
                   d="M1 1L15 15M15 1L1 15"
                   stroke="currentColor"
@@ -130,6 +150,12 @@ const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel,
               {market.name[lang] ?? market.name.fr}
             </h2>
 
+            {TIER_LABELS[market.tier] && (
+              <p className="mt-3 inline-flex w-fit items-center rounded-full bg-navy/5 px-3 py-1 font-display text-[0.75rem] font-medium text-navy">
+                {TIER_LABELS[market.tier][lang] ?? TIER_LABELS[market.tier].fr}
+              </p>
+            )}
+
             {market.intro?.[lang] && (
               <p className="mt-4 text-[0.9375rem] leading-[1.65] text-gray-700">
                 {market.intro[lang]}
@@ -137,29 +163,37 @@ const MarketModal = ({ market, regionLabel, sectionLabels, ctaLabel, closeLabel,
             )}
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
-              {OPTIONAL_SECTIONS.map(([field, labelKey]) => {
+              {DETAIL_SECTIONS.map(([field, labelKey]) => {
                 const items = market[field];
-                if (!items?.length) return null;
 
                 return (
                   <div key={field}>
                     <h3 className="font-display text-[0.8125rem] font-semibold uppercase tracking-widest text-navy">
                       {sectionLabels[labelKey]}
                     </h3>
-                    <ul role="list" className="mt-2 space-y-1">
-                      {items.map((item) => (
-                        <li key={item} className="text-[0.875rem] leading-[1.6] text-gray-700">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                    {items?.length ? (
+                      <ul role="list" className="mt-2 space-y-1">
+                        {items.map((item) => (
+                          <li
+                            key={item}
+                            className="text-[0.875rem] leading-[1.6] text-gray-700"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-2 text-[0.875rem] italic leading-[1.6] text-gray-400">
+                        {emptyLabel}
+                      </p>
+                    )}
                   </div>
                 );
               })}
             </div>
 
             <Link
-              href={`${pathFor("contact", lang)}?market=${market.key}`}
+              href={`${ROUTES.contact[lang]}?market=${market.key}`}
               className="btn-primary mt-8 self-start"
             >
               {ctaLabel}

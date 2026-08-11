@@ -1,15 +1,17 @@
 "use client";
 
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ArrowIcon";
 import CheckboxGroup from "@/components/form/CheckboxGroup";
 import Field from "@/components/form/Field";
 import FormStatus from "@/components/form/FormStatus";
-import RouteLink from "@/components/RouteLink";
 import Select from "@/components/form/Select";
 import TextArea from "@/components/form/TextArea";
 import { PARTNER_FORM_SECTIONS } from "@/lib/constants/partnerForm";
 import usePartnerForm from "@/hooks/usePartnerForm";
 import { useLang } from "@/lib/i18n/LanguageProvider";
+import { ROUTES } from "@/lib/routes";
 
 /** Renders one schema field with the control its type calls for. */
 const Control = ({ field, copy, error, onBlur }) => {
@@ -154,12 +156,12 @@ const PartnerForm = ({ copy }) => {
           />
           <span className="text-[0.875rem] leading-[1.6] text-gray-700">
             {copy.form.consentBefore}{" "}
-            <RouteLink
-              routeKey="policy"
+            <Link
+              href={ROUTES.policy[lang]}
               className="text-navy underline underline-offset-2 hover:text-orange"
             >
               {copy.form.consentLink}
-            </RouteLink>
+            </Link>
             .
           </span>
         </label>

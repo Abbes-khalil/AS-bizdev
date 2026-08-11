@@ -1,11 +1,12 @@
 import { Globe2 } from "lucide-react";
+import Link from "next/link";
 
 import ExternalLink from "@/components/ExternalLink";
-import RouteLink from "@/components/RouteLink";
 import Section from "@/components/Section";
 import { OG_IMAGE, SITE_NAME } from "@/lib/constants/site";
 import { themeLabel, zoneLabel } from "@/lib/i18n/content/news/taxonomy";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 
 const PostText = ({ block, id }) => {
   if (block.type === "list") {
@@ -45,12 +46,12 @@ export default function ArticleContent({ article, lang }) {
     <main>
       <Section tone="alt">
         <div className="mx-auto max-w-2xl">
-          <RouteLink
-            routeKey="news"
+          <Link
+            href={ROUTES.news[lang]}
             className="mb-6 inline-flex items-center gap-2 text-[0.9rem] font-medium text-gray-500 link-underline"
           >
             ← {t.label}
-          </RouteLink>
+          </Link>
 
           <article className="overflow-hidden rounded-[1rem] border border-gray-200 bg-white shadow-soft">
             <div className="flex items-start gap-3 p-6">
