@@ -1,4 +1,4 @@
-import ContactContent from "@/components/ContactContent";
+import ContactContent from "@/components/pages/ContactContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

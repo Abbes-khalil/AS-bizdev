@@ -1,4 +1,4 @@
-import NewsContent from "@/components/NewsContent";
+import NewsContent from "@/components/pages/NewsContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

@@ -1,4 +1,4 @@
-import NotFoundContent from "@/components/NotFoundContent";
+import NotFoundContent from "@/components/pages/NotFoundContent";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
 

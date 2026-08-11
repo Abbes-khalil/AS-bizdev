@@ -1,4 +1,4 @@
-import SolutionsContent from "@/components/SolutionsContent";
+import SolutionsContent from "@/components/pages/SolutionsContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

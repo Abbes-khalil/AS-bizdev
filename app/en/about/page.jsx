@@ -1,4 +1,4 @@
-import AboutContent from "@/components/AboutContent";
+import AboutContent from "@/components/pages/AboutContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

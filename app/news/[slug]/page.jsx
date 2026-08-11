@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import ArticleContent from "@/components/ArticleContent";
+import ArticleContent from "@/components/pages/ArticleContent";
 import { getArticleBySlug } from "@/lib/data/articles";
 import { articleUrl } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";

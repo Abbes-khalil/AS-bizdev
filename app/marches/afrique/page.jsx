@@ -1,4 +1,4 @@
-import MarketZoneContent from "@/components/MarketZoneContent";
+import MarketZoneContent from "@/components/pages/MarketZoneContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

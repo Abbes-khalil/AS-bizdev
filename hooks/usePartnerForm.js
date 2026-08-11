@@ -4,9 +4,9 @@ import {
   INITIAL_PARTNER_STATUS,
   PARTNER_FIELDS,
 } from "@/lib/constants/partnerForm";
+import { EMAIL_PATTERN } from "@/lib/constants/validation";
 import { buildPartnerMailto, submitPartner } from "@/lib/utils/submitPartner";
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const URL_PATTERN = /^https?:\/\/.+/i;
 const MIN_PRESENTATION = 80;
 const INITIAL_STATUS = { state: "idle", message: "" };

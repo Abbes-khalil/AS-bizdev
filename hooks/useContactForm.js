@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 
+import { EMAIL_PATTERN } from "@/lib/constants/validation";
 import { buildMailtoHref, submitContact } from "@/lib/utils/submitContact";
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const INITIAL_STATUS = { state: "idle", message: "" };
 
 /**
