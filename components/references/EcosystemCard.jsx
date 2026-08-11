@@ -28,7 +28,9 @@ const EcosystemCard = ({ org, index, featured = false, logoAlt }) => {
       }`}
     >
       <div
-        className={`flex shrink-0 items-center justify-center px-2 ${featured ? "h-28" : "h-24"}`}
+        className={`flex shrink-0 items-center justify-center px-2 ${featured ? "h-28" : "h-24"} ${
+          showLogo && org.logoBackground === "dark" ? "rounded-[0.75rem] bg-navy" : ""
+        }`}
       >
         {showLogo ? (
           <img

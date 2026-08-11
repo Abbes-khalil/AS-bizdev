@@ -19,6 +19,7 @@ const partners = {
         "PME, ETI, groupes industriels et organisations nous sollicitent pour accélérer leur développement commercial, structurer leurs marchés et transformer leurs opportunités en résultats. AS Biz Dev intervient auprès d'entreprises de tailles et de secteurs différents, avec une forte spécialisation dans les environnements industriels, technologiques et B2B.",
     },
     sectorLabels: {
+      ariaLabel: "Filtrer par secteur",
       all: "Tous",
       industrie: "Industrie",
       automobile: "Automobile",
@@ -117,6 +118,7 @@ const partners = {
         "SMEs, mid-caps, industrial groups and organisations turn to AS Biz Dev to accelerate their business development, structure their markets and turn opportunities into results. AS Biz Dev works with companies of different sizes and sectors, with a strong specialisation in industrial, technology and B2B environments.",
     },
     sectorLabels: {
+      ariaLabel: "Filter by sector",
       all: "All",
       industrie: "Industry",
       automobile: "Automotive",

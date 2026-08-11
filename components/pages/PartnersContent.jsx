@@ -1,10 +1,9 @@
 import AsBizDevEdge from "@/components/references/AsBizDevEdge";
 import CtaBlock from "@/components/ui/CtaBlock";
-import FeaturedReferences from "@/components/references/FeaturedReferences";
 import NetworkEcosystem from "@/components/references/NetworkEcosystem";
 import PageHero from "@/components/ui/PageHero";
+import ReferencesSection from "@/components/references/ReferencesSection";
 import Section from "@/components/ui/Section";
-import SecondaryReferences from "@/components/references/SecondaryReferences";
 import { getDictionary, interpolate } from "@/lib/i18n/dictionaries";
 import { NETWORK_STATS, REFERENCES, SECTORS } from "./PartnersContent.data";
 
@@ -34,8 +33,6 @@ export default function PartnersContent({ lang }) {
   const t = getDictionary(lang, "partners");
 
   const clients = published("client").map((org) => withLang(org, lang));
-  const featuredClients = clients.filter((org) => org.featured);
-  const secondaryClients = clients.filter((org) => !org.featured);
   const networkOrgs = published("network").map((org) => withLang(org, lang));
   const partnerOrgs = published("partner").map((org) => withLang(org, lang));
 
@@ -57,19 +54,13 @@ export default function PartnersContent({ lang }) {
         </p>
 
         <div className="mt-10">
-          <FeaturedReferences
-            orgs={featuredClients}
-            title={t.referencesSection.featuredLabel}
-            logoAlt={t.logoAlt}
-            groupLabel={t.groupLabel}
-            groupsLabel={t.groupsLabel}
-          />
-
-          <SecondaryReferences
-            orgs={secondaryClients}
+          <ReferencesSection
+            clients={clients}
             sectors={SECTORS}
             sectorLabels={t.sectorLabels}
-            title={t.referencesSection.moreLabel}
+            featuredLabel={t.referencesSection.featuredLabel}
+            moreLabel={t.referencesSection.moreLabel}
+            referencesLabel={t.referencesSection.title}
             logoAlt={t.logoAlt}
             groupLabel={t.groupLabel}
             groupsLabel={t.groupsLabel}

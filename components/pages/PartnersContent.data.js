@@ -9,11 +9,15 @@
  * confirmed.
  *
  * Only companies with a verified, correctly-matching logo file get a `logo`.
- * Foshan Tongbao, Surfaprotec, La Pratique Électronique, HR Maps and ACH have
- * no verified asset — Surfaprotec's file on disk was confirmed to show a
- * different company's logo, so none of these five carry a `logo` field; they
- * render the typographic placeholder in ReferenceCard until a real, checked
- * logo is supplied.
+ * Foshan Tongbao and ACH have no verified asset and carry no `logo` field —
+ * they render the typographic placeholder in ReferenceCard until a real,
+ * checked logo is supplied. Surfaprotec, La Pratique Électronique and HR
+ * Maps were re-checked and their files on disk do match the company, so
+ * they keep their `logo` field.
+ *
+ * `logoBackground: "dark"` flags a logo that's white/light and needs a dark
+ * backing plate to stay visible (e.g. APM) — the card applies the background
+ * to the logo zone only, never inferred from the org's name.
  *
  * `edge.blocks[0].body` in PartnersContent.content.js (page-shell copy)
  * carries a `{contactsPhrase}` token, interpolated in PartnersContent from
@@ -68,7 +72,7 @@ export const REFERENCES = [
     key: "figeacAero",
     type: "client",
     featured: true,
-    sectors: ["industrie", "Automobile"],
+    sectors: ["industrie", "automobile"],
     logo: "partenaires/Figeac_Aero.png",
     isPublished: true,
     sortOrder: 3,
@@ -147,7 +151,7 @@ export const REFERENCES = [
     key: "vectorys",
     type: "client",
     featured: true,
-    sectors: ["Transport"],
+    sectors: ["transport"],
     logo: "partenaires/Vectorys.png",
     isPublished: true,
     sortOrder: 9,
@@ -435,6 +439,7 @@ export const REFERENCES = [
   {
     key: "apm",
     logo: "partenaires/apm.webp",
+    logoBackground: "dark",
     type: "network",
     isPublished: true,
     sortOrder: 40,
