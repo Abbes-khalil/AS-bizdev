@@ -11,7 +11,6 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { PUBLISHED_COUNTRIES } from "@/lib/data/countries";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
-import { viewBoxFor } from "@/lib/utils/mapViewBox";
 
 const AFRICA_SUBREGIONS = ["north", "west", "south"];
 
@@ -37,7 +36,6 @@ export default function MarketZoneContent({ lang, continent }) {
   const countries = PUBLISHED_COUNTRIES.filter((country) =>
     isAfrica ? AFRICA_SUBREGIONS.includes(country.subregion) : country.subregion === "middleEast",
   );
-  const viewBox = viewBoxFor(countries, isAfrica ? 110 : 130);
 
   return (
     <main>
@@ -52,15 +50,12 @@ export default function MarketZoneContent({ lang, continent }) {
       <Suspense fallback={null}>
         <MarketExperience
           countries={countries}
-          filterSectors={AFRICA_SUBREGIONS}
-          showFilter={isAfrica}
-          mapLabel={zone.mapLabel}
+          groupBySubregion={isAfrica}
           filterLabels={t.filters}
           modalLabels={t.modal}
-          altListLabel={t.altList.summary}
-          viewBox={viewBox}
-          maxWidthRem={isAfrica ? 42 : 44}
-          maxHeightRem={isAfrica ? 60 : undefined}
+          selectInstruction={t.selectInstruction}
+          exploreLabel={t.exploreMarket}
+          openMarketLabel={t.openMarketLabel}
         />
       </Suspense>
 

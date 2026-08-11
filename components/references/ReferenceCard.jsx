@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import ExternalLink from "@/components/ui/ExternalLink";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { ASSET } from "@/lib/siteData";
 import { interpolate } from "@/lib/i18n/dictionaries";
@@ -29,7 +28,6 @@ const ReferenceCard = ({
   org,
   index,
   featured = false,
-  websiteLabel,
   logoAlt,
   groupLabel,
   groupsLabel,

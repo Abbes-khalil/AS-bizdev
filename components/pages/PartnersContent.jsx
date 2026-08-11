@@ -60,10 +60,7 @@ export default function PartnersContent({ lang }) {
           <FeaturedReferences
             orgs={featuredClients}
             title={t.referencesSection.featuredLabel}
-            typeLabel={t.labels.client}
-            websiteLabel={t.websiteLabel}
             logoAlt={t.logoAlt}
-            sectorLabels={t.sectorLabels}
             groupLabel={t.groupLabel}
             groupsLabel={t.groupsLabel}
           />
@@ -73,8 +70,6 @@ export default function PartnersContent({ lang }) {
             sectors={SECTORS}
             sectorLabels={t.sectorLabels}
             title={t.referencesSection.moreLabel}
-            typeLabel={t.labels.client}
-            websiteLabel={t.websiteLabel}
             logoAlt={t.logoAlt}
             groupLabel={t.groupLabel}
             groupsLabel={t.groupsLabel}
@@ -90,10 +85,7 @@ export default function PartnersContent({ lang }) {
         title={t.networkSection.title}
         intro={t.networkSection.intro}
         partnersIntro={t.networkSection.partnersIntro}
-        networkLabel={t.labels.network}
-        partnerLabel={t.labels.partner}
         categoryLabel={t.categoryLabel}
-        websiteLabel={t.websiteLabel}
         logoAlt={t.logoAlt}
       />
 

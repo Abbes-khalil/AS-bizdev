@@ -14,15 +14,11 @@ const NetworkEcosystem = ({
   networkOrgs,
   partnerOrgs,
   partnerCategories,
-  copy,
   eyebrow,
   title,
   intro,
   partnersIntro,
-  networkLabel,
-  partnerLabel,
   categoryLabel,
-  websiteLabel,
   logoAlt,
 }) => {
   const partnersByCategory = Object.entries(partnerCategories).map(([key, category]) => ({

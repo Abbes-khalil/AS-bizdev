@@ -21,8 +21,6 @@ const SecondaryReferences = ({
   sectors,
   sectorLabels,
   title,
-  typeLabel,
-  websiteLabel,
   logoAlt,
   groupLabel,
   groupsLabel,
@@ -46,10 +44,7 @@ const SecondaryReferences = ({
               <ReferenceCard
                 org={org}
                 index={i}
-                typeLabel={typeLabel}
-                websiteLabel={websiteLabel}
                 logoAlt={logoAlt}
-                sectorLabels={sectorLabels}
                 groupLabel={groupLabel}
                 groupsLabel={groupsLabel}
                 layout

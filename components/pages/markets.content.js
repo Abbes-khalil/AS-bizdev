@@ -31,9 +31,10 @@ const markets = {
 
     zonesCta: "Découvrir la zone",
 
-    altList: {
-      summary: "Marchés couverts",
-    },
+    selectInstruction:
+      "Sélectionnez un marché pour découvrir les informations disponibles et les modalités d'intervention d'AS Biz Dev.",
+    exploreMarket: "Explorer ce marché",
+    openMarketLabel: "Ouvrir les informations sur {name}",
 
     zoneLinks: {
       eyebrow: "Passer à l'action",
@@ -186,9 +187,10 @@ const markets = {
 
     zonesCta: "Explore the zone",
 
-    altList: {
-      summary: "Markets covered",
-    },
+    selectInstruction:
+      "Select a market to see the information available and how AS Biz Dev can get involved.",
+    exploreMarket: "Explore this market",
+    openMarketLabel: "View information about {name}",
 
     zoneLinks: {
       eyebrow: "Take action",

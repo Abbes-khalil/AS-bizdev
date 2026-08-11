@@ -1,16 +1,7 @@
 import ReferenceCard from "@/components/references/ReferenceCard";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 
-const FeaturedReferences = ({
-  orgs,
-  title,
-  typeLabel,
-  websiteLabel,
-  logoAlt,
-  sectorLabels,
-  groupLabel,
-  groupsLabel,
-}) => (
+const FeaturedReferences = ({ orgs, title, logoAlt, groupLabel, groupsLabel }) => (
   <div>
     <RevealOnScroll variant="up" className="mb-8 max-w-2xl">
       <p className="eyebrow text-orange">{title}</p>
@@ -23,10 +14,7 @@ const FeaturedReferences = ({
             org={org}
             index={i}
             featured
-            typeLabel={typeLabel}
-            websiteLabel={websiteLabel}
             logoAlt={logoAlt}
-            sectorLabels={sectorLabels}
             groupLabel={groupLabel}
             groupsLabel={groupsLabel}
           />

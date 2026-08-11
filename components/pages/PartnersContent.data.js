@@ -209,6 +209,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["industrie", "technologies"],
+    logo: "partenaires/Surfaprotec.png",
     isPublished: true,
     sortOrder: 22,
     content: {
@@ -222,6 +223,7 @@ export const REFERENCES = [
     featured: false,
     sectors: ["industrie", "technologies"],
     isPublished: true,
+    logo: "partenaires/lpe.jpg",
     sortOrder: 23,
     content: {
       fr: { name: "La Pratique Électronique" },
@@ -354,6 +356,7 @@ export const REFERENCES = [
     featured: false,
     sectors: ["services"],
     isPublished: true,
+    logo: "partenaires/HRmaps.png",
     sortOrder: 32,
     content: {
       fr: { name: "HR Maps" },
@@ -509,13 +512,15 @@ export const REFERENCES = [
         name: "TAA — Tunisian Automotive Association",
         description:
           "Organisation professionnelle représentant l'écosystème et les entreprises de l'industrie automobile tunisienne.",
-        contribution: "Collaboration avec des acteurs et réseaux de l'écosystème TAA.",
+        contribution:
+          "Collaboration avec des acteurs et réseaux de l'écosystème TAA.",
       },
       en: {
         name: "TAA — Tunisian Automotive Association",
         description:
           "A professional organisation representing the ecosystem and companies of the Tunisian automotive industry.",
-        contribution: "Collaboration with players and networks within the TAA ecosystem.",
+        contribution:
+          "Collaboration with players and networks within the TAA ecosystem.",
       },
     },
   },
