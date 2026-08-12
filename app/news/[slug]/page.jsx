@@ -2,10 +2,10 @@ import { notFound, redirect } from "next/navigation";
 
 import ArticleContent from "@/components/pages/ArticleContent";
 import { getArticleBySlug } from "@/lib/data/articles";
-import { articleUrl } from "@/lib/routes";
-import { organisationJsonLd } from "@/lib/seo/headTags";
+import { articleUrl, ROUTES } from "@/lib/routes";
+import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { articleMeta } from "@/lib/seo/metadata";
-import { SITE_URL } from "@/lib/constants/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export const revalidate = 3600;
 
@@ -17,6 +17,9 @@ export async function generateMetadata({ params }) {
   const { title, description } = articleMeta(article, "fr");
   const canonicalSlug = article.slug.fr ?? slug;
   const url = `${SITE_URL}${articleUrl("fr", canonicalSlug)}`;
+  const images = article.image
+    ? [article.image]
+    : [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }];
 
   return {
     title,
@@ -29,8 +32,8 @@ export async function generateMetadata({ params }) {
         "x-default": url,
       },
     },
-    openGraph: { title, description, url, type: "article" },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: { title, description, url, type: "article", images },
+    twitter: { card: "summary_large_image", title, description, images },
   };
 }
 
@@ -44,6 +47,12 @@ export default async function ArticlePageFr({ params }) {
     redirect(articleUrl("fr", canonicalSlug));
   }
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Accueil", url: `${SITE_URL}${ROUTES.home.fr}` },
+    { name: "Actualités", url: `${SITE_URL}${ROUTES.news.fr}` },
+    { name: (article.fr ?? article.en).title, url: `${SITE_URL}${articleUrl("fr", canonicalSlug)}` },
+  ]);
+
   return (
     <>
       <script
@@ -51,6 +60,10 @@ export default async function ArticlePageFr({ params }) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <ArticleContent article={article} lang="fr" />
     </>

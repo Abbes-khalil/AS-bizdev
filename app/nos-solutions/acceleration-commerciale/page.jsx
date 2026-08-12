@@ -1,8 +1,8 @@
 import AccelerationContent from "@/components/pages/AccelerationContent";
 import { ROUTES } from "@/lib/routes";
-import { organisationJsonLd } from "@/lib/seo/headTags";
+import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
-import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.acceleration.fr;
@@ -26,16 +26,24 @@ export function generateMetadata() {
       type: "website",
       siteName: SITE_NAME,
       locale: "fr_FR",
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [OG_IMAGE],
     },
   };
 }
 
 export default function AccelerationFr() {
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Accueil", url: `${SITE_URL}${ROUTES.home.fr}` },
+    { name: "Nos solutions", url: `${SITE_URL}${ROUTES.solutions.fr}` },
+    { name: "Accélération commerciale", url: `${SITE_URL}${ROUTES.acceleration.fr}` },
+  ]);
+
   return (
     <>
       <script
@@ -43,6 +51,10 @@ export default function AccelerationFr() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <AccelerationContent lang="fr" />
     </>

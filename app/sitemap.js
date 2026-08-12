@@ -1,3 +1,5 @@
+import { execSync } from "node:child_process";
+
 import { LANGS, ROUTES, articleUrl } from "@/lib/routes";
 import { getPublishedArticles } from "@/lib/data/articles";
 import { SITE_URL } from "@/lib/constants/site";
@@ -12,6 +14,39 @@ const priorityFor = (key) => {
 
 const absolute = (path) => `${SITE_URL}${path === "/" ? "/" : path}`;
 
+/** A route's URL path maps 1:1 onto its App Router source file. */
+const pageFileFor = (path) => `app${path === "/" ? "" : path}/page.jsx`;
+
+/**
+ * lastModified per route, from the source file's last git commit date —
+ * this site has no CMS/"updated at" field for its static pages, so the
+ * commit history is the only honest source of "when did this page's
+ * content actually change" rather than a build-time `new Date()` (which
+ * would just print today on every deploy, a meaningless freshness signal).
+ * Falls back to undefined (omits the field) if git isn't available, e.g. a
+ * shallow clone with no history for that path — Next simply won't render
+ * <lastmod> for that entry rather than lying about it.
+ */
+const lastModifiedCache = new Map();
+const lastModifiedFor = (path) => {
+  const file = pageFileFor(path);
+  if (lastModifiedCache.has(file)) return lastModifiedCache.get(file);
+
+  let value;
+  try {
+    const iso = execSync(`git log -1 --format=%aI -- "${file}"`, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    value = iso || undefined;
+  } catch {
+    value = undefined;
+  }
+
+  lastModifiedCache.set(file, value);
+  return value;
+};
+
 export default async function sitemap() {
   const entries = [];
 
@@ -23,6 +58,7 @@ export default async function sitemap() {
     for (const lang of LANGS) {
       entries.push({
         url: absolute(ROUTES[key][lang]),
+        lastModified: lastModifiedFor(ROUTES[key][lang]),
         changeFrequency: key === "news" ? "weekly" : "monthly",
         priority: priorityFor(key),
         alternates: { languages },

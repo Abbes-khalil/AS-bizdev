@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import ExternalLink from "@/components/ui/ExternalLink";
 import Section from "@/components/ui/Section";
-import { OG_IMAGE, SITE_NAME } from "@/lib/constants/site";
+import { LOGO_IMAGE, SITE_NAME } from "@/lib/constants/site";
 import { themeLabel, zoneLabel } from "@/lib/i18n/content/news/taxonomy";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
@@ -56,7 +56,7 @@ export default function ArticleContent({ article, lang }) {
           <article className="overflow-hidden rounded-[1rem] border border-gray-200 bg-white shadow-soft">
             <div className="flex items-start gap-3 p-6">
               <img
-                src={OG_IMAGE}
+                src={LOGO_IMAGE}
                 alt=""
                 className="h-12 w-12 shrink-0 rounded-full border border-gray-200 bg-white object-contain p-1"
               />
@@ -95,7 +95,7 @@ export default function ArticleContent({ article, lang }) {
             {article.image && (
               <img
                 src={article.image}
-                alt=""
+                alt={content.title}
                 className="mt-4 w-full object-cover"
                 loading="lazy"
               />

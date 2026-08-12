@@ -1,8 +1,8 @@
 import MarketZoneContent from "@/components/pages/MarketZoneContent";
 import { ROUTES } from "@/lib/routes";
-import { organisationJsonLd } from "@/lib/seo/headTags";
+import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
-import { SITE_NAME, SITE_URL } from "@/lib/constants/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export function generateMetadata() {
   const { title, description } = SEO_META.africa.en;
@@ -26,16 +26,24 @@ export function generateMetadata() {
       type: "website",
       siteName: SITE_NAME,
       locale: "en_GB",
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [OG_IMAGE],
     },
   };
 }
 
 export default function AfricaEn() {
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", url: `${SITE_URL}${ROUTES.home.en}` },
+    { name: "Markets", url: `${SITE_URL}${ROUTES.markets.en}` },
+    { name: "Africa", url: `${SITE_URL}${ROUTES.africa.en}` },
+  ]);
+
   return (
     <>
       <script
@@ -43,6 +51,10 @@ export default function AfricaEn() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organisationJsonLd("en")),
         }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <MarketZoneContent lang="en" continent="africa" />
     </>

@@ -22,7 +22,7 @@ const ArticleCard = ({ article, index, lang, t, onOpen }) => (
     />
 
     {article.image ? (
-      <img src={article.image} alt="" className="h-44 w-full object-cover" loading="lazy" />
+      <img src={article.image} alt={article.title} className="h-44 w-full object-cover" loading="lazy" />
     ) : (
       <div className="h-44 w-full bg-surface-alt" aria-hidden="true" />
     )}
