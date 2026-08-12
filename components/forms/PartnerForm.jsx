@@ -97,7 +97,7 @@ const PartnerForm = ({ copy }) => {
         return (
           <fieldset
             key={section.id}
-            className={index > 0 ? "mt-[3rem] border-t border-gray-200 pt-[2.5rem]" : ""}
+            className={index > 0 ? "mt-[2.5rem] border-t border-gray-200 pt-[2rem]" : ""}
           >
             <legend className="sr-only">{sectionCopy.title}</legend>
 
@@ -136,7 +136,7 @@ const PartnerForm = ({ copy }) => {
 
       <HoneypotField />
 
-      <div className="mt-[2rem] border-t border-gray-200 pt-[2rem]">
+      <div className="mt-[1.75rem] border-t border-gray-200 pt-[1.75rem]">
         <label className="flex cursor-pointer items-start gap-[0.75rem]">
           <input
             type="checkbox"
@@ -169,7 +169,7 @@ const PartnerForm = ({ copy }) => {
       <button
         type="submit"
         disabled={status.state === "submitting"}
-        className="btn-primary mt-[2rem] disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn-primary mt-[1.75rem] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status.state === "submitting"
           ? copy.form.submitting

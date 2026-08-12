@@ -70,7 +70,7 @@ export default function HomeContent({ lang }) {
           intro={t.twoWays.intro}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           {t.twoWays.items.map((offer, index) => (
             <OfferCard
               key={offer.routeKey}
@@ -92,7 +92,7 @@ export default function HomeContent({ lang }) {
           intro={t.approach.intro}
         />
 
-        <div className="mt-[3rem]">
+        <div className="mt-[2.5rem]">
           <StepList steps={t.approach.steps} columns={5} />
         </div>
       </Section>

@@ -39,9 +39,9 @@ export default function PilotageContent({ lang }) {
           titleAccent={t.situations.titleAccent}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <BulletList items={t.situations.items} columns={2} />
-          <p className="mt-[2rem] max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
+          <p className="mt-[1.75rem] max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
             {t.situations.outro}
           </p>
         </RevealOnScroll>
@@ -54,7 +54,7 @@ export default function PilotageContent({ lang }) {
           titleAccent={t.functions.titleAccent}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-2 lg:grid-cols-3">
           {t.functions.items.map((item, index) => (
             <FunctionCard key={item.title} item={item} index={index} />
           ))}

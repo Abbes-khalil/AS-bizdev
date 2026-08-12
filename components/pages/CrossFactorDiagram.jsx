@@ -38,7 +38,7 @@ const CrossFactorDiagram = ({ factors, outcome, examples }) => (
       </span>
     </RevealOnScroll>
 
-    <div className="mt-[3rem] grid gap-3 sm:grid-cols-2">
+    <div className="mt-[2.5rem] grid gap-3 sm:grid-cols-2">
       {examples.map((example, index) => (
         <RevealOnScroll
           key={example}

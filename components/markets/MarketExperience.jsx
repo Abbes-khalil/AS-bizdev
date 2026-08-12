@@ -47,7 +47,7 @@ export default function MarketExperience({
         <p className="text-[1.0625rem] leading-[1.7] text-gray-700">{selectInstruction}</p>
       </RevealOnScroll>
 
-      <div className="mt-[2rem] space-y-[2rem]">
+      <div className="mt-[1.75rem] space-y-[1.75rem]">
         {groups.map((group) => (
           <div key={group.subregion ?? "all"}>
             {group.subregion && (

@@ -31,7 +31,7 @@ export default async function NewsContent({ lang }) {
         }
       />
 
-      <section className="bg-white py-16 lg:py-24">
+      <section className="bg-white py-12 lg:py-20">
         <div className="container-x">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-6">
             <p className="eyebrow text-orange">

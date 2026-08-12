@@ -36,7 +36,7 @@ export default function AccelerationContent({ lang }) {
           titleAccent={t.situations.titleAccent}
         />
 
-        <ul role="list" className="mt-[2rem] grid gap-[1.25rem] md:grid-cols-2">
+        <ul role="list" className="mt-[1.75rem] grid gap-[1.25rem] md:grid-cols-2">
           {t.situations.items.map((quote, index) => (
             <SituationQuote key={quote} quote={quote} index={index} />
           ))}
@@ -50,7 +50,7 @@ export default function AccelerationContent({ lang }) {
           titleAccent={t.process.titleAccent}
         />
 
-        <div className="mt-[3rem]">
+        <div className="mt-[2.5rem]">
           <StepList steps={t.process.steps} />
         </div>
       </Section>
@@ -63,11 +63,11 @@ export default function AccelerationContent({ lang }) {
           intro={t.interventions.intro}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <BulletList items={t.interventions.items} columns={2} />
         </RevealOnScroll>
 
-        <CtaBlock {...t.cta} lang={lang} className="mt-[4rem]" />
+        <CtaBlock {...t.cta} lang={lang} className="mt-[3.25rem]" />
       </Section>
     </main>
   );

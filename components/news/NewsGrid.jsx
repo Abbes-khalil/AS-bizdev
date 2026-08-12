@@ -27,7 +27,7 @@ const ArticleCard = ({ article, index, lang, t, onOpen }) => (
       <div className="h-44 w-full bg-surface-alt" aria-hidden="true" />
     )}
 
-    <div className="flex flex-1 flex-col p-8 lg:p-10">
+    <div className="flex flex-1 flex-col p-6 lg:p-7">
       <span className="eyebrow text-orange">{t.label}</span>
 
       <p className="mt-3 text-[0.8rem] text-gray-400">

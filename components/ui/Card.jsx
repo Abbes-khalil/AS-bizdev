@@ -26,7 +26,7 @@ export function ImageCard({ src, title, description, href = "/nossolutions", num
           className="absolute left-0 top-0 h-1 w-0 bg-orange transition-all duration-500 group-hover:w-full group-focus-visible:w-full"
         />
       </div>
-      <div className="p-7 lg:p-8">
+      <div className="p-6 lg:p-7">
         <div className="flex items-baseline justify-between gap-4">
           {eyebrow ? (
             <span className="eyebrow text-orange">{eyebrow}</span>

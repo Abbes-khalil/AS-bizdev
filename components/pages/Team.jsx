@@ -56,7 +56,7 @@ export default function Team({ lang, members, title, description }) {
   const intro = description ?? t.sectionDescription;
 
   return (
-    <section className="relative w-full overflow-hidden bg-white py-[4rem] md:py-[6rem]">
+    <section className="relative w-full overflow-hidden bg-white py-[3.25rem] md:py-[5rem]">
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute right-0 bottom-0 text-gray-200"
@@ -85,7 +85,7 @@ export default function Team({ lang, members, title, description }) {
       <div className="relative z-10 mx-auto max-w-[1280px] px-[1.5rem] lg:px-[2.5rem]">
         <RevealOnScroll
           variant="up"
-          className="mx-auto mb-[3rem] flex max-w-3xl flex-col items-center text-center"
+          className="mx-auto mb-[2.5rem] flex max-w-3xl flex-col items-center text-center"
         >
           <div className="mb-[1.5rem] grid h-[3rem] w-[3rem] place-items-center rounded-[0.75rem] bg-navy text-white">
             <UserStar aria-hidden="true" size={24} strokeWidth={2} />

@@ -48,9 +48,9 @@ export default function BecomePartnerContent({ lang }) {
           titleAccent={t.profiles.titleAccent}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <BulletList items={t.profiles.items} columns={2} />
-          <p className="mt-[2rem] max-w-3xl text-[0.9375rem] leading-[1.7] text-gray-500">
+          <p className="mt-[1.75rem] max-w-3xl text-[0.9375rem] leading-[1.7] text-gray-500">
             {t.profiles.note}
           </p>
         </RevealOnScroll>
@@ -64,7 +64,7 @@ export default function BecomePartnerContent({ lang }) {
           intro={t.form.intro}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <PartnerForm copy={t} />
         </RevealOnScroll>
       </Section>

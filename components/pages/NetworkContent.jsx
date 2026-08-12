@@ -28,7 +28,7 @@ export default function NetworkContent({ lang }) {
           intro={t.base.intro}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2rem] max-w-2xl">
+        <RevealOnScroll variant="up" className="mt-[1.75rem] max-w-2xl">
           <h3 className="font-display text-[1rem] font-semibold tracking-[-0.02em] text-navy">
             {t.base.functionsTitle}
           </h3>
@@ -43,7 +43,7 @@ export default function NetworkContent({ lang }) {
           titleAccent={t.pillars.titleAccent}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] md:grid-cols-2">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-2">
           {t.pillars.items.map((item, index) => (
             <TextCard key={item.title} item={item} index={index} />
           ))}
@@ -58,7 +58,7 @@ export default function NetworkContent({ lang }) {
           intro={t.ecosystem.intro}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] md:grid-cols-3">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-3">
           {t.ecosystem.items.map((item, index) => (
             <TextCard key={item.title} item={item} index={index} />
           ))}
@@ -73,7 +73,7 @@ export default function NetworkContent({ lang }) {
           intro={t.difference.intro}
         />
 
-        <div className="mt-[3rem]">
+        <div className="mt-[2.5rem]">
           <StepList steps={t.difference.steps} />
         </div>
       </Section>

@@ -158,16 +158,12 @@ export default function Footer() {
               </ul>
             </nav>
           ))}
-        </div>
-        <div className="self-center text-center">
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="inline-block text-[0.95rem] text-orange link-underline"
-          >
-            {CONTACT_EMAIL}
+          <span className="inline-block text-[0.95rem] text-orange">
             <br />
-            {CONTACT_PHONE}
-          </a>
+            <br />
+            <br />
+            {CONTACT_EMAIL} <br /> {CONTACT_PHONE}
+          </span>
         </div>
 
         {/* Bottom bar */}

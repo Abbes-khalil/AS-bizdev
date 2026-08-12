@@ -36,7 +36,7 @@ const SectionHeading = ({
       </Title>
 
       {intro && (
-        <p className="mt-6 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
+        <p className="mt-5 max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
           {intro}
         </p>
       )}

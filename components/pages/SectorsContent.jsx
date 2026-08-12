@@ -31,10 +31,10 @@ export default function SectorsContent({ lang }) {
           eyebrow={t.explorer.eyebrow}
           titleLead={t.explorer.titleLead}
           titleAccent={t.explorer.titleAccent}
-          className="mt-[2rem] max-w-3xl"
+          className="mt-[1.75rem] max-w-3xl"
         />
 
-        <div className="mt-[2rem]">
+        <div className="mt-[1.75rem]">
           <SectorExplorer items={t.items} copy={t.explorer} ariaLabel={t.explorer.eyebrow} />
         </div>
       </Section>
@@ -48,7 +48,7 @@ export default function SectorsContent({ lang }) {
           className="mx-auto max-w-2xl text-center"
         />
 
-        <div className="mt-[3rem]">
+        <div className="mt-[2.5rem]">
           <CrossFactorDiagram
             factors={t.cross.factors}
             outcome={t.cross.outcome}
@@ -81,7 +81,7 @@ export default function SectorsContent({ lang }) {
           titleAccent={t.offers.titleAccent}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           {t.offers.items.map((offer, index) => (
             <OfferCard key={offer.routeKey} offer={offer} index={index} lang={lang} moreLabel={t.offers.more} />
           ))}

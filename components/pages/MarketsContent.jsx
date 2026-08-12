@@ -60,9 +60,9 @@ export default function MarketsContent({ lang }) {
           intro={t.capabilities.intro}
         />
 
-        <BulletList items={t.capabilities.items} className="mt-[2rem] max-w-2xl" />
+        <BulletList items={t.capabilities.items} className="mt-[1.75rem] max-w-2xl" />
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <Link href={ROUTES.sectors[lang]} className="btn-ghost">
             {t.sectorsLink}
             <ArrowIcon />

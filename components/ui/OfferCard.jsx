@@ -15,7 +15,7 @@ const OfferCard = ({ offer, index = 0, lang, moreLabel }) => (
     variant="up"
     delay={0.05}
     index={index}
-    className="group flex h-full flex-col rounded-card border border-gray-200 bg-white p-[2rem] transition-all duration-500 hover:-translate-y-1 hover:border-navy hover:shadow-lift lg:p-[2.5rem]"
+    className="group flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-500 hover:-translate-y-1 hover:border-navy hover:shadow-lift lg:p-[2.25rem]"
   >
     {offer.eyebrow && <p className="eyebrow text-orange">{offer.eyebrow}</p>}
 
@@ -28,12 +28,12 @@ const OfferCard = ({ offer, index = 0, lang, moreLabel }) => (
     </p>
 
     {offer.bullets && (
-      <BulletList items={offer.bullets} className="mt-[1.5rem]" />
+      <BulletList items={offer.bullets} className="mt-[1.25rem]" />
     )}
 
     <Link
       href={ROUTES[offer.routeKey][lang]}
-      className="btn-ghost mt-[2rem] self-start"
+      className="btn-ghost mt-[1.75rem] self-start"
     >
       {moreLabel}
       <ArrowIcon />

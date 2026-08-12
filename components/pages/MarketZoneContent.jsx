@@ -81,7 +81,7 @@ export default function MarketZoneContent({ lang, continent }) {
           intro={t.capabilities.intro}
         />
 
-        <div className="mt-[2rem] grid gap-[1.25rem] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-[1.75rem] grid gap-[1.25rem] sm:grid-cols-2 lg:grid-cols-4">
           {t.capabilityGroups.map((group, index) => (
             <RevealOnScroll
               key={group.title}
@@ -110,7 +110,7 @@ export default function MarketZoneContent({ lang, continent }) {
           <p className="mt-[1.5rem] text-[1.0625rem] leading-[1.7] text-white/75">
             {t.closing.body}
           </p>
-          <Link href={ROUTES.network[lang]} className="btn-primary mt-[2rem]">
+          <Link href={ROUTES.network[lang]} className="btn-primary mt-[1.75rem]">
             {t.networkLink}
             <ArrowIcon />
           </Link>
@@ -127,7 +127,7 @@ export default function MarketZoneContent({ lang, continent }) {
           intro={t.sectorsBridge.intro}
           className="mx-auto max-w-2xl text-center"
         >
-          <Link href={ROUTES.sectors[lang]} className="btn-ghost mt-[2rem]">
+          <Link href={ROUTES.sectors[lang]} className="btn-ghost mt-[1.75rem]">
             {t.sectorsLink}
             <ArrowIcon />
           </Link>
@@ -146,7 +146,7 @@ export default function MarketZoneContent({ lang, continent }) {
           className="mx-auto max-w-2xl text-center"
         />
 
-        <div className="mx-auto mt-[2rem] grid max-w-3xl gap-[1.25rem] sm:grid-cols-2">
+        <div className="mx-auto mt-[1.75rem] grid max-w-3xl gap-[1.25rem] sm:grid-cols-2">
           {t.zoneLinks.items.map((item, index) => (
             <RevealOnScroll key={item.routeKey} variant="up" index={index}>
               <Link

@@ -22,7 +22,7 @@ export default function ContactContent({ lang }) {
         }
       />
 
-      <section className="bg-white pb-24 lg:pb-32">
+      <section className="bg-white pb-20 lg:pb-24">
         <div className="container-x">
           <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr]">
             <RevealOnScroll variant="up">

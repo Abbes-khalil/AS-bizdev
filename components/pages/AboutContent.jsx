@@ -27,7 +27,7 @@ export default function AboutContent({ lang }) {
           intro={t.positioning.intro}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           <RevealOnScroll
             variant="up"
             className="rounded-card border border-gray-200 bg-white p-[2rem]"
@@ -67,10 +67,10 @@ export default function AboutContent({ lang }) {
           eyebrow={t.principles.eyebrow}
           titleLead={t.principles.titleLead}
           titleAccent={t.principles.titleAccent}
-          className="mt-[4rem] max-w-3xl"
+          className="mt-[3.25rem] max-w-3xl"
         />
 
-        <div className="mt-[2rem] grid gap-[1.25rem] md:grid-cols-3">
+        <div className="mt-[1.75rem] grid gap-[1.25rem] md:grid-cols-3">
           {t.principles.items.map((item, index) => (
             <TextCard key={item.title} item={item} index={index} />
           ))}
@@ -84,13 +84,13 @@ export default function AboutContent({ lang }) {
           titleAccent={t.expertise.titleAccent}
         />
 
-        <div className="mt-[3rem] grid gap-[1.25rem] md:grid-cols-3">
+        <div className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-3">
           {t.expertise.items.map((item, index) => (
             <TextCard key={item.title} item={item} index={index} />
           ))}
         </div>
 
-        <RevealOnScroll variant="up" className="mt-[2rem]">
+        <RevealOnScroll variant="up" className="mt-[1.75rem]">
           <Link href={ROUTES.sectors[lang]} className="btn-ghost">
             {t.expertise.sectorsCta}
           </Link>

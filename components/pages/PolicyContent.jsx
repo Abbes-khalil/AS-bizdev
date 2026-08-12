@@ -13,7 +13,7 @@ export default function PolicyContent({ lang }) {
         <p className="mt-2 text-[1rem] text-gray-700">{t.hero.updatedDate}</p>
       </PageHero>
 
-      <section className="bg-white pb-24 lg:pb-32">
+      <section className="bg-white pb-20 lg:pb-24">
         <div className="container-x">
           <article className="mx-auto max-w-3xl">
             {t.sections.map((section, i) => (

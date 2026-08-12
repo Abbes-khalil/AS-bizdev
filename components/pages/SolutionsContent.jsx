@@ -25,7 +25,7 @@ export default function SolutionsContent({ lang }) {
           ))}
         </div>
 
-        <CtaBlock {...t.cta} lang={lang} className="mt-[4rem]" />
+        <CtaBlock {...t.cta} lang={lang} className="mt-[3.25rem]" />
       </Section>
     </main>
   );
