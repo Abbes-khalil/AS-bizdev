@@ -18,17 +18,43 @@ const absolute = (path) => `${SITE_URL}${path === "/" ? "/" : path}`;
 const pageFileFor = (path) => `app${path === "/" ? "" : path}/page.jsx`;
 
 /**
- * lastModified per route, from the source file's last git commit date —
- * this site has no CMS/"updated at" field for its static pages, so the
- * commit history is the only honest source of "when did this page's
- * content actually change" rather than a build-time `new Date()` (which
- * would just print today on every deploy, a meaningless freshness signal).
- * Falls back to undefined (omits the field) if git isn't available, e.g. a
- * shallow clone with no history for that path — Next simply won't render
- * <lastmod> for that entry rather than lying about it.
+ * `git log -- <path>` is only accurate against full history. On a *shallow*
+ * clone (Vercel's default build checkout, depth 1) git has no parent commit
+ * to diff a boundary commit against, so it reports that single fetched
+ * commit as the "last change" for every path that exists in it — every
+ * route in the sitemap would silently get today's deploy date, which is
+ * worse than useless (confirmed live: before this fix, every <lastmod> in
+ * the deployed sitemap.xml was identical). Unshallow once, best-effort, so
+ * `git log` can see real per-file history; if that fails (offline build,
+ * no git binary, detached remote), disable lastModified entirely rather
+ * than serve a uniform, misleading date.
  */
+let gitHistoryAvailable = null;
+const ensureGitHistory = () => {
+  if (gitHistoryAvailable !== null) return gitHistoryAvailable;
+
+  try {
+    const isShallow =
+      execSync("git rev-parse --is-shallow-repository", {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim() === "true";
+
+    if (isShallow) {
+      execSync("git fetch --unshallow --quiet", { stdio: "ignore" });
+    }
+    gitHistoryAvailable = true;
+  } catch {
+    gitHistoryAvailable = false;
+  }
+
+  return gitHistoryAvailable;
+};
+
 const lastModifiedCache = new Map();
 const lastModifiedFor = (path) => {
+  if (!ensureGitHistory()) return undefined;
+
   const file = pageFileFor(path);
   if (lastModifiedCache.has(file)) return lastModifiedCache.get(file);
 
