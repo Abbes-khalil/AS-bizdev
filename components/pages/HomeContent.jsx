@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import ArrowIcon from "@/components/ui/ArrowIcon";
@@ -47,13 +48,13 @@ export default function HomeContent({ lang }) {
 
             <RevealOnScroll variant="right" delay={0.15} className="relative">
               <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 shadow-lift">
-                <img
+                <Image
                   src={ASSET + "maps.webp"}
                   alt={t.hero.mapAlt}
-                  width="640"
-                  height="800"
-                  fetchPriority="high"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  className="object-cover"
                 />
               </div>
             </RevealOnScroll>
