@@ -25,7 +25,9 @@ const MarketCountryGrid = ({ countries }) => {
             <RevealOnScroll
               variant="up"
               index={index}
-              className="flex h-full w-full items-center gap-3 rounded-card border border-gray-200 bg-white px-4 py-3"
+              className="flex h-full w-full items-center gap-3 rounded-card border border-gray-200 bg-white px-4 py-3 transition-colors duration-300 hover:border-navy"
+              whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(29,61,109,0.18)" }}
+              transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gray-200">
                 <img

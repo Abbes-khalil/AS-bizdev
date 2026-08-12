@@ -1,13 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import ArrowIcon from "@/components/ui/ArrowIcon";
+import HeroMarketsMap from "@/components/home/HeroMarketsMap";
+import MotionCta from "@/components/ui/MotionCta";
 import OfferCard from "@/components/ui/OfferCard";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import StepList from "@/components/ui/StepList";
-import { ASSET } from "@/lib/siteData";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
 
@@ -36,26 +34,19 @@ export default function HomeContent({ lang }) {
               ))}
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link href={ROUTES.contact[lang]} className="btn-primary">
+                <MotionCta href={ROUTES.contact[lang]} className="btn-primary">
                   {t.hero.ctaPrimary}
                   <ArrowIcon />
-                </Link>
-                <Link href={ROUTES.solutions[lang]} className="btn-secondary">
+                </MotionCta>
+                <MotionCta href={ROUTES.solutions[lang]} className="btn-secondary">
                   {t.hero.ctaSecondary}
-                </Link>
+                </MotionCta>
               </div>
             </RevealOnScroll>
 
             <RevealOnScroll variant="right" delay={0.15} className="relative">
-              <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 shadow-lift">
-                <Image
-                  src={ASSET + "maps.webp"}
-                  alt={t.hero.mapAlt}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 520px, 90vw"
-                  className="object-cover"
-                />
+              <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 p-6 shadow-lift">
+                <HeroMarketsMap lang={lang} ariaLabel={t.hero.mapAlt} />
               </div>
             </RevealOnScroll>
           </div>
@@ -115,10 +106,10 @@ export default function HomeContent({ lang }) {
           </RevealOnScroll>
 
           <RevealOnScroll variant="up" delay={0.1} className="lg:justify-self-end">
-            <Link href={ROUTES.markets[lang]} className="btn-primary">
+            <MotionCta href={ROUTES.markets[lang]} className="btn-primary">
               {t.markets.cta}
               <ArrowIcon />
-            </Link>
+            </MotionCta>
           </RevealOnScroll>
         </div>
       </Section>
@@ -134,10 +125,10 @@ export default function HomeContent({ lang }) {
           />
 
           <RevealOnScroll variant="up" delay={0.1} className="lg:justify-self-end">
-            <Link href={ROUTES.becomePartner[lang]} className="btn-navy">
+            <MotionCta href={ROUTES.becomePartner[lang]} className="btn-navy">
               {t.partner.cta}
               <ArrowIcon />
-            </Link>
+            </MotionCta>
           </RevealOnScroll>
         </div>
       </Section>

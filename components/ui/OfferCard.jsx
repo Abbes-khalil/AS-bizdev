@@ -15,7 +15,9 @@ const OfferCard = ({ offer, index = 0, lang, moreLabel }) => (
     variant="up"
     delay={0.05}
     index={index}
-    className="group flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-500 hover:-translate-y-1 hover:border-navy hover:shadow-lift lg:p-[2.25rem]"
+    className="group flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-colors duration-500 hover:border-navy lg:p-[2.25rem]"
+    whileHover={{ y: -6, boxShadow: "0 8px 24px rgba(29,61,109,0.18)" }}
+    transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
   >
     {offer.eyebrow && <p className="eyebrow text-orange">{offer.eyebrow}</p>}
 

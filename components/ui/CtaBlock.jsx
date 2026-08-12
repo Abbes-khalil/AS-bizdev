@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import Eyebrow from "@/components/ui/Eyebrow";
+import MotionCta from "@/components/ui/MotionCta";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { ROUTES } from "@/lib/routes";
 
@@ -21,10 +20,10 @@ const CtaBlock = ({ eyebrow, heading, label, lang, className = "" }) => (
       {heading}
     </h2>
 
-    <Link href={ROUTES.contact[lang]} className="btn-primary mt-2">
+    <MotionCta href={ROUTES.contact[lang]} className="btn-primary mt-2">
       {label}
       <ArrowIcon />
-    </Link>
+    </MotionCta>
   </RevealOnScroll>
 );
 
