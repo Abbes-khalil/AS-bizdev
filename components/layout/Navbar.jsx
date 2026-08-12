@@ -95,6 +95,13 @@ export default function Navbar() {
 
             <LangSwitcher className="hidden xl:inline-flex" />
 
+            <Link
+              href={ROUTES.contact[lang]}
+              className="hidden rounded-btn bg-navy px-5 py-2.5 font-display text-[0.8125rem] font-semibold tracking-tight text-white shadow-soft transition-all duration-300 ease-emphasized hover:-translate-y-0.5 hover:bg-navy-700 hover:shadow-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-white xl:inline-flex xl:items-center"
+            >
+              {t.headerCta}
+            </Link>
+
             <button
               type="button"
               aria-label={open ? t.closeMenu : t.openMenu}

@@ -38,7 +38,7 @@ const PageHero = ({
       {overlay}
 
       <div
-        className={`relative container-x ${dark ? "py-16 lg:py-24" : "py-14 lg:py-20"}`}
+        className={`relative container-x ${dark ? "py-14 lg:py-20" : "py-12 lg:py-16"}`}
       >
         <RevealOnScroll
           variant="up"

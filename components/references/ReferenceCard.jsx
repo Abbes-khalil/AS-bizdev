@@ -25,9 +25,10 @@ import { interpolate } from "@/lib/i18n/dictionaries";
  * alpha channel — so it gets a white backing plate instead of floating as a
  * bare rectangle on the now-transparent card.
  *
- * Client references only — logo, name and group/brand line, no description.
- * Network/partner entries (the Écosystèmes & réseaux section) render through
- * `EcosystemCard` instead, which always shows the relationship text.
+ * Client references only — logo alone, no name/description; `org.name` still
+ * feeds the image `alt` text and the missing-logo placeholder. Network/partner
+ * entries (the Écosystèmes & réseaux section) render through `EcosystemCard`
+ * instead, which always shows the relationship text.
  */
 const ReferenceCard = ({
   org,
@@ -83,17 +84,11 @@ const ReferenceCard = ({
             className={`text-balance text-center font-display font-semibold tracking-tight text-navy ${
               featured ? "text-[1.25rem]" : "text-[1.05rem]"
             }`}
-          ></p>
+          >
+            {org.name}
+          </p>
         )}
       </div>
-
-      {showLogo && (
-        <h3
-          className={`mt-4 line-clamp-2 font-display font-semibold leading-tight tracking-tight text-navy ${
-            featured ? "text-[1.125rem]" : "text-[1rem]"
-          }`}
-        ></h3>
-      )}
     </RevealOnScroll>
   );
 };

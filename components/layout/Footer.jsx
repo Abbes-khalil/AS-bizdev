@@ -141,17 +141,6 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <div className="self-center text-center">
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-block text-[0.95rem] text-orange link-underline"
-            >
-              {CONTACT_EMAIL}
-              <br />
-              {CONTACT_PHONE}
-            </a>
-          </div>
-
           {footerLinks.slice(1).map(({ title, items }) => (
             <nav key={title} aria-label={title}>
               <p className="eyebrow text-white/50">{title}</p>
@@ -169,6 +158,16 @@ export default function Footer() {
               </ul>
             </nav>
           ))}
+        </div>
+        <div className="self-center text-center">
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="inline-block text-[0.95rem] text-orange link-underline"
+          >
+            {CONTACT_EMAIL}
+            <br />
+            {CONTACT_PHONE}
+          </a>
         </div>
 
         {/* Bottom bar */}

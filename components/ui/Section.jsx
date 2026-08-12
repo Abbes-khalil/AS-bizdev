@@ -17,7 +17,7 @@ const Section = ({
 }) => (
   <section
     id={id}
-    className={`${TONES[tone]} py-14 lg:py-20 ${className}`}
+    className={`${TONES[tone]} py-12 lg:py-16 ${className}`}
   >
     <div className={`container-x ${containerClassName}`}>{children}</div>
   </section>

@@ -17,7 +17,7 @@ export default function HomeContent({ lang }) {
     <main>
       {/* HERO — who we help, what we do, where, in one screen (§7). */}
       <section className="relative overflow-hidden bg-white">
-        <div className="relative container-x pt-10 pb-14 md:pt-12 md:pb-16 lg:pt-16 lg:pb-20">
+        <div className="relative container-x pt-8 pb-12 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <RevealOnScroll variant="up">
               <h1 className="font-display text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[3rem] lg:text-[3.25rem]">
