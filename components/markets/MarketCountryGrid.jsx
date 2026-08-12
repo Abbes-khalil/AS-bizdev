@@ -1,5 +1,7 @@
 "use client";
 
+import { useReducedMotion } from "framer-motion";
+
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { ASSET } from "@/lib/siteData";
 import { useLang } from "@/lib/i18n/LanguageProvider";
@@ -14,6 +16,7 @@ import { useLang } from "@/lib/i18n/LanguageProvider";
  */
 const MarketCountryGrid = ({ countries }) => {
   const { lang } = useLang();
+  const reduceMotion = useReducedMotion();
 
   return (
     <ul role="list" className="grid grid-cols-2 gap-[0.875rem] sm:grid-cols-3 lg:grid-cols-4">
@@ -26,7 +29,10 @@ const MarketCountryGrid = ({ countries }) => {
               variant="up"
               index={index}
               className="flex h-full w-full items-center gap-3 rounded-card border border-gray-200 bg-white px-4 py-3 transition-colors duration-300 hover:border-navy"
-              whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(29,61,109,0.18)" }}
+              whileHover={{
+                y: reduceMotion ? 0 : -4,
+                boxShadow: "0 8px 24px rgba(29,61,109,0.18)",
+              }}
               transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gray-200">

@@ -21,6 +21,7 @@ export default function SolutionsContent({ lang }) {
               index={index}
               lang={lang}
               moreLabel={t.more}
+              variant={index % 2 === 0 ? "left" : "right"}
             />
           ))}
         </div>

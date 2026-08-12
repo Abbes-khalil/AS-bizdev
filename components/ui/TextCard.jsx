@@ -1,10 +1,10 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 
 /** Plain title + body card used across About, Sectors and Network pages. */
-const TextCard = ({ item, index }) => (
+const TextCard = ({ item, index, variant = "up" }) => (
   <RevealOnScroll
     as="article"
-    variant="up"
+    variant={variant}
     delay={0.05}
     index={index}
     className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.25rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"

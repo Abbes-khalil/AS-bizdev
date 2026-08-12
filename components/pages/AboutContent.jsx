@@ -29,7 +29,7 @@ export default function AboutContent({ lang }) {
 
         <div className="mt-[2.5rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           <RevealOnScroll
-            variant="up"
+            variant="left"
             className="rounded-card border border-gray-200 bg-white p-[2rem]"
           >
             <h3 className="font-display text-[1.125rem] font-semibold tracking-[-0.02em] text-navy">
@@ -39,7 +39,7 @@ export default function AboutContent({ lang }) {
           </RevealOnScroll>
 
           <RevealOnScroll
-            variant="up"
+            variant="right"
             delay={0.1}
             className="rounded-card border border-dashed border-gray-200 p-[2rem]"
           >
@@ -72,7 +72,12 @@ export default function AboutContent({ lang }) {
 
         <div className="mt-[1.75rem] grid gap-[1.25rem] md:grid-cols-3">
           {t.principles.items.map((item, index) => (
-            <TextCard key={item.title} item={item} index={index} />
+            <TextCard
+              key={item.title}
+              item={item}
+              index={index}
+              variant={index % 2 === 0 ? "up" : "scale"}
+            />
           ))}
         </div>
       </Section>
@@ -86,7 +91,12 @@ export default function AboutContent({ lang }) {
 
         <div className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-3">
           {t.expertise.items.map((item, index) => (
-            <TextCard key={item.title} item={item} index={index} />
+            <TextCard
+              key={item.title}
+              item={item}
+              index={index}
+              variant={index % 2 === 0 ? "left" : "right"}
+            />
           ))}
         </div>
 
