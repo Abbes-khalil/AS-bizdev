@@ -17,7 +17,7 @@ export default function HomeContent({ lang }) {
     <main>
       {/* HERO — who we help, what we do, where, in one screen (§7). */}
       <section className="relative overflow-hidden bg-white">
-        <div className="relative container-x pt-[160px] pb-20 md:pt-[180px] md:pb-24 lg:pt-[200px] lg:pb-28">
+        <div className="relative container-x pt-10 pb-14 md:pt-12 md:pb-16 lg:pt-16 lg:pb-20">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <RevealOnScroll variant="up">
               <h1 className="font-display text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[3rem] lg:text-[3.25rem]">
@@ -70,7 +70,7 @@ export default function HomeContent({ lang }) {
           intro={t.twoWays.intro}
         />
 
-        <div className="mt-[3rem] grid gap-[1.5rem] lg:grid-cols-2 lg:gap-[2rem]">
+        <div className="mt-[3rem] grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           {t.twoWays.items.map((offer, index) => (
             <OfferCard
               key={offer.routeKey}
@@ -99,7 +99,7 @@ export default function HomeContent({ lang }) {
 
       {/* MARKETS — named markets, never a world map (§6). */}
       <Section tone="navy">
-        <div className="grid items-end gap-[2rem] lg:grid-cols-[1.4fr_0.6fr]">
+        <div className="grid items-end gap-[1.25rem] lg:grid-cols-[1.4fr_0.6fr]">
           <RevealOnScroll variant="up">
             <p className="eyebrow text-orange">{t.markets.eyebrow}</p>
             <h2 className="mt-4 font-display display-md font-semibold tracking-tight text-white text-balance">
@@ -124,7 +124,7 @@ export default function HomeContent({ lang }) {
 
       {/* PARTNER NETWORK (§11). */}
       <Section tone="alt">
-        <div className="grid items-end gap-[2rem] lg:grid-cols-[1.4fr_0.6fr]">
+        <div className="grid items-end gap-[1.25rem] lg:grid-cols-[1.4fr_0.6fr]">
           <SectionHeading
             eyebrow={t.partner.eyebrow}
             titleLead={t.partner.titleLead}

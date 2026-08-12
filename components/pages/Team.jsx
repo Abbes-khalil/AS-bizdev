@@ -27,7 +27,7 @@ const TeamCard = ({ member, index, portraitAlt }) => (
       />
     </div>
 
-    <div className="flex flex-1 flex-col p-[1.5rem]">
+    <div className="flex flex-1 flex-col p-[1.25rem]">
       <h3 className="font-display text-[1.125rem] font-semibold leading-[1.25] tracking-[-0.02em] text-navy">
         {member.name}
       </h3>
@@ -118,7 +118,7 @@ export default function Team({ lang, members, title, description }) {
 
         <ul
           role="list"
-          className="grid grid-cols-1 gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-[2rem]"
+          className="grid grid-cols-1 gap-[1.25rem] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-[1.25rem]"
         >
           {roster.map((member, index) => (
             <li key={member.name} className="h-full">

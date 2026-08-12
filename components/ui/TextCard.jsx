@@ -7,7 +7,7 @@ const TextCard = ({ item, index }) => (
     variant="up"
     delay={0.05}
     index={index}
-    className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
+    className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.25rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
   >
     <h3 className="font-display text-[1.25rem] font-semibold leading-[1.25] tracking-[-0.02em] text-navy">
       {item.title}

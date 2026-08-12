@@ -1,19 +1,21 @@
 "use client";
 
+import Link from "next/link";
+
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { ASSET } from "@/lib/siteData";
-import { interpolate } from "@/lib/i18n/dictionaries";
+import { ROUTES } from "@/lib/routes";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 
 /**
  * A country's card in the market selection grid — flag, name, its validated
- * `intro` if one exists, and an "explore" affordance. Clicking it opens
- * `MarketModal` in place (via `onSelect`, from `useMarketSelection`); it
- * never navigates. One component for every country, driven entirely by
- * `country` — no per-country components.
+ * `intro` if one exists, and a "talk about this market" link straight to
+ * Contact (with the market pre-filled). The card itself is not clickable and
+ * never navigates on its own. One component for every country, driven
+ * entirely by `country` — no per-country components.
  */
-const MarketCountryGrid = ({ countries, onSelect, exploreLabel, openMarketLabel }) => {
+const MarketCountryGrid = ({ countries, talkLabel }) => {
   const { lang } = useLang();
 
   return (
@@ -25,14 +27,9 @@ const MarketCountryGrid = ({ countries, onSelect, exploreLabel, openMarketLabel 
         return (
           <li key={country.key}>
             <RevealOnScroll
-              as="button"
               variant="up"
               index={index}
-              type="button"
-              onClick={() => onSelect(country.key)}
-              aria-label={interpolate(openMarketLabel, { name })}
-              aria-haspopup="dialog"
-              className="group flex h-full w-full flex-col items-center rounded-card border border-gray-200 bg-white p-[1.75rem] text-center transition-all duration-200 ease-out hover:-translate-y-1 hover:border-navy hover:shadow-lift focus-visible:-translate-y-1 focus-visible:border-navy focus-visible:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+              className="flex h-full w-full flex-col items-center rounded-card border border-gray-200 bg-white p-[1.25rem] text-center"
             >
               <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-gray-200 sm:h-16 sm:w-16">
                 <img
@@ -54,10 +51,13 @@ const MarketCountryGrid = ({ countries, onSelect, exploreLabel, openMarketLabel 
                 </span>
               )}
 
-              <span className="mt-4 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-medium text-orange">
-                {exploreLabel}
+              <Link
+                href={`${ROUTES.contact[lang]}?market=${country.key}`}
+                className="group mt-4 inline-flex items-center gap-1.5 rounded-full border border-orange/40 px-[1.25rem] py-[0.5rem] font-display text-[0.8125rem] font-medium text-orange transition-colors duration-200 ease-out hover:border-orange hover:bg-orange/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+              >
+                {talkLabel}
                 <ArrowIcon className="transition-transform duration-200 ease-out group-hover:translate-x-1" />
-              </span>
+              </Link>
             </RevealOnScroll>
           </li>
         );

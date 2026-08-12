@@ -6,7 +6,6 @@ const PHOTOS = {
   stephane: "employe/stephane.webp",
   wafa: "employe/wafa.webp",
   chekib: "employe/Chekib-.webp",
-  bechir: "employe/bechir.webp",
   khalil: "employe/khalil.webp",
   kaouther: "employe/kaouther.webp",
   taher: "employe/taher.webp",
@@ -45,10 +44,9 @@ const team = {
         bio: "13 ans d'expérience dans la force de vente, principalement chez le leader mondial des verres correcteurs et de l'équipement d'optique ophtalmique.",
       },
       {
-        photo: PHOTOS.bechir,
-        name: "Béchir Zouaoui",
-        role: "Senior Graphic Designer",
-        bio: "Plus de 13 ans d'expérience dans le monde du design et du développement web.",
+        name: "Achwek Kefifi",
+        role: "Responsable des Opérations",
+        bio: "10 ans d’expérience dans le commerce B2B notamment sur le grand Maghreb.",
       },
       {
         photo: PHOTOS.khalil,

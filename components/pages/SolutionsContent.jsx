@@ -13,7 +13,7 @@ export default function SolutionsContent({ lang }) {
       <PageHero layout="split" {...t.hero} />
 
       <Section tone="alt">
-        <div className="grid gap-[1.5rem] lg:grid-cols-2 lg:gap-[2rem]">
+        <div className="grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           {t.items.map((offer, index) => (
             <OfferCard
               key={offer.routeKey}

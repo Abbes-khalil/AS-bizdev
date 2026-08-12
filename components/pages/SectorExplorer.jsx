@@ -80,7 +80,7 @@ const SectorExplorer = ({ items, copy, ariaLabel }) => {
   return (
     <div>
       {/* Desktop: vertical nav + panel */}
-      <div className="hidden lg:grid lg:grid-cols-[19rem_1fr] lg:gap-[2rem]">
+      <div className="hidden lg:grid lg:grid-cols-[19rem_1fr] lg:gap-[1.25rem]">
         <div role="tablist" aria-label={ariaLabel} aria-orientation="vertical" className="flex flex-col gap-1">
           {items.map((item, index) => {
             const isActive = item.id === activeId;

@@ -19,6 +19,13 @@
  * backing plate to stay visible (e.g. APM) — the card applies the background
  * to the logo zone only, never inferred from the org's name.
  *
+ * `logoBackground: "light"` is the fallback for a source file with an opaque
+ * background baked in — a white backing plate instead of a bare rectangle on
+ * the transparent card. Prefer fixing the asset instead: the `*-transparent.png`
+ * files (see `scripts/remove-white-bg.mjs`) key out a near-white background
+ * from the original .jpg/.webp so the logo sits directly on the page.
+ *
+
  * `edge.blocks[0].body` in PartnersContent.content.js (page-shell copy)
  * carries a `{contactsPhrase}` token, interpolated in PartnersContent from
  * `NETWORK_STATS.contactsCount` below — never hardcode a contact count back
@@ -165,7 +172,7 @@ export const REFERENCES = [
     type: "client",
     featured: true,
     sectors: ["industrie", "technologies"],
-    logo: "partenaires/BBC.webp",
+    logo: "partenaires/BBC-transparent.png",
     isPublished: true,
     sortOrder: 10,
     content: {
@@ -188,7 +195,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["industrie", "technologies"],
-    logo: "partenaires/Michaud.png",
+    logo: "partenaires/Michaud.svg",
     isPublished: true,
     sortOrder: 20,
     content: {
@@ -202,6 +209,7 @@ export const REFERENCES = [
     featured: false,
     sectors: ["industrie", "technologies"],
     isPublished: true,
+    logo: "partenaires/fstb-transparent.png",
     sortOrder: 21,
     content: {
       fr: { name: "Foshan Tongbao" },
@@ -213,7 +221,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["industrie", "technologies"],
-    logo: "partenaires/Surfaprotec.png",
+    logo: "partenaires/Surfaprotec-transparent.png",
     isPublished: true,
     sortOrder: 22,
     content: {
@@ -227,7 +235,7 @@ export const REFERENCES = [
     featured: false,
     sectors: ["industrie", "technologies"],
     isPublished: true,
-    logo: "partenaires/lpe.jpg",
+    logo: "partenaires/lpe-transparent.png",
     sortOrder: 23,
     content: {
       fr: { name: "La Pratique Électronique" },
@@ -297,7 +305,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["sante"],
-    logo: "partenaires/Promed.png",
+    logo: "partenaires/Promed-transparent.png",
     isPublished: true,
     sortOrder: 28,
     content: {
@@ -338,7 +346,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["services"],
-    logo: "partenaires/Incenteev.webp",
+    logo: "partenaires/Incenteev-transparent.png",
     isPublished: true,
     sortOrder: 31,
     content: {
@@ -372,7 +380,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["services"],
-    logo: "partenaires/TS.webp",
+    logo: "partenaires/TS-transparent.png",
     isPublished: true,
     sortOrder: 33,
     content: {
@@ -393,7 +401,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["services"],
-    logo: "partenaires/Emba.webp",
+    logo: "partenaires/Emba-transparent.png",
     isPublished: true,
     sortOrder: 34,
     content: {
@@ -422,24 +430,11 @@ export const REFERENCES = [
       en: { name: "EDF" },
     },
   },
-  {
-    key: "ach",
-    type: "client",
-    featured: false,
-    sectors: ["services"],
-    isPublished: true,
-    sortOrder: 35,
-    content: {
-      fr: { name: "ACH" },
-      en: { name: "ACH" },
-    },
-  },
 
   // --- ecosystem: named institutional networks ---
   {
     key: "apm",
     logo: "partenaires/apm.webp",
-    logoBackground: "dark",
     type: "network",
     isPublished: true,
     sortOrder: 40,
@@ -485,7 +480,7 @@ export const REFERENCES = [
   },
   {
     key: "businessFrance",
-    logo: "partenaires/Business_france.png",
+    logo: "partenaires/Business_france-transparent.png",
     type: "network",
     isPublished: true,
     sortOrder: 42,
@@ -508,7 +503,7 @@ export const REFERENCES = [
   },
   {
     key: "taa",
-    logo: "partenaires/taa.png",
+    logo: "partenaires/taa-transparent.png",
     type: "network",
     isPublished: true,
     sortOrder: 43,
@@ -526,48 +521,6 @@ export const REFERENCES = [
           "A professional organisation representing the ecosystem and companies of the Tunisian automotive industry.",
         contribution:
           "Collaboration with players and networks within the TAA ecosystem.",
-      },
-    },
-  },
-
-  // --- ecosystem: legacy partner sub-tier (unchanged) ---
-  {
-    key: "admg",
-    type: "partner",
-    category: "industry",
-    logo: "partenaires/ADMG.webp",
-    isPublished: true,
-    sortOrder: 50,
-    content: {
-      fr: {
-        name: "ADMG technology",
-        description:
-          "ADMG technology, une start-up innovante née au sein du groupe AGF pour créer des systèmes de pointe dans l'automatisation de la métallurgie pour des tiers. Grâce à des collaborations avec diverses universités, des brevets et des technologies modernes, ADMG a réussi à créer son propre espace de marché avec des produits très innovants.",
-      },
-      en: {
-        name: "ADMG technology",
-        description:
-          "ADMG technology is an innovative start-up born within the AGF group to create cutting-edge systems for metallurgy automation on behalf of third parties. Through collaborations with various universities, patents and modern technologies, ADMG has carved out its own market space with highly innovative products.",
-      },
-    },
-  },
-  {
-    key: "sysmic",
-    type: "partner",
-    category: "consulting",
-    logo: "partenaires/SySmic.webp",
-    isPublished: true,
-    sortOrder: 51,
-    content: {
-      fr: {
-        name: "SYS'MIC",
-        description:
-          "Dans un monde globalisé, complexe et incertain, l'enjeu pour les organisations est de rebondir sur les « secousses » pour construire un avenir réussi. SYS'MIC s'appuie sur le mouvement et l'intelligence collective pour faire émerger la vision partagée qui précède l'action.",
-      },
-      en: {
-        name: "SYS'MIC",
-        description:
-          "In a globalised, complex and uncertain world, the challenge for organisations is to rebound from the “tremors” in order to build a successful future. SYS'MIC draws on movement and collective intelligence to bring out the shared vision that precedes action.",
       },
     },
   },

@@ -15,7 +15,7 @@ export default function BecomePartnerContent({ lang }) {
       <PageHero layout="split" {...t.hero} />
 
       <Section tone="alt">
-        <div className="grid gap-[2rem] lg:grid-cols-2 lg:gap-[3rem]">
+        <div className="grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[3rem]">
           <SectionHeading
             eyebrow={t.intent.eyebrow}
             titleLead={t.intent.titleLead}
@@ -48,7 +48,7 @@ export default function BecomePartnerContent({ lang }) {
           titleAccent={t.profiles.titleAccent}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2.5rem]">
+        <RevealOnScroll variant="up" className="mt-[2rem]">
           <BulletList items={t.profiles.items} columns={2} />
           <p className="mt-[2rem] max-w-3xl text-[0.9375rem] leading-[1.7] text-gray-500">
             {t.profiles.note}
@@ -64,7 +64,7 @@ export default function BecomePartnerContent({ lang }) {
           intro={t.form.intro}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2.5rem]">
+        <RevealOnScroll variant="up" className="mt-[2rem]">
           <PartnerForm copy={t} />
         </RevealOnScroll>
       </Section>

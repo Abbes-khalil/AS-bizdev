@@ -13,7 +13,7 @@ const StepList = ({ steps, columns = 3 }) => {
       : "sm:grid-cols-2 lg:grid-cols-3";
 
   return (
-    <ol role="list" className={`grid gap-[1.5rem] ${grid}`}>
+    <ol role="list" className={`grid gap-[1.25rem] ${grid}`}>
       {steps.map((step, index) => (
         <RevealOnScroll
           as="li"
@@ -21,7 +21,7 @@ const StepList = ({ steps, columns = 3 }) => {
           variant="up"
           delay={0.05}
           index={index}
-          className="relative flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
+          className="relative flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.25rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
         >
           <span
             aria-hidden="true"

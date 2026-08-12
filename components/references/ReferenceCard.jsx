@@ -20,6 +20,11 @@ import { interpolate } from "@/lib/i18n/dictionaries";
  * correctly sized but visually reads smaller/larger than its neighbours —
  * it only nudges the render size, never the layout box.
  *
+ * `logoBackground: "light"` flags a source file with an opaque (usually
+ * white) background baked in — most often a .jpg or a .webp export with no
+ * alpha channel — so it gets a white backing plate instead of floating as a
+ * bare rectangle on the now-transparent card.
+ *
  * Client references only — logo, name and group/brand line, no description.
  * Network/partner entries (the Écosystèmes & réseaux section) render through
  * `EcosystemCard` instead, which always shows the relationship text.
@@ -44,12 +49,18 @@ const ReferenceCard = ({
       index={Math.min(index, 5)}
       layout={layout || undefined}
       exit={layout ? { opacity: 0, scale: 0.97 } : undefined}
-      className={`group/card flex h-full flex-col rounded-card border border-gray-200 bg-white transition-all duration-200 ease-out hover:-translate-y-1 hover:border-navy hover:shadow-lift focus-visible:-translate-y-1 focus-visible:border-navy focus-visible:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 ${
+      className={`group/card flex h-full flex-col rounded-card bg-transparent transition-all duration-200 ease-out hover:-translate-y-1 focus-visible:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 ${
         featured ? "p-6" : "p-5"
       }`}
     >
       <div
-        className={`flex shrink-0 items-center justify-center px-2 ${featured ? "h-28" : "h-24"}`}
+        className={`flex shrink-0 items-center justify-center px-2 ${featured ? "h-28" : "h-24"} ${
+          showLogo && org.logoBackground === "dark"
+            ? "rounded-[0.75rem] bg-navy"
+            : showLogo && org.logoBackground === "light"
+              ? "rounded-[0.75rem] border border-gray-100 bg-white shadow-soft"
+              : ""
+        }`}
       >
         {showLogo ? (
           <img
@@ -72,9 +83,7 @@ const ReferenceCard = ({
             className={`text-balance text-center font-display font-semibold tracking-tight text-navy ${
               featured ? "text-[1.25rem]" : "text-[1.05rem]"
             }`}
-          >
-            {org.name}
-          </p>
+          ></p>
         )}
       </div>
 
@@ -83,20 +92,8 @@ const ReferenceCard = ({
           className={`mt-4 line-clamp-2 font-display font-semibold leading-tight tracking-tight text-navy ${
             featured ? "text-[1.125rem]" : "text-[1rem]"
           }`}
-        >
-          {org.name}
-        </h3>
+        ></h3>
       )}
-
-      {org.groupBrands && (
-        <p className="mt-2 text-[0.8125rem] text-gray-500">
-          <span className="text-gray-400">
-            {org.groupBrands.length > 1 ? groupsLabel : groupLabel}
-          </span>{" "}
-          {org.groupBrands.join(" · ")}
-        </p>
-      )}
-
     </RevealOnScroll>
   );
 };

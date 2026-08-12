@@ -74,20 +74,18 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="container-x mt-20 grid gap-12 border-t border-white/10 pt-16 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div className="container-x mt-20 grid gap-12 border-t border-white/10 pt-16 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
           <div>
             <Link
               href={ROUTES.home[lang]}
               aria-label={nav.homeAria}
               className="inline-flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
-              <span className="inline-flex items-center rounded-xl bg-white px-3 py-2">
-                <img
-                  src={ASSET + "asbizdev.png"}
-                  alt="AS Biz Dev"
-                  className="h-7 w-auto"
-                />
-              </span>
+              <img
+                src={ASSET + "asbizdev.png"}
+                alt="AS Biz Dev"
+                className="h-7 w-auto"
+              />
               <span className="mt-1 font-display text-[0.65rem] font-medium uppercase tracking-widest text-white/60">
                 {t.brandTagline}
               </span>
@@ -127,7 +125,34 @@ export default function Footer() {
             </div>
           </div>
 
-          {footerLinks.map(({ title, items }) => (
+          <nav aria-label={footerLinks[0].title}>
+            <p className="eyebrow text-white/50">{footerLinks[0].title}</p>
+            <ul className="mt-6 space-y-3">
+              {footerLinks[0].items.map(({ key, label }) => (
+                <li key={key}>
+                  <Link
+                    href={ROUTES[key][lang]}
+                    className="text-[0.95rem] text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded px-1 py-1 -mx-1"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="self-center text-center">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="inline-block text-[0.95rem] text-orange link-underline"
+            >
+              {CONTACT_EMAIL}
+              <br />
+              {CONTACT_PHONE}
+            </a>
+          </div>
+
+          {footerLinks.slice(1).map(({ title, items }) => (
             <nav key={title} aria-label={title}>
               <p className="eyebrow text-white/50">{title}</p>
               <ul className="mt-6 space-y-3">
@@ -144,17 +169,6 @@ export default function Footer() {
               </ul>
             </nav>
           ))}
-
-          <div className="text-center content-center">
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-6 inline-block text-[0.95rem] text-orange link-underline"
-            >
-              {CONTACT_EMAIL}
-              <br />
-              {CONTACT_PHONE}
-            </a>
-          </div>
         </div>
 
         {/* Bottom bar */}

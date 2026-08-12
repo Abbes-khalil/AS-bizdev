@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
 
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import CtaBlock from "@/components/ui/CtaBlock";
@@ -15,9 +14,8 @@ import { ROUTES } from "@/lib/routes";
 const AFRICA_SUBREGIONS = ["north", "west", "south"];
 
 /**
- * One geographic zone (Africa or the Middle East) — the same map + modal
- * experience as /marches, scoped to that zone's markets and cropped to its
- * own portion of the shared map.
+ * One geographic zone (Africa or the Middle East) — the same country-card
+ * grid as /marches, scoped to that zone's markets.
  *
  * Everything after the map is the same five-block sequence for both zones
  * (what the knowledge enables → key message → sectors → solutions → CTA),
@@ -47,17 +45,13 @@ export default function MarketZoneContent({ lang, continent }) {
         intro={zone.intro}
       />
 
-      <Suspense fallback={null}>
-        <MarketExperience
-          countries={countries}
-          groupBySubregion={isAfrica}
-          filterLabels={t.filters}
-          modalLabels={t.modal}
-          selectInstruction={t.selectInstruction}
-          exploreLabel={t.exploreMarket}
-          openMarketLabel={t.openMarketLabel}
-        />
-      </Suspense>
+      <MarketExperience
+        countries={countries}
+        groupBySubregion={isAfrica}
+        filterLabels={t.filters}
+        selectInstruction={t.selectInstruction}
+        talkLabel={t.talkAboutMarket}
+      />
 
       {!isAfrica && (
         <Section tone="navy">
@@ -87,13 +81,13 @@ export default function MarketZoneContent({ lang, continent }) {
           intro={t.capabilities.intro}
         />
 
-        <div className="mt-[2.5rem] grid gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-[2rem] grid gap-[1.25rem] sm:grid-cols-2 lg:grid-cols-4">
           {t.capabilityGroups.map((group, index) => (
             <RevealOnScroll
               key={group.title}
               variant="up"
               index={index}
-              className="rounded-card border border-gray-200 bg-white p-[1.5rem]"
+              className="rounded-card border border-gray-200 bg-white p-[1.25rem]"
             >
               <h3 className="font-display text-[0.8125rem] font-semibold uppercase tracking-widest text-orange">
                 {group.title}
@@ -152,12 +146,12 @@ export default function MarketZoneContent({ lang, continent }) {
           className="mx-auto max-w-2xl text-center"
         />
 
-        <div className="mx-auto mt-[2.5rem] grid max-w-3xl gap-[1.5rem] sm:grid-cols-2">
+        <div className="mx-auto mt-[2rem] grid max-w-3xl gap-[1.25rem] sm:grid-cols-2">
           {t.zoneLinks.items.map((item, index) => (
             <RevealOnScroll key={item.routeKey} variant="up" index={index}>
               <Link
                 href={ROUTES[item.routeKey][lang]}
-                className="group block h-full rounded-card border border-gray-200 bg-white p-[1.5rem] transition-colors duration-300 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+                className="group block h-full rounded-card border border-gray-200 bg-white p-[1.25rem] transition-colors duration-300 hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
               >
                 <span className="block font-display text-[1rem] font-semibold text-navy">
                   {item.title}

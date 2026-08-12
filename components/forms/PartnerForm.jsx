@@ -88,7 +88,7 @@ const PartnerForm = ({ copy }) => {
       onSubmit={onSubmit}
       noValidate
       aria-describedby="form-status"
-      className="rounded-card border border-gray-200 bg-white p-[1.75rem] shadow-soft lg:p-[3rem]"
+      className="rounded-card border border-gray-200 bg-white p-[1.25rem] shadow-soft lg:p-[3rem]"
     >
       {PARTNER_FORM_SECTIONS.map((section, index) => {
         const sectionCopy = copy.form.sections[section.id];
@@ -112,7 +112,7 @@ const PartnerForm = ({ copy }) => {
             </p>
 
             <div
-              className={`mt-[1.75rem] grid gap-[1.5rem] ${twoColumns ? "sm:grid-cols-2" : ""}`}
+              className={`mt-[1.75rem] grid gap-[1.25rem] ${twoColumns ? "sm:grid-cols-2" : ""}`}
             >
               {section.fields.map((field) => (
                 <div
@@ -136,7 +136,7 @@ const PartnerForm = ({ copy }) => {
 
       <HoneypotField />
 
-      <div className="mt-[2.5rem] border-t border-gray-200 pt-[2rem]">
+      <div className="mt-[2rem] border-t border-gray-200 pt-[2rem]">
         <label className="flex cursor-pointer items-start gap-[0.75rem]">
           <input
             type="checkbox"

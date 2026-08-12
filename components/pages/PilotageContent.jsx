@@ -12,7 +12,7 @@ const FunctionCard = ({ item, index }) => (
     variant="up"
     delay={0.05}
     index={index}
-    className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.75rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
+    className="flex h-full flex-col rounded-card border border-gray-200 bg-white p-[1.25rem] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:shadow-lift"
   >
     <h3 className="font-display text-[1.25rem] font-semibold uppercase leading-[1.2] tracking-[-0.02em] text-navy">
       {item.title}
@@ -39,7 +39,7 @@ export default function PilotageContent({ lang }) {
           titleAccent={t.situations.titleAccent}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2.5rem]">
+        <RevealOnScroll variant="up" className="mt-[2rem]">
           <BulletList items={t.situations.items} columns={2} />
           <p className="mt-[2rem] max-w-2xl text-[1.0625rem] leading-[1.7] text-gray-700">
             {t.situations.outro}
@@ -54,7 +54,7 @@ export default function PilotageContent({ lang }) {
           titleAccent={t.functions.titleAccent}
         />
 
-        <div className="mt-[3rem] grid gap-[1.5rem] md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-[3rem] grid gap-[1.25rem] md:grid-cols-2 lg:grid-cols-3">
           {t.functions.items.map((item, index) => (
             <FunctionCard key={item.title} item={item} index={index} />
           ))}

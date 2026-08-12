@@ -33,8 +33,7 @@ const markets = {
 
     selectInstruction:
       "Sélectionnez un marché pour découvrir les informations disponibles et les modalités d'intervention d'AS Biz Dev.",
-    exploreMarket: "Explorer ce marché",
-    openMarketLabel: "Ouvrir les informations sur {name}",
+    talkAboutMarket: "Parler de ce marché",
 
     zoneLinks: {
       eyebrow: "Passer à l'action",
@@ -118,20 +117,6 @@ const markets = {
 
     sectorsLink: "Découvrir nos secteurs",
 
-    modal: {
-      close: "Fermer",
-      cta: "Parler de ce marché",
-      empty: "Information à venir",
-      sections: {
-        sectors: "Secteurs prioritaires",
-        clients: "Typologie de clients",
-        channels: "Canaux de distribution",
-        stakes: "Enjeux du marché",
-        intervention: "Intervention possible d'AS Biz Dev",
-        partners: "Partenaires recherchés",
-      },
-    },
-
     zones: {
       africa: {
         eyebrow: "Afrique",
@@ -189,8 +174,7 @@ const markets = {
 
     selectInstruction:
       "Select a market to see the information available and how AS Biz Dev can get involved.",
-    exploreMarket: "Explore this market",
-    openMarketLabel: "View information about {name}",
+    talkAboutMarket: "Discuss this market",
 
     zoneLinks: {
       eyebrow: "Take action",
@@ -273,20 +257,6 @@ const markets = {
     },
 
     sectorsLink: "Discover our sectors",
-
-    modal: {
-      close: "Close",
-      cta: "Discuss this market",
-      empty: "Information coming soon",
-      sections: {
-        sectors: "Priority sectors",
-        clients: "Customer types",
-        channels: "Distribution channels",
-        stakes: "Market challenges",
-        intervention: "How AS Biz Dev can intervene",
-        partners: "Partners we are looking for",
-      },
-    },
 
     zones: {
       africa: {

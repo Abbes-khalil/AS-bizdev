@@ -13,7 +13,7 @@ const SituationQuote = ({ quote, index }) => (
     variant="up"
     delay={0.05}
     index={index}
-    className="rounded-card border border-gray-200 bg-white p-[1.75rem]"
+    className="rounded-card border border-gray-200 bg-white p-[1.25rem]"
   >
     <blockquote className="font-display text-[1.0625rem] font-medium leading-[1.5] tracking-[-0.02em] text-navy">
       {quote}
@@ -36,7 +36,7 @@ export default function AccelerationContent({ lang }) {
           titleAccent={t.situations.titleAccent}
         />
 
-        <ul role="list" className="mt-[2.5rem] grid gap-[1.25rem] md:grid-cols-2">
+        <ul role="list" className="mt-[2rem] grid gap-[1.25rem] md:grid-cols-2">
           {t.situations.items.map((quote, index) => (
             <SituationQuote key={quote} quote={quote} index={index} />
           ))}
@@ -63,7 +63,7 @@ export default function AccelerationContent({ lang }) {
           intro={t.interventions.intro}
         />
 
-        <RevealOnScroll variant="up" className="mt-[2.5rem]">
+        <RevealOnScroll variant="up" className="mt-[2rem]">
           <BulletList items={t.interventions.items} columns={2} />
         </RevealOnScroll>
 

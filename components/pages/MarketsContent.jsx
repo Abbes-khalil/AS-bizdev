@@ -39,7 +39,7 @@ export default function MarketsContent({ lang }) {
       </Section>
 
       <Section>
-        <div className="grid gap-[1.5rem] lg:grid-cols-2 lg:gap-[2rem]">
+        <div className="grid gap-[1.25rem] lg:grid-cols-2 lg:gap-[1.25rem]">
           {zoneOffers.map((offer, index) => (
             <OfferCard
               key={offer.routeKey}
@@ -60,9 +60,9 @@ export default function MarketsContent({ lang }) {
           intro={t.capabilities.intro}
         />
 
-        <BulletList items={t.capabilities.items} className="mt-[2.5rem] max-w-2xl" />
+        <BulletList items={t.capabilities.items} className="mt-[2rem] max-w-2xl" />
 
-        <RevealOnScroll variant="up" className="mt-[2.5rem]">
+        <RevealOnScroll variant="up" className="mt-[2rem]">
           <Link href={ROUTES.sectors[lang]} className="btn-ghost">
             {t.sectorsLink}
             <ArrowIcon />

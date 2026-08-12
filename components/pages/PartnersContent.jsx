@@ -40,7 +40,9 @@ export default function PartnersContent({ lang }) {
   const edge = {
     ...t.edge,
     blocks: t.edge.blocks.map((block, i) =>
-      i === 0 ? { ...block, body: interpolate(block.body, { contactsPhrase }) } : block,
+      i === 0
+        ? { ...block, body: interpolate(block.body, { contactsPhrase }) }
+        : block,
     ),
   };
 

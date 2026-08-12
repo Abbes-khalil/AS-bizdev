@@ -38,13 +38,13 @@ const PageHero = ({
       {overlay}
 
       <div
-        className={`relative container-x ${dark ? "py-24 lg:py-32" : "py-20 lg:py-28"}`}
+        className={`relative container-x ${dark ? "py-16 lg:py-24" : "py-14 lg:py-20"}`}
       >
         <RevealOnScroll
           variant="up"
           className={
             layout === "split"
-              ? "grid items-end gap-12 lg:grid-cols-[1.4fr_0.6fr]"
+              ? "grid items-end gap-8 lg:grid-cols-[1.4fr_0.6fr]"
               : className
           }
         >
@@ -52,7 +52,7 @@ const PageHero = ({
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
 
             <h1
-              className={`mt-6 font-display display-xl font-semibold text-balance ${dark ? "text-white" : "text-navy"}`}
+              className={`mt-5 font-display display-xl font-semibold text-balance ${dark ? "text-white" : "text-navy"}`}
             >
               {titleLead} <span className="italic text-orange">{titleAccent}</span>
               {titleTail ? ` ${titleTail}` : ""}
@@ -62,7 +62,7 @@ const PageHero = ({
 
             {layout === "stacked" && intro && (
               <p
-                className={`mt-8 max-w-2xl text-[1.125rem] leading-[1.7] ${dark ? "text-white/75" : "text-gray-700"}`}
+                className={`mt-6 max-w-2xl text-[1.125rem] leading-[1.7] ${dark ? "text-white/75" : "text-gray-700"}`}
               >
                 {intro}
               </p>
