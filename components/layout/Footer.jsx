@@ -174,6 +174,12 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-6">
               <Link
+                href={ROUTES.legalNotice[lang]}
+                className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+              >
+                {t.legalNotice}
+              </Link>
+              <Link
                 href={ROUTES.policy[lang]}
                 className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
