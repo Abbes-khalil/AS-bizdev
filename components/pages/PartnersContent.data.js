@@ -275,7 +275,7 @@ export const REFERENCES = [
     type: "client",
     featured: false,
     sectors: ["distribution"],
-    logo: "partenaires/Les_Nouvelles_Pailles.png",
+    logo: "partenaires/Les_nouvelles_pailles.png",
     group: { brands: ["MOOM Tableware"] },
     isPublished: true,
     sortOrder: 26,

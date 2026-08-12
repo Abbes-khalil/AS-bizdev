@@ -6,6 +6,7 @@ const PHOTOS = {
   stephane: "employe/stephane.webp",
   wafa: "employe/wafa.webp",
   chekib: "employe/Chekib-.webp",
+  bechir: "employe/bechir.webp",
   khalil: "employe/khalil.webp",
   kaouther: "employe/kaouther.webp",
   taher: "employe/taher.webp",
