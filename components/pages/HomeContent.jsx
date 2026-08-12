@@ -1,11 +1,13 @@
+import Image from "next/image";
+
 import ArrowIcon from "@/components/ui/ArrowIcon";
-import HeroMarketsMap from "@/components/home/HeroMarketsMap";
 import MotionCta from "@/components/ui/MotionCta";
 import OfferCard from "@/components/ui/OfferCard";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import StepList from "@/components/ui/StepList";
+import { ASSET } from "@/lib/siteData";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
 
@@ -45,8 +47,15 @@ export default function HomeContent({ lang }) {
             </RevealOnScroll>
 
             <RevealOnScroll variant="right" delay={0.15} className="relative">
-              <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 p-6 shadow-lift">
-                <HeroMarketsMap lang={lang} ariaLabel={t.hero.mapAlt} />
+              <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 shadow-lift">
+                <Image
+                  src={ASSET + "maps.webp"}
+                  alt={t.hero.mapAlt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  className="object-cover"
+                />
               </div>
             </RevealOnScroll>
           </div>
