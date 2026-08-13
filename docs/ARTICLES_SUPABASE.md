@@ -9,15 +9,18 @@ new article no longer requires a Git commit or a site rebuild.
 LinkedIn ──▶ RSS bridge ──▶ n8n ──▶ Supabase (articles table) ──▶ React frontend
                                          ▲
                                          │ interim manual/automated path
-                     add-article.html ──▶ api/ingest-article.js
+              /internal/add-article ──▶ api/ingest-article/route.js
 ```
 
 - **n8n** (future, run on AS Biz Dev's own infrastructure — not built in this repo) watches
   an RSS bridge on the LinkedIn company page and upserts new posts directly into Supabase.
-- **`api/ingest-article.js`** (Vercel serverless function) is the interim publishing path
-  until that workflow exists. It scrapes Open Graph metadata from a LinkedIn URL and
-  upserts a row into Supabase. `public/internal/add-article.html` is a manual fallback UI
-  that posts to this endpoint.
+- **`app/api/ingest-article/route.js`** (Vercel serverless function) is the interim publishing
+  path until that workflow exists. It scrapes Open Graph metadata from a LinkedIn URL and
+  upserts a row into Supabase. `/internal/add-article` (`app/internal/add-article/page.jsx`)
+  is a manual fallback UI that posts to this endpoint — not linked anywhere public, its URL
+  is treated as a secret the same way the access token is (`robots: noindex, nofollow` via
+  that route's layout.jsx). Formerly a static `public/internal/add-article.html`; rebuilt as
+  a real page reusing the shared form components (`components/forms/`).
 - **React** (`src/services/articles.js`) reads published articles from Supabase with the
   public anon key. Row Level Security ensures only `status = 'published'` rows are ever
   visible to it.
@@ -125,7 +128,9 @@ already applied. Safe to re-run — it upserts on `slug_fr`.
 - `api/ingest-article.js` no longer commits to GitHub — it upserts into Supabase. The
   `GITHUB_TOKEN`/`GITHUB_REPO`/`GITHUB_DEFAULT_BRANCH` env vars are unused and have been
   removed from `.env.example`.
-- `public/internal/add-article.html` remains as the manual fallback UI, now posting through
-  to the Supabase-backed endpoint. Its `countries` field is still not exposed in the form
-  (pre-existing gap — the API accepts `countries` but the form never sent it); left as-is
-  since there's no stable country taxonomy yet to build a checklist from.
+- `/internal/add-article` (`app/internal/add-article/page.jsx`) is the manual fallback UI,
+  posting through to the Supabase-backed endpoint. Migrated from the static
+  `public/internal/add-article.html` (removed) to a real page reusing `components/forms/`.
+  Its `countries` field is still not exposed in the form (pre-existing gap — the API accepts
+  `countries` but the form never sent it); left as-is since there's no stable country
+  taxonomy yet to build a checklist from.

@@ -148,7 +148,7 @@ Everything visual lives in `tailwind.config.js` (`navy`, `orange`, `ink` color t
 
 Articles are data in Supabase, not source code — publishing one doesn't require a commit or a rebuild. Full architecture, schema and RLS model: [`docs/ARTICLES_SUPABASE.md`](docs/ARTICLES_SUPABASE.md).
 
-**Current state, as implemented today:** an n8n workflow watches an RSS bridge on the LinkedIn company page and `POST`s to **`app/api/ingest-article/route.js`** (Vercel serverless function, `x-ingest-token` header auth), which upserts straight into Supabase with **`status: "published"`** — live immediately at `/news/:slug`, no review step. `public/internal/add-article.html` is a manual fallback UI hitting the same endpoint.
+**Current state, as implemented today:** an n8n workflow watches an RSS bridge on the LinkedIn company page and `POST`s to **`app/api/ingest-article/route.js`** (Vercel serverless function, `x-ingest-token` header auth), which upserts straight into Supabase with **`status: "published"`** — live immediately at `/news/:slug`, no review step. `/internal/add-article` (`app/internal/add-article/page.jsx`) is a manual fallback UI hitting the same endpoint — not linked anywhere public, `robots: noindex, nofollow`.
 
 Requires `INGEST_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` — see `.env.example`. Both are server-only, never exposed to the browser.
 
