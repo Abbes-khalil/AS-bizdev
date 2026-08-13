@@ -2,16 +2,15 @@
 
 # ⚡ AS Biz Dev — V2
 
-**A full rebuild of [asbizdev.com](https://asbizdev.com) — React, bilingual by URL, and repositioned around two offers.**
+**[asbizdev.com](https://asbizdev.com) — Next.js App Router, bilingual by URL, repositioned around two offers.**
 
 <sub>Africa & Middle East — accelerate a market, or run its sales activity for you.</sub>
 
-![React](https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Router](https://img.shields.io/badge/React_Router-7.18-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-articles_backend-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
 ![i18n](https://img.shields.io/badge/i18n-FR_%2F_EN_by_URL-1D3D6D?style=flat-square)
-![SEO](https://img.shields.io/badge/prerendered-26_pages-FF6A00?style=flat-square)
 
 </div>
 
@@ -28,18 +27,7 @@ Two offers, and only two:
 | **Accélération commerciale** | Open a market, find customers and distributors, turn identified potential into real commercial activity. |
 | **Pilotage commercial export externalisé** | Run all or part of the sales activity of a region: distributor management, pipeline, forecast, reporting. |
 
-### What changed in this version
-
-| | Before | Now |
-|---|---|---|
-| Positioning | Generalist consulting (3 packs, values, know-how, project management) | Two offers, execution-first |
-| Geography | "France, Africa and the Middle East" | Africa & Middle East, **named markets only** |
-| Languages | FR/EN toggle in `localStorage` — English invisible to search engines | One URL per language (`/marches` ↔ `/en/markets`) with hreflang |
-| SEO | One `<title>` and one description for the whole site | Per-page metadata, canonical, JSON-LD, sitemap, **26 prerendered pages** |
-| Partners | A showcase of logos | Plus a **partner registration form** feeding a structured record |
-| Routing | `switch` on `window.location.pathname` | React Router, lazy-loaded pages |
-
-> **Editorial rule, non-negotiable:** never invent a figure, a client, a country, a reference or a result. When a fact is not validated, the site says `[INFORMATION À VALIDER PAR AS BIZ DEV]` instead. Those markers are deliberate — replace them with the validated fact, never with something plausible.
+> **Editorial rule, non-negotiable:** never invent a figure, a client, a country, a reference or a result. When a fact is not validated, the site says `[À COMPLÉTER]` / `[TO BE COMPLETED]` instead (see [§ Content to validate](#-content-still-to-validate)). Those markers are deliberate — replace them with the validated fact, never with something plausible.
 
 ---
 
@@ -47,46 +35,70 @@ Two offers, and only two:
 
 ```bash
 npm install
-npm run dev          # → http://localhost:3000
+npm run dev          # → http://localhost:3000 (next dev)
 ```
 
 ```bash
-npm run build        # bundle + prerender 26 pages + sitemap → dist/
-npm run build:client # bundle only (fast, no prerender)
-npm run preview      # serve the built site
-npm run check:i18n   # fail if FR and EN dictionaries drift apart
-npm run typecheck
+npm run build         # next build — static generation + prerendering per route
+npm run start          # next start — serve the production build locally
+npm run check:i18n     # fail if a FR/EN dictionary pair drifts apart
 ```
+
+There is currently **no test runner and no `typecheck` script** — see [§ Status](#-status) for what that means in practice.
 
 ---
 
-## 🔧 How to modify the site
+## 🧭 Routing & pages (App Router)
 
-**The rule that explains everything: components hold the _layout_, `src/i18n/content/` holds the _words_.** No sentence is ever written inside a component. To change text you never open a `.jsx` file.
+Every URL is a real file under `app/`, following Next.js's file-based routing — no client-side router, no route config beyond the data below.
+
+**`lib/routes.js`** is still the single source of truth for the *pairing* between languages, the sitemap, the language switcher and hreflang tags — it holds `{ fr, en }` paths per page key, but each of those paths is also a literal folder in `app/`:
+
+```
+app/page.jsx                                   → /                      (fr)
+app/en/page.jsx                                 → /en
+app/nos-solutions/page.jsx                      → /nos-solutions         (fr)
+app/en/solutions/page.jsx                       → /en/solutions
+app/marches/afrique/page.jsx                    → /marches/afrique       (fr)
+app/en/markets/africa/page.jsx                  → /en/markets/africa
+app/news/[slug]/page.jsx                        → /news/:slug            (dynamic, Supabase-backed)
+```
+
+English slugs are **not** literal translations: they are the search expressions the English site targets (`outsourced-export-sales-management`, `commercial-acceleration`), so the URL itself carries weight.
+
+**No middleware.js / proxy.js exists in this repo currently.** There is no host-based redirect logic (e.g. `*.vercel.app` → `asbizdev.com`) — only the path-based legacy redirects below.
+
+Legacy paths from the previous site (`/who-is-who`, `/nosvaleurs`, `/category/news`…) 301-redirect to their new home — the table lives in **`lib/constants/legacyRedirects.js`** and is applied server-side via `redirects()` in **`next.config.mjs`**.
+
+### Markets pages — important: no per-country routes
+
+There is **no individual page per country**. The 14 countries in `lib/data/countries.js` render as a chip grid inside three pages: `/marches` (hub), `/marches/afrique`, `/marches/moyen-orient` (+ EN equivalents). A `findCountryBySlug()` helper exists in `countries.js` but nothing currently calls it — if a past version of this README described `/marches/<pays>` pages, that described the pre-Next.js version and is no longer accurate.
 
 ### Where each page's text lives
 
-| Page | URL (FR / EN) | Text file | Component |
+| Page | URL (FR / EN) | Text file | Route + component |
 |---|---|---|---|
-| Accueil | `/` · `/en` | `content/home.js` | `pages/Home.jsx` |
-| Nos solutions | `/nos-solutions` · `/en/solutions` | `content/solutions.js` | `pages/Solutions.jsx` |
-| Accélération commerciale | `/nos-solutions/acceleration-commerciale` · `/en/solutions/commercial-acceleration` | `content/acceleration.js` | `pages/Acceleration.jsx` |
-| Pilotage commercial externalisé | `/nos-solutions/pilotage-commercial-externalise` · `/en/solutions/outsourced-export-sales-management` | `content/pilotage.js` | `pages/Pilotage.jsx` |
-| Marchés | `/marches` · `/en/markets` | `content/markets.js` → `hub` | `pages/Markets.jsx` |
-| Afrique / Moyen-Orient | `/marches/afrique` · `/en/markets/africa` | `content/markets.js` → `zones` | `pages/Zone.jsx` |
-| Pages pays | `/marches/<pays>` · `/en/markets/<country>` | `data/countries.js` | `pages/Country.jsx` |
-| AS Biz Dev | `/as-biz-dev` · `/en/about` | `content/about.js` + `content/team.js` | `pages/About.jsx` |
-| Devenir partenaire | `/devenir-partenaire` · `/en/become-a-partner` | `content/partnerProgram.js` | `pages/BecomePartner.jsx` |
-| Contact | `/contact` · `/en/contact` | `content/contact.js` | `pages/Contact.jsx` |
-| Nos partenaires | `/nos-partenaires` · `/en/our-partners` | `content/partners.js` | `pages/Partners.jsx` |
-| Articles & Insights | `/news` · `/en/news` | `content/news/` (one file per article) | `pages/News.jsx` |
-| — article detail | `/news/<slug>` · `/en/news/<slug>` | `content/news/article-XX.js` | `pages/Article.jsx` |
-| Confidentialité | `/politiques-de-confidentialite` · `/en/privacy-policy` | `content/policy.js` | `pages/Policy.jsx` |
-| Menu & footer | — | `content/common.js` | `Navbar.jsx` / `Footer.jsx` |
+| Accueil | `/` · `/en` | `HomeContent.content.js` | `app/page.jsx` (+`en/page.jsx`) → `HomeContent.jsx` |
+| Nos solutions | `/nos-solutions` · `/en/solutions` | `SolutionsContent.content.js` | `SolutionsContent.jsx` |
+| Accélération commerciale | `/nos-solutions/acceleration-commerciale` · `/en/solutions/commercial-acceleration` | `AccelerationContent.content.js` | `AccelerationContent.jsx` |
+| Pilotage commercial externalisé | `/nos-solutions/pilotage-commercial-externalise` · `/en/solutions/outsourced-export-sales-management` | `PilotageContent.content.js` | `PilotageContent.jsx` |
+| Marchés (hub) | `/marches` · `/en/markets` | `MarketsContent.content.js` | `MarketsContent.jsx` |
+| Afrique / Moyen-Orient | `/marches/afrique` · `/marches/moyen-orient` (+ EN) | `lib/i18n/content/common.js` (`markets` namespace) + `lib/data/countries.js` | `MarketZoneContent.jsx` |
+| AS Biz Dev | `/as-biz-dev` · `/en/about` | `AboutContent.content.js` + `Team.content.js` | `AboutContent.jsx` |
+| Devenir partenaire | `/devenir-partenaire` · `/en/become-a-partner` | `BecomePartnerContent.content.js` | `BecomePartnerContent.jsx` |
+| Contact | `/contact` · `/en/contact` | `ContactContent.content.js` | `ContactContent.jsx` |
+| Nos partenaires | `/nos-partenaires` · `/en/our-partners` | `PartnersContent.content.js` (copy) + `PartnersContent.data.js` (references) | `PartnersContent.jsx` |
+| Nos secteurs | `/nos-secteurs` · `/en/sectors` | `SectorsContent.content.js` | `SectorsContent.jsx` |
+| Notre réseau | `/notre-reseau` · `/en/our-network` | `NetworkContent.content.js` | `NetworkContent.jsx` |
+| Articles & Insights | `/news` · `/en/news` | Supabase `articles` table, not a content file | `NewsContent.jsx` |
+| — article detail | `/news/:slug` · `/en/news/:slug` | Supabase `articles` table | `ArticleContent.jsx` |
+| Politique de confidentialité | `/politiques-de-confidentialite` · `/en/privacy-policy` | `PolicyContent.content.js` | `PolicyContent.jsx` |
+| Mentions légales | `/mentions-legales` · `/en/legal-notice` | `LegalNoticeContent.content.js` | `LegalNoticeContent.jsx` |
+| Menu & footer | — | `lib/i18n/content/common.js` | `Navbar.jsx` / `Footer.jsx` |
 
 ### ✏️ Change any text
 
-Open the file from the table. Every file has the same shape — French first, English second:
+Open the file from the table. Every `.content.js` file has the same shape — French first, English second:
 
 ```js
 const home = {
@@ -95,142 +107,82 @@ const home = {
 };
 ```
 
-**Always edit both languages.** Change `fr.hero.titleLead` and `en.hero.titleLead` together. Save, and `npm run dev` updates instantly.
+**Always edit both languages.** Every dictionary is registered in `lib/i18n/dictionaries.js` and read via `getDictionary(lang, "namespace")` (server components) or `useT("namespace")` (client components). Save, and `npm run dev` updates instantly.
 
-> **Why headings are split in two:** `titleLead` is normal, `titleAccent` renders italic orange.
-> `titleLead: "Stratégie"` + `titleAccent: "et exécution."` → Stratégie *et exécution.*
+### 🌍 Add or edit a market
 
-### 🌍 Publish a country page
-
-This is the one that matters for search: a page per market is what ranks on "recherche distributeur Sénégal" or "business development Morocco".
-
-Add an entry to **`src/data/countries.js`** — no code to touch. The page, its card on the zone page, its sitemap entry and its FR/EN hreflang pair all appear on the next build:
-
-```js
-{
-  key: "senegal",
-  zone: "africa",                                   // "africa" | "middleEast"
-  slug:   { fr: "senegal",    en: "senegal" },
-  name:   { fr: "Sénégal",    en: "Senegal" },
-  inName: { fr: "au Sénégal", en: "in Senegal" },   // used in page titles
-  fr: {
-    intro: "…",
-    sectors: ["…"], clients: ["…"], channels: ["…"],
-    stakes: ["…"], intervention: ["…"], partners: ["…"],
-  },
-  en: { /* same keys */ },
-}
-```
-
-Every section is optional. Anything you leave out renders as *à valider* rather than being filled with plausible copy. While the list is empty, the zone pages show explicit `[PAYS À VALIDER]` slots — that is intentional, not a bug.
+Add/edit an entry in **`lib/data/countries.js`** — no route to create, since countries aren't their own pages (see above). Each entry needs `key`, `slug`, `subregion` (`"north" | "west" | "south" | "middleEast"`), `tier`, `flagCode`, `name.{fr,en}`, `intro.{fr,en}`. The brief this data follows is explicit: **never name a market AS Biz Dev hasn't confirmed** — optional per-country sections (`sectors`, `clientTypes`, `distributionChannels`…) render only when present and non-empty, rather than being filled with plausible copy.
 
 ### 🤝 Change the partner registration form
 
-The form is a **database entry form**, not an email. Its structure lives in `src/constants/partnerForm.js`; only the labels live in `content/partnerProgram.js`.
+Its structure lives in **`lib/constants/partnerForm.js`** (currently 25 fields, 21 required); only the labels live in `BecomePartnerContent.content.js`.
 
-```js
-// constants/partnerForm.js — the question
-{ id: "languages", type: "text", required: true }
-
-// content/partnerProgram.js — its label, in both languages
-fields: { languages: { label: "Langues professionnelles" } }
-```
-
-Closed questions store **option ids**, never the translated label (`distributorManagement`, not "Animation de distributeurs"). That is what will make "Sénégal + énergie + accès grands comptes industriels" filterable when the partner database is built.
-
-Field types: `text` · `email` · `tel` · `url` · `textarea` · `select` · `checkboxGroup`.
+Closed questions store **option ids**, never the translated label (`distributorManagement`, not "Animation de distributeurs") — that's what will make the data filterable later.
 
 ### 🖼️ Change an image
 
-1. Drop the file into `public/brand_assets/` (use `.webp`, keep it under ~300 kB)
-2. Update the `src` in the matching content file — the path is relative to `brand_assets/`
+1. Drop the file into `public/brand_assets/` (`.webp`, kept small)
+2. Update the `src` in the matching content file — paths go through `ASSET` in `lib/siteData.js`, relative to `brand_assets/`
 
-⚠️ **Filenames are case-sensitive in production.** `TS.webp` and `ts.webp` are different files on the live server, even though Windows treats them as the same.
+⚠️ **Filenames are case-sensitive in production.** Vercel's filesystem is Linux — `TS.webp` and `ts.webp` are different files there even though Windows/macOS treat them as the same (this caused a real broken-logo bug, since fixed).
 
 ### 🎨 Change colours or fonts
 
-Everything visual lives in `tailwind.config.js`:
-
-```js
-navy:   '#1D3D6D'   // headings, dark sections
-orange: '#FF6A00'   // accents, the italic emphasis
-ink:    '#2C2C2C'   // body text
-```
+Everything visual lives in `tailwind.config.js` (`navy`, `orange`, `ink` color tokens) and the Google Fonts `@import` in `styles/globals.css` — trimmed to only the font weights actually used on the site (400/500/600).
 
 ### 👥 Edit the team
 
-`content/team.js` → the `members` array. Names stay identical in both languages; only `role` and `bio` get translated.
+`Team.content.js` → the roster. Photos are keyed in a `PHOTOS` map and degrade to an initials placeholder (`TeamCard.jsx`) if a photo is missing or 404s.
 
-### 📰 Add an article (Articles & Insights, §24)
+### 📰 Articles — Supabase-backed, not a content file
 
-Articles are data in Supabase, not source code — publishing one doesn't require a commit or a rebuild. Full architecture, schema, and RLS model: [`docs/ARTICLES_SUPABASE.md`](docs/ARTICLES_SUPABASE.md).
+Articles are data in Supabase, not source code — publishing one doesn't require a commit or a rebuild. Full architecture, schema and RLS model: [`docs/ARTICLES_SUPABASE.md`](docs/ARTICLES_SUPABASE.md).
 
-**Automatically, via n8n (the normal flow):** every new AS Biz Dev LinkedIn post should appear on the site with no manual step. LinkedIn's own API requires Partner approval that isn't realistically obtainable for a page this size, so the automation runs one layer up, on infrastructure the user already controls:
+**Current state, as implemented today:** an n8n workflow watches an RSS bridge on the LinkedIn company page and `POST`s to **`app/api/ingest-article/route.js`** (Vercel serverless function, `x-ingest-token` header auth), which upserts straight into Supabase with **`status: "published"`** — live immediately at `/news/:slug`, no review step. `public/internal/add-article.html` is a manual fallback UI hitting the same endpoint.
 
-```
-LinkedIn company page → RSS bridge → n8n (RSS Feed Trigger, polling)
-                                        │  HTTP Request node, POST + x-ingest-token header
-                                        ▼
-                              api/ingest-article.js
-                       fetch() the post → parse Open Graph tags
-                  → dedupe by source_url → upsert into Supabase `articles`
-                                        │
-                                        ▼
-                        live immediately at /news/<slug>, no rebuild
-```
-
-Point an RSS-bridge service (generates an RSS feed from a public LinkedIn company page) at n8n's built-in **RSS Feed Trigger** node — no custom scraping code, n8n just polls the feed. On each new item, an **HTTP Request** node `POST`s `{ url, themes, zones, countries }` to `/api/ingest-article` with the shared secret in the `x-ingest-token` header. The endpoint upserts directly with `status: "published"` — no PR, no review step, so a bad scrape (a truncated summary, a wrong image) can go live untouched; the only safety nets are the Open Graph title check and a dedupe guard against the same `source_url` twice.
-
-Requires `INGEST_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` set as environment variables (see [`.env.example`](.env.example)). Both must only ever be stored server-side — the ingest token in n8n's credential store — never inside a page a browser loads.
-
-**Manually, as a fallback:** open `/internal/add-article.html` (not linked anywhere public — its URL should be treated as a shared secret, same as the token) to run the same ingestion by hand, e.g. for a third-party LinkedIn post that isn't AS Biz Dev's own and so wouldn't appear in the automated feed.
-
-Content blocks available: `paragraph`, `heading`, `subheading`, `list`, `highlight`. Rows with `status: "draft"` don't get a page or a sitemap entry until switched to `"published"`.
-
-The six original articles still live in `content/news/article-0N.js` as historical backup only — nothing in the running app reads them; see the "Legacy / retired" section of `docs/ARTICLES_SUPABASE.md`.
+Requires `INGEST_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` — see `.env.example`. Both are server-only, never exposed to the browser.
 
 ### 📄 Add a whole page
 
-1. `constants/paths.js` — add the key with its **FR and EN** paths
-2. `seo/metadata.js` — add its title and description, both languages
-3. `content/mypage.js` — create the text file (`{ fr: {…}, en: {…} }`)
-4. `i18n/index.js` — import it and add it to `DICTIONARIES`
-5. `pages/MyPage.jsx` — build the page, call `useSeo("mykey")`, register it in `App.jsx`
-6. `content/common.js` — add the menu label to `navigation` if it belongs in the menu
+1. `lib/routes.js` — add the key with its **FR and EN** paths
+2. `lib/seo/metadata.js` — add its `SEO_META` entry, both languages
+3. A `.content.js` file for its copy, registered in `lib/i18n/dictionaries.js`
+4. `app/<fr-path>/page.jsx` + `app/en/<en-path>/page.jsx` — each calls `generateMetadata()` (title/description/canonical/hreflang/OG/Twitter, see any existing page for the pattern) and renders the `<Organization>` JSON-LD script plus the page component
+5. `lib/i18n/content/common.js` — add the menu label to `navigation` if it belongs in the menu
 
-Copy `pages/Solutions.jsx` for the standard shape: `PageHero` → `Section` → `CtaBlock`.
+Copy `app/nos-solutions/page.jsx` + `SolutionsContent.jsx` for the standard shape: `PageHero` → `Section` → `CtaBlock`.
 
 ### 🧱 Building blocks you can reuse
 
 | Component | What it gives you |
 |---|---|
-| `PageHero` | Top-of-page header. `layout="split"`, `tone="dark"` |
+| `PageHero` | Top-of-page header. `layout="split"` |
 | `Section` | Section wrapper with consistent rhythm. `tone="white" / "alt" / "navy"` |
-| `SectionHeading` | Eyebrow + two-tone heading + intro |
-| `OfferCard` | One of the two offers, with optional bullets |
-| `StepList` | Numbered process (`columns={3}` or `{5}`) |
-| `BulletList` | Factual list — `marker="check" / "cross" / "dash"`, `columns={2}` |
-| `MarketList` | Country cards, with the `[PAYS À VALIDER]` empty state |
-| `CtaBlock` | Closing call-to-action, targets a route key |
-| `RouteLink` | **Internal link by route key** — resolves the URL in the active language |
-| `RevealOnScroll` | Fade/slide on scroll — respects `prefers-reduced-motion` |
-| `form/` | `Field` · `TextArea` · `Select` · `CheckboxGroup` · `FormStatus` · `PartnerForm` |
+| `SectionHeading` | Eyebrow + two-tone heading + intro, wrapped in `RevealOnScroll` |
+| `OfferCard` | One of the two offers, with optional bullets and a `variant` (reveal direction) |
+| `StepList` / `BulletList` / `TextCard` | Numbered process, factual lists, plain title+body cards |
+| `MarketCountryGrid` | Country chips grouped by subregion |
+| `CtaBlock` | Closing call-to-action, targets `ROUTES.contact` |
+| `MotionCta` | Framer Motion hover/tap scale wrapper around a `next/link`, reduced-motion aware |
+| `RevealOnScroll` | Fade/slide/scale on scroll — respects `prefers-reduced-motion` |
+| `PageTransition` | Fade/slide between client-side route changes (`components/layout/`) |
+| `components/forms/` | `ContactForm`, `PartnerForm` and their field primitives |
 
-> **Never hardcode an internal URL.** Use `<RouteLink routeKey="pilotage">` or `pathFor("pilotage", lang)`. Hardcoding an href sends English visitors back into the French tree.
+> **Never hardcode an internal URL.** Use `ROUTES.pilotage[lang]` (or the `otherLanguageUrl` / `alternatesOf` helpers in `lib/routes.js` for cross-language links). Hardcoding an href sends English visitors back into the French tree.
 
-### ⚠️ Five rules that keep it working
+### ⚠️ Rules that keep it working
 
 1. **Edit `fr` and `en` together.** A key in one and not the other breaks that language.
-2. **Link by route key, never by URL string.**
-3. **After changing `.env`, rebuild.** Vite bakes those values in at build time.
+2. **Link by `ROUTES` key, never by a hardcoded URL string.**
+3. **`NEXT_PUBLIC_*` env vars are inlined at build time.** Change one and rebuild.
 4. **Run `npm run check:i18n` before you ship.**
-5. **Check both languages in the browser.** Click FR/EN and reread the page you touched.
+5. **Check both languages in the browser.**
 
 ---
 
 ## 🌍 Bilingual by URL
 
-Each page exists at two indexable addresses. The active language is derived from the URL prefix — never from client state — so a shared link always opens in the language it was written in, and Google can index both.
+Each page exists at two indexable addresses. The active language is derived from the URL prefix (`langFromPath()` in `lib/routes.js`) — never from client state — so a shared link always opens in the language it was written in, and Google can index both.
 
 ```
 /nos-solutions/pilotage-commercial-externalise    ←→    /en/solutions/outsourced-export-sales-management
@@ -238,45 +190,28 @@ Each page exists at two indexable addresses. The active language is derived from
         └──────────────  rel="alternate" hreflang  ────────────────┘
 ```
 
-```
-URL  ──►  langFromPath()  ──►  LanguageProvider  ──►  useT("pilotage")  ──►  { …copy }
-                                      │
-                              constants/paths.js
-                        (one route table, both languages)
-```
-
-English slugs are **not** literal translations: they are the search expressions the English site targets (`outsourced-export-sales-management`, `commercial-acceleration`), so the URL itself carries weight.
-
-The FR/EN switch renders real `<Link>`s to the twin URL, so middle-click works and crawlers follow them.
-
-### Add a third language
-
-1. Add `es` to `LANGS` and a third path to every entry in `constants/paths.js`
-2. Add `es: { … }` to each file in `src/i18n/content/` and to `seo/metadata.js`
-3. `npm run check:i18n`
+`otherLanguageUrl()` and `alternatesOf()` (both in `lib/routes.js`) do the reverse lookup that feeds the language switcher and every page's `generateMetadata()`.
 
 ---
 
 ## 🔎 SEO
 
-The three things that were structurally broken before, and how they work now:
+| | How |
+|---|---|
+| **Per-page metadata** | Every `app/**/page.jsx` exports `generateMetadata()` — title, description, canonical, `alternates.languages` (hreflang), OpenGraph, Twitter card, sourced from `lib/seo/metadata.js` |
+| **OG image** | `public/brand_assets/og-image.png` (1200×630), resolved to an absolute URL via `metadataBase` in `app/layout.jsx` |
+| **Structured data** | `Organization` JSON-LD on every page (`lib/seo/headTags.js`); `BreadcrumbList` JSON-LD on nested pages (market zones, solution sub-pages, articles) |
+| **Sitemap** | `app/sitemap.js` — every route in `ROUTES` plus every published article, each with a real `lastModified`. That date comes from `lib/data/routeLastModified.js`, a **snapshot generated locally** by `scripts/build-route-dates.mjs` (`git log` at Vercel's build time doesn't work reliably against a shallow clone — see that script's comment for the full story). **Re-run and commit it whenever a page's route file changes.** |
+| **Robots** | `app/robots.js` |
 
-| | Before | Now |
-|---|---|---|
-| **Per-page metadata** | One `<title>` for the whole site | `seo/metadata.js` — a title, description, canonical, OG and Twitter card per page and per language, applied by `hooks/useSeo.js` |
-| **Crawlable HTML** | Empty shell, content only after JavaScript | `scripts/prerender.mjs` writes a real HTML file per route into `dist/` |
-| **English** | Invisible — language lived in `localStorage` | Its own URLs, with `hreflang` and `x-default` on every page |
-
-Plus: `sitemap.xml` and `robots.txt` generated from the route table and the country data, Organization JSON-LD, and 301 redirects from every legacy URL in `vercel.json`.
-
-**How prerendering works:** `npm run build` bundles the app, serves `dist/` locally, opens each of the 26 routes in headless Chrome, and writes the resulting DOM — head tags included — to `dist/<path>/index.html`. Vercel checks the filesystem before applying the SPA rewrite, so crawlers and first-time visitors get real HTML; React then hydrates. Adding a country page adds two more files automatically.
+Rendering is Next's own (Server Components + static generation) — there is **no separate Puppeteer/prerender step** in this version.
 
 ---
 
 ## ✨ Other things worth a look
 
 <details>
-<summary><b>📬 Forms — no backend, and they can't lose a lead</b></summary>
+<summary><b>📬 Forms — no backend of our own, and they can't lose a lead</b></summary>
 
 <br>
 
@@ -287,36 +222,22 @@ submit → validate → POST JSON → ✅ success
                                   └──► pre-filled mailto: fallback
 ```
 
-- 🍯 **Honeypot** `_gotcha` — invisible, `tabIndex={-1}`, inside `aria-hidden`.
-- ⏱️ **15s `AbortController` timeout.**
-- 🔌 **Endpoint-agnostic** — Formspree, Web3Forms, anything taking a JSON POST.
-- 🗃️ **Structured payload** — the partner form posts option ids, a country array, a submission timestamp and an intake status, so the future partner database can store it unchanged.
+- 🍯 **Honeypot** `_gotcha` field (see `useContactForm.js`).
+- ⏱️ **15s `AbortController` timeout** (`lib/utils/postToEndpoint.js`).
+- 🔌 **Endpoint-agnostic** — Web3Forms, Formspree, anything taking a JSON POST.
 
-Two variables: `VITE_CONTACT_ENDPOINT` and, optionally, `VITE_PARTNER_ENDPOINT` to route registrations to a different inbox. See [`.env.example`](.env.example).
-
-</details>
-
-<details>
-<summary><b>🎬 Motion — one component, five variants</b></summary>
-
-<br>
-
-`RevealOnScroll` wraps Framer Motion's `whileInView`: variants `up · fade · left · right · scale`, fires once at 15% visibility, `index` auto-staggers grids by 80 ms.
-
-Under `prefers-reduced-motion` it renders the content plainly — a motion preference must never leave content invisible.
+Env vars: `NEXT_PUBLIC_CONTACT_ENDPOINT` (+ `NEXT_PUBLIC_CONTACT_ACCESS_KEY` for Web3Forms) and, optionally, `NEXT_PUBLIC_PARTNER_ENDPOINT`. See [`.env.example`](.env.example).
 
 </details>
 
 <details>
-<summary><b>🧭 Routing</b></summary>
+<summary><b>🎬 Motion — RevealOnScroll, MotionCta, PageTransition</b></summary>
 
 <br>
 
-`constants/paths.js` is the single route table: page key → `{ fr, en }`. It feeds the router, the navigation, the language switcher, the hreflang tags, the sitemap and the prerenderer. Nothing else knows a URL.
+`RevealOnScroll` wraps Framer Motion's `whileInView`: variants `up · fade · left · right · scale`, fires once at 15% visibility by default, `index` auto-staggers grids. `MotionCta` adds a subtle hover/tap scale to the main call-to-action buttons. `PageTransition` fades/slides between client-side route changes.
 
-`matchRoute()` does the reverse lookup — which page is this URL, in which language — which is how the active menu item and the twin-language link are resolved.
-
-Legacy paths (`/who-is-who`, `/nosvaleurs`, `/category/news`…) 301 to their new home, server-side in `vercel.json` and client-side in `constants/legacyRedirects.js`.
+All three call `useReducedMotion()` and render the *same element structure* regardless of the result (only the animated values change) — branching the element tree itself on that preference causes a server/client hydration mismatch, since `prefers-reduced-motion` can already be `true` on the client's first render while SSR always sees `false`. Under `prefers-reduced-motion`, content is shown immediately with no transform — a motion preference must never leave content invisible.
 
 </details>
 
@@ -326,76 +247,75 @@ Legacy paths (`/who-is-who`, `/nosvaleurs`, `/category/news`…) 301 to their ne
 
 | Layer | Choice | Why |
 |---|---|---|
+| **Framework** | Next.js 16 (App Router, Turbopack) | File-based routing, Server Components, native metadata API |
 | **UI** | React 19 | Function components + hooks |
-| **Build** | Vite 8 | Sub-second HMR |
-| **Routing** | React Router 7 | Bilingual paths, `:slug` country pages, lazy pages |
 | **Styling** | Tailwind 3.4 | Utility-first, arbitrary values, zero CSS files |
 | **Motion** | Framer Motion 12 | Declarative viewport animation |
-| **Prerender** | puppeteer-core + `@sparticuz/chromium` (Linux build) / system Chrome (local) | Static HTML per route, no SSR server to run |
-| **Forms** | Native + fetch | No form library |
-| **i18n** | Hand-rolled | ~30 lines beats a 40 kB dependency |
+| **Articles backend** | Supabase (`@supabase/supabase-js`) | RLS-scoped anon reads; service-role writes only server-side |
+| **Forms** | Native + `fetch` | No form library |
+| **i18n** | Hand-rolled (`lib/i18n/`) | URL-driven, no client-state language |
+| **Deployment** | Vercel | production: `asbizdev.com` · preview: `as-bizdev.vercel.app` |
+
+**Not present in this version, unlike the pre-migration one:** React Router, Vite, Puppeteer/prerendering, a test runner, a `typecheck` script.
 
 ---
 
 ## 📁 Structure
 
 ```
-src/
-├─ components/          Reusable UI — never page-specific
-│  ├─ Navbar · Footer · Layout · Modal · Card · Team
-│  ├─ nav/              DesktopNav (submenus) · MobileNav (accordion)
-│  ├─ PageHero · Section · SectionHeading · CtaBlock
-│  ├─ OfferCard · StepList · BulletList · MarketList
-│  ├─ RouteLink         Internal link by route key
-│  ├─ RevealOnScroll · PageLoader · ScrollToTop · ArrowIcon
-│  └─ form/             Field · TextArea · Select · CheckboxGroup
-│                       FormStatus · PartnerForm
-├─ constants/
-│  ├─ paths.js          🧭 The route table — FR + EN, dependency-free
-│  ├─ routes.js         matchRoute() on top of it
-│  ├─ partnerForm.js    🗃️ The partner registration schema
-│  ├─ legacyRedirects.js · placeholders.js · site.js
-├─ data/countries.js    🌍 Country pages — add an entry, get a page
-├─ seo/                 metadata.js (per page, per language) · headTags.js
-├─ hooks/               useSeo · useActiveRoute · useContactForm · usePartnerForm
-├─ i18n/                LanguageProvider (URL-driven) · LangSwitcher
-│  └─ content/          13 dictionaries — all copy lives here
-├─ pages/               Home · Solutions · Acceleration · Pilotage
-│                       Markets · Zone · Country · About · BecomePartner
-│                       Contact · Partners · News · Policy · NotFound
-└─ utils/               postToEndpoint · submitContact · submitPartner
-scripts/                prerender.mjs · generate-seo-files.mjs
-                        siteRoutes.mjs · check-i18n.mjs
-vercel.json             301 redirects + SPA fallback + asset caching
+app/
+├─ page.jsx · en/page.jsx                Home, FR + EN
+├─ <slug>/page.jsx                       one folder per FR route
+├─ en/<slug>/page.jsx                    one folder per EN route
+├─ news/[slug]/page.jsx                  dynamic article route (Supabase)
+├─ api/ingest-article/route.js           n8n ingestion endpoint
+├─ layout.jsx                            root layout — metadataBase, OG defaults
+├─ sitemap.js · robots.js
+components/
+├─ layout/                Navbar · Footer · Layout · PageTransition
+│  └─ nav/                DesktopNav · MobileNav
+├─ pages/                 One *Content.jsx + *Content.content.js pair per page
+├─ ui/                    PageHero · Section · SectionHeading · CtaBlock ·
+│                         OfferCard · StepList · BulletList · MotionCta ·
+│                         RevealOnScroll · ArrowIcon
+├─ forms/                 ContactForm · PartnerForm
+├─ markets/                MarketExperience · MarketCountryGrid
+├─ news/                   NewsGrid · ArticleModal
+└─ references/             ReferenceCard · EcosystemCard
+lib/
+├─ routes.js               🧭 The route table — FR + EN, alternates helpers
+├─ constants/               site.js · partnerForm.js · validation.js · legacyRedirects.js
+├─ data/                    countries.js · articles.js · marketsMapData.js · routeLastModified.js
+├─ i18n/                    LanguageProvider · dictionaries.js · content/
+├─ seo/                     metadata.js (per page, per language) · headTags.js
+├─ utils/                   postToEndpoint · submitContact · submitPartner
+└─ supabase.js
+hooks/                      useActiveRoute · useContactForm · usePartnerForm
+scripts/                    build-markets-map.mjs · build-route-dates.mjs · check-i18n.mjs ·
+                            migrate-articles-to-supabase.mjs
+next.config.mjs             legacy 301 redirects + brand_assets cache headers
 ```
 
 ---
 
 ## ♿ Accessibility
 
-Skip-to-content link, semantic landmarks, `aria-label` on every icon-only control, `aria-current="page"` on the active nav entry (including its parent), keyboard-reachable submenus via `focus-within`, the closed mobile sheet kept out of the tab order, visible focus rings, `aria-live` form status, focus moved to the first invalid field on submit, and `prefers-reduced-motion` honoured.
+Skip-to-content link, semantic landmarks, `aria-label` on every icon-only control, keyboard-reachable submenus, visible focus rings, `aria-live` form status, focus moved to the first invalid field on submit, and `prefers-reduced-motion` honoured throughout (see the motion section above).
 
 ---
 
 ## 📋 Status
 
-**Verified in a real browser:** 26 routes prerendered with correct per-page titles, canonical and hreflang · language switch keeps the page and updates `<html lang>` · submenus resolve in both languages · legacy URLs redirect · unknown country slug falls back to the markets hub · unknown path renders the 404 page · empty partner form surfaces 17 errors and moves focus to the first one · `check:i18n` green across 13 dictionaries · `typecheck` clean.
+**Not present yet:** automated tests, a `typecheck` script, runtime validation of required environment variables at startup, and a review/approval step before an ingested article goes live (`api/ingest-article/route.js` upserts with `status: "published"` directly today).
 
-**Before going live — to be validated by AS Biz Dev (§22 of the brief):**
+**No middleware/host-based redirect exists** — `as-bizdev.vercel.app` is not currently redirected to `asbizdev.com`.
 
-- [ ] The list of priority countries → `src/data/countries.js`
-- [ ] The industrial sectors actually targeted → `content/about.js`, `sectorsNote`
-- [ ] The exact scope of the outsourced sales management → `content/pilotage.js`, `promise.scope`
-- [ ] Publishable client references, case studies and figures — none are on the site today
-- [ ] The partner profiles sought per country
-- [ ] The legal and GDPR wording of the partner form
-- [ ] `VITE_CONTACT_ENDPOINT` — until then forms fall back to email
-- [ ] The English copy — see [`TRANSLATIONS-REVIEW.md`](TRANSLATIONS-REVIEW.md)
+## 🔒 Content still to validate
 
-**Next phase:** the partner database and its back-office (filtering by country / sector / capability, internal status and notes), then natural-language querying over it. The form already stores its data in the shape that work will need.
+Grep the repo for `[À COMPLÉTER]` / `[TO BE COMPLETED]` to find every placeholder pending real information from AS Biz Dev — as of this writing, that's the legal notice (`LegalNoticeContent.content.js`: publisher identity, SIRET, director of publication). **Never fill these in with plausible information** — replace the marker with the validated fact only.
 
 ---
 
 <div align="center">
-<sub>Built with React, Vite and Tailwind — and a stubborn refusal to invent a fact.</sub>
+<sub>Built with Next.js, React and Tailwind — and a stubborn refusal to invent a fact.</sub>
 </div>
