@@ -1,4 +1,4 @@
-import PolicyContent from "@/components/pages/PolicyContent";
+import PolicyContent from "@/app/politiques-de-confidentialite/_components/PolicyContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
