@@ -1,4 +1,4 @@
-import MarketsContent from "@/components/pages/MarketsContent";
+import MarketsContent from "@/app/marches/_components/MarketsContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
