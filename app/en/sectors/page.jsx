@@ -1,4 +1,4 @@
-import SectorsContent from "@/components/pages/SectorsContent";
+import SectorsContent from "@/app/nos-secteurs/_components/SectorsContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";

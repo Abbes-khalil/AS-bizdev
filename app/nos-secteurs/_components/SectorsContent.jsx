@@ -1,4 +1,4 @@
-import CrossFactorDiagram from "@/components/pages/CrossFactorDiagram";
+import CrossFactorDiagram from "@/app/nos-secteurs/_components/CrossFactorDiagram";
 import CtaBlock from "@/components/ui/CtaBlock";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ import PageHero from "@/components/ui/PageHero";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
-import SectorExplorer from "@/components/pages/SectorExplorer";
+import SectorExplorer from "@/app/nos-secteurs/_components/SectorExplorer";
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
