@@ -1,4 +1,4 @@
-import PartnersContent from "@/components/pages/PartnersContent";
+import PartnersContent from "@/app/nos-partenaires/_components/PartnersContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
