@@ -1,4 +1,4 @@
-import NetworkContent from "@/components/pages/NetworkContent";
+import NetworkContent from "@/app/notre-reseau/_components/NetworkContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
