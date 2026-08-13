@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { ROUTES } from "@/lib/routes";
 import { ASSET } from "@/lib/siteData";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
+import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL } from "@/lib/constants/site";
 import { interpolate, useLang, useT } from "@/lib/i18n/dictionaries";
 
 const SocialIcon = ({ href, label, children }) => (
@@ -95,7 +95,7 @@ export default function Footer() {
             </p>
             <div className="mt-8 flex items-center gap-3">
               <SocialIcon
-                href="https://www.linkedin.com/company/as-biz-dev/?originalSubdomain=fr"
+                href={SOCIAL.linkedin}
                 label={t.linkedinLabel}
               >
                 <svg
@@ -109,7 +109,7 @@ export default function Footer() {
                 </svg>
               </SocialIcon>
               <SocialIcon
-                href="https://www.facebook.com/profile.php?id=100085701123233"
+                href={SOCIAL.facebook}
                 label={t.facebookLabel}
               >
                 <svg
