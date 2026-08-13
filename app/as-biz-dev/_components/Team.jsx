@@ -2,7 +2,7 @@ import { useId } from "react";
 import { UserStar } from "lucide-react";
 
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import TeamCard from "@/components/pages/TeamCard";
+import TeamCard from "@/app/as-biz-dev/_components/TeamCard";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 /**

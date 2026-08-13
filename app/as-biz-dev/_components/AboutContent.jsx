@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Team from "@/components/pages/Team";
+import Team from "@/app/as-biz-dev/_components/Team";
 import TextCard from "@/components/ui/TextCard";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
