@@ -28,6 +28,11 @@ const decodeHtmlEntities = (text) =>
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
 
+/**
+ * @param {string} html
+ * @param {string} property - an Open Graph/meta property or name, e.g. "og:title"
+ * @returns {string | null}
+ */
 const extractMeta = (html, property) => {
   const tags = html.match(/<meta\b[^>]*>/gi) ?? [];
   for (const tag of tags) {
@@ -51,8 +56,13 @@ const slugify = (text) =>
     .replace(/(^-+|-+$)/g, "")
     .slice(0, 80);
 
-/** Appends a short numeric suffix until the slug is free, so two posts that
- * happen to share a title don't collide on the unique slug_fr/slug_en columns. */
+/**
+ * Appends a short numeric suffix until the slug is free, so two posts that
+ * happen to share a title don't collide on the unique slug_fr/slug_en columns.
+ * @param {import("@supabase/supabase-js").SupabaseClient} supabase
+ * @param {string} base
+ * @returns {Promise<string>}
+ */
 const uniqueSlug = async (supabase, base) => {
   let candidate = base;
   let attempt = 1;
@@ -69,6 +79,12 @@ const uniqueSlug = async (supabase, base) => {
   }
 };
 
+/**
+ * Body: `{ url: string, themes?: string[], zones?: string[], countries?: string[] }`.
+ * Requires the `x-ingest-token` header to match `INGEST_TOKEN`.
+ * @param {Request} request
+ * @returns {Promise<Response>} JSON `{ ok: true, slug }` / `{ ok: true, skipped: true, ... }` on success, `{ error }` with a 4xx/5xx status otherwise
+ */
 export async function POST(request) {
   if (request.headers.get("x-ingest-token") !== process.env.INGEST_TOKEN) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });

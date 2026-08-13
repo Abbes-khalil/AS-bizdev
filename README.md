@@ -115,7 +115,7 @@ Add/edit an entry in **`lib/data/countries.js`** — no route to create, since c
 
 ### 🤝 Change the partner registration form
 
-Its structure lives in **`lib/constants/partnerForm.js`** (currently 25 fields, 21 required); only the labels live in `BecomePartnerContent.content.js`.
+Its structure lives in **`lib/constants/partnerForm.js`** (currently 19 fields, 12 required, plus a separate required consent checkbox); only the labels live in `BecomePartnerContent.content.js`.
 
 Closed questions store **option ids**, never the translated label (`distributorManagement`, not "Animation de distributeurs") — that's what will make the data filterable later.
 

@@ -4,11 +4,9 @@ import {
   INITIAL_PARTNER_STATUS,
   PARTNER_FIELDS,
 } from "@/lib/constants/partnerForm";
-import { EMAIL_PATTERN } from "@/lib/constants/validation";
+import { validatePartnerForm } from "@/lib/validation/partnerForm";
 import { buildPartnerMailto, submitPartner } from "@/lib/utils/submitPartner";
 
-const URL_PATTERN = /^https?:\/\/.+/i;
-const MIN_PRESENTATION = 80;
 const INITIAL_STATUS = { state: "idle", message: "" };
 
 /** "Sénégal, Mali\nCôte d'Ivoire" → ["Sénégal", "Mali", "Côte d'Ivoire"] */
@@ -46,43 +44,7 @@ export default function usePartnerForm(t, lang) {
     return values;
   };
 
-  const validate = (values) => {
-    const next = {};
-
-    for (const field of PARTNER_FIELDS) {
-      const value = values[field.id];
-
-      if (field.type === "checkboxGroup") {
-        if (field.required && value.length === 0) next[field.id] = t.errors.chooseOne;
-        continue;
-      }
-
-      if (field.required && !value) {
-        next[field.id] = t.errors.required;
-        continue;
-      }
-
-      if (field.type === "email" && value && !EMAIL_PATTERN.test(value)) {
-        next[field.id] = t.errors.emailInvalid;
-      }
-
-      if (field.type === "url" && value && !URL_PATTERN.test(value)) {
-        next[field.id] = t.errors.urlInvalid;
-      }
-    }
-
-    if (
-      values.presentation &&
-      values.presentation.length < MIN_PRESENTATION &&
-      !next.presentation
-    ) {
-      next.presentation = t.errors.tooShort;
-    }
-
-    if (!values.consent) next.consent = t.errors.consent;
-
-    return next;
-  };
+  const validate = (values) => validatePartnerForm(values, t.errors);
 
   /**
    * Structured record, not a formatted message: option ids, a country array,

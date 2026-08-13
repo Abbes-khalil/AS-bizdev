@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { EMAIL_PATTERN } from "@/lib/constants/validation";
+import { readContactValues, validateContactForm } from "@/lib/validation/contactForm";
 import { buildMailtoHref, submitContact } from "@/lib/utils/submitContact";
 
 const INITIAL_STATUS = { state: "idle", message: "" };
@@ -16,27 +16,7 @@ export default function useContactForm(t) {
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
 
-  const validate = (form) => {
-    const next = {};
-    const name = form.name.value.trim();
-    const prenom = form.prenom.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-
-    if (!name) next.name = t.errors.nameRequired;
-    else if (name.length < 2) next.name = t.errors.nameShort;
-
-    // Prénom is optional on the origin site — only validated when filled in.
-    if (prenom && prenom.length < 2) next.prenom = t.errors.firstNameShort;
-
-    if (!email) next.email = t.errors.emailRequired;
-    else if (!EMAIL_PATTERN.test(email)) next.email = t.errors.emailInvalid;
-
-    if (!message) next.message = t.errors.messageRequired;
-    else if (message.length < 10) next.message = t.errors.messageShort;
-
-    return next;
-  };
+  const validate = (form) => validateContactForm(readContactValues(form), t.errors);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -52,10 +32,7 @@ export default function useContactForm(t) {
     }
 
     const payload = {
-      name: form.name.value.trim(),
-      prenom: form.prenom.value.trim(),
-      email: form.email.value.trim(),
-      message: form.message.value.trim(),
+      ...readContactValues(form),
       _gotcha: form.elements._gotcha.value, // honeypot
     };
 
