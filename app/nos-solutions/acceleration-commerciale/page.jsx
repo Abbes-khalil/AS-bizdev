@@ -1,4 +1,4 @@
-import AccelerationContent from "@/components/pages/AccelerationContent";
+import AccelerationContent from "@/app/nos-solutions/acceleration-commerciale/_components/AccelerationContent";
 import { ROUTES } from "@/lib/routes";
 import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
