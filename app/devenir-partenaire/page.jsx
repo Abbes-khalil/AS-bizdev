@@ -1,4 +1,4 @@
-import BecomePartnerContent from "@/components/pages/BecomePartnerContent";
+import BecomePartnerContent from "@/app/devenir-partenaire/_components/BecomePartnerContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
