@@ -1,13 +1,23 @@
 import { notFound, redirect } from "next/navigation";
 
 import ArticleContent from "@/components/pages/ArticleContent";
-import { getArticleBySlug } from "@/lib/data/articles";
+import { getArticleBySlug, getPublishedArticles } from "@/lib/data/articles";
 import { articleUrl, ROUTES } from "@/lib/routes";
 import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { articleMeta } from "@/lib/seo/metadata";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
 export const revalidate = 3600;
+
+/**
+ * Pre-renders every published article's EN slug at build time. New articles
+ * ingested afterwards still work — Next falls back to on-demand rendering
+ * for a slug not in this list, then caches it, same as any other ISR page.
+ */
+export async function generateStaticParams() {
+  const articles = await getPublishedArticles();
+  return articles.map((article) => ({ slug: article.slug.en ?? article.slug.fr }));
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
