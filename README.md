@@ -76,7 +76,17 @@ There is **no individual page per country**. The 14 countries in `lib/data/count
 
 ### Where each page's text lives
 
-| Page | URL (FR / EN) | Text file | Route + component |
+Every page's `<Name>Content.jsx` + `<Name>Content.content.js` (and `.data.js`
+where present) are colocated in an `_components/` folder next to that page's
+`page.jsx` under `app/` — e.g. `app/nos-solutions/_components/SolutionsContent.jsx`.
+When a page has separate FR and EN route folders, the pair lives under the FR
+one and the EN `page.jsx` imports it from there. `MarketZoneContent.jsx` is the
+one exception — shared by both `/marches/afrique` and `/marches/moyen-orient`,
+it lives one level up in `app/marches/_components/`. `NewsContent.jsx`,
+`ArticleContent.jsx` and `NotFoundContent.jsx` are the only page components
+still in `components/pages/` (no single owning route folder).
+
+| Page | URL (FR / EN) | Text file | Component |
 |---|---|---|---|
 | Accueil | `/` · `/en` | `HomeContent.content.js` | `app/page.jsx` (+`en/page.jsx`) → `HomeContent.jsx` |
 | Nos solutions | `/nos-solutions` · `/en/solutions` | `SolutionsContent.content.js` | `SolutionsContent.jsx` |
@@ -146,11 +156,11 @@ Requires `INGEST_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` — see `.env.example`. 
 
 1. `lib/routes.js` — add the key with its **FR and EN** paths
 2. `lib/seo/metadata.js` — add its `SEO_META` entry, both languages
-3. A `.content.js` file for its copy, registered in `lib/i18n/dictionaries.js`
-4. `app/<fr-path>/page.jsx` + `app/en/<en-path>/page.jsx` — each calls `generateMetadata()` (title/description/canonical/hreflang/OG/Twitter, see any existing page for the pattern) and renders the `<Organization>` JSON-LD script plus the page component
+3. A `<Name>Content.jsx` + `<Name>Content.content.js` pair in a new `app/<fr-path>/_components/` folder, the `.content.js` registered in `lib/i18n/dictionaries.js`
+4. `app/<fr-path>/page.jsx` + `app/en/<en-path>/page.jsx` — each calls `generateMetadata()` (title/description/canonical/hreflang/OG/Twitter, see any existing page for the pattern) and renders the `<Organization>` JSON-LD script plus the page component (the EN `page.jsx` imports the component from the FR route's `_components/` folder — see the note above the page table)
 5. `lib/i18n/content/common.js` — add the menu label to `navigation` if it belongs in the menu
 
-Copy `app/nos-solutions/page.jsx` + `SolutionsContent.jsx` for the standard shape: `PageHero` → `Section` → `CtaBlock`.
+Copy `app/nos-solutions/page.jsx` + `app/nos-solutions/_components/SolutionsContent.jsx` for the standard shape: `PageHero` → `Section` → `CtaBlock`.
 
 ### 🧱 Building blocks you can reuse
 
@@ -271,10 +281,12 @@ app/
 ├─ api/ingest-article/route.js           n8n ingestion endpoint
 ├─ layout.jsx                            root layout — metadataBase, OG defaults
 ├─ sitemap.js · robots.js
+app/
+├─ <route>/_components/   Each page's *Content.jsx + *Content.content.js, colocated (see § above)
 components/
 ├─ layout/                Navbar · Footer · Layout · PageTransition
 │  └─ nav/                DesktopNav · MobileNav
-├─ pages/                 One *Content.jsx + *Content.content.js pair per page
+├─ pages/                 NewsContent · ArticleContent · NotFoundContent — the only page components with no single owning route
 ├─ ui/                    PageHero · Section · SectionHeading · CtaBlock ·
 │                         OfferCard · StepList · BulletList · MotionCta ·
 │                         RevealOnScroll · ArrowIcon

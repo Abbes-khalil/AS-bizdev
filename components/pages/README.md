@@ -1,7 +1,19 @@
 # `components/pages/` — naming convention
 
+Most page components have moved out of this folder — each `<Name>Content.jsx`
++ `<Name>Content.content.js` pair now lives colocated in its route's
+`_components/` folder under `app/` (e.g. `app/nos-solutions/_components/`),
+next to that route's `page.jsx`. See the README's routing table for the
+current location of each page's files.
+
+This folder still holds page components with no single owning route —
+`NewsContent.jsx`, `ArticleContent.jsx` (used by both `/news` and
+`/news/:slug`) and `NotFoundContent.jsx` (used by both language trees'
+`not-found.jsx`) — and documents the naming convention those and every
+colocated pair still follow:
+
 Every page has a `<Name>Content.jsx` component (the layout/markup) and usually a
-`<Name>Content.content.js` file (its copy). Two file types share this folder:
+`<Name>Content.content.js` file (its copy). Two file types are involved:
 
 ## `.content.js` — text shown to the user
 
@@ -20,7 +32,9 @@ export default home;
 
 ## `.data.js` — structured data, not page copy
 
-Only `PartnersContent.data.js` today. It holds the actual reference records
+Only `PartnersContent.data.js` today (now colocated at
+`app/nos-partenaires/_components/`, next to `PartnersContent.jsx` and
+`PartnersContent.content.js`). It holds the actual reference records
 (clients, network institutions) — `key`, `type`, `sectors`, `logo`, `sortOrder`
 — with each entry's own small amount of localized text nested per-record
 (`content: { fr: { name }, en: { name } }`), not at the file's top level.
