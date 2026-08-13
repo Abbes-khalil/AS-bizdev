@@ -1,4 +1,4 @@
-import PilotageContent from "@/components/pages/PilotageContent";
+import PilotageContent from "@/app/nos-solutions/pilotage-commercial-externalise/_components/PilotageContent";
 import { ROUTES } from "@/lib/routes";
 import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
