@@ -47,14 +47,14 @@ export default function HomeContent({ lang }) {
             </RevealOnScroll>
 
             <RevealOnScroll variant="right" delay={0.15} className="relative">
-              <div className="relative mx-auto aspect-square w-full max-w-[520px] overflow-hidden rounded-card border border-gray-200 bg-gray-100 shadow-lift">
+              <div className="relative mx-auto aspect-square w-full">
                 <Image
                   src={ASSET + "maps.webp"}
                   alt={t.hero.mapAlt}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 520px, 90vw"
-                  className="object-cover"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-contain"
                 />
               </div>
             </RevealOnScroll>
