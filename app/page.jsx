@@ -1,4 +1,4 @@
-import HomeContent from "@/components/pages/HomeContent";
+import HomeContent from "@/app/_components/HomeContent";
 import { ROUTES } from "@/lib/routes";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 import { SEO_META } from "@/lib/seo/metadata";
