@@ -7,6 +7,7 @@ import ArrowIcon from "@/components/ui/ArrowIcon";
 import Field from "@/components/forms/Field";
 import FormStatus from "@/components/forms/FormStatus";
 import HoneypotField from "@/components/forms/HoneypotField";
+import TurnstileWidget from "@/components/forms/TurnstileWidget";
 import { findCountryByKey } from "@/lib/data/countries";
 import useContactForm from "@/hooks/useContactForm";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -19,7 +20,7 @@ import { ROUTES } from "@/lib/routes";
  */
 export default function ContactForm({ lang }) {
   const t = getDictionary(lang, "contact");
-  const { errors, status, formRef, onSubmit, onBlur, fieldProps } =
+  const { errors, status, formRef, turnstileRef, onSubmit, onBlur, fieldProps } =
     useContactForm(t);
 
   // Carries the market a visitor clicked through from on /marches (§21 of
@@ -89,6 +90,8 @@ export default function ContactForm({ lang }) {
           </p>
         )}
       </label>
+
+      <TurnstileWidget ref={turnstileRef} />
 
       <FormStatus status={status} fallbackLabel={t.status.failedLink} />
 

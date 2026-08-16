@@ -27,6 +27,7 @@ export default function usePartnerForm(t, lang) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
+  const turnstileRef = useRef(null);
 
   const readValues = (form) => {
     const data = new FormData(form);
@@ -78,7 +79,11 @@ export default function usePartnerForm(t, lang) {
     setStatus({ state: "submitting", message: t.status.submitting });
 
     try {
-      await submitPartner({ ...payload, _gotcha: form.elements._gotcha.value });
+      await submitPartner({
+        ...payload,
+        _gotcha: form.elements._gotcha.value,
+        "cf-turnstile-response": form.elements["cf-turnstile-response"]?.value ?? "",
+      });
       setStatus({ state: "success", message: t.status.success });
       form.reset();
       window.scrollTo({
@@ -92,6 +97,9 @@ export default function usePartnerForm(t, lang) {
         message: t.status.failed,
         mailto: buildPartnerMailto(payload, t.status.emailSubject),
       });
+    } finally {
+      // Turnstile tokens are single-use; get a fresh one for the next try.
+      turnstileRef.current?.reset();
     }
   };
 
@@ -100,5 +108,5 @@ export default function usePartnerForm(t, lang) {
     if (form) setErrors(validate(readValues(form)));
   };
 
-  return { errors, status, formRef, onSubmit, onBlur };
+  return { errors, status, formRef, turnstileRef, onSubmit, onBlur };
 }

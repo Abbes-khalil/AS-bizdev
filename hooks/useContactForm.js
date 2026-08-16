@@ -15,6 +15,7 @@ export default function useContactForm(t) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
+  const turnstileRef = useRef(null);
 
   const validate = (form) => validateContactForm(readContactValues(form), t.errors);
 
@@ -34,6 +35,7 @@ export default function useContactForm(t) {
     const payload = {
       ...readContactValues(form),
       _gotcha: form.elements._gotcha.value, // honeypot
+      "cf-turnstile-response": form.elements["cf-turnstile-response"]?.value ?? "",
     };
 
     setStatus({ state: "submitting", message: t.status.submitting });
@@ -53,6 +55,9 @@ export default function useContactForm(t) {
         message: t.status.failed,
         mailto: buildMailtoHref(payload, t.status.emailSubject),
       });
+    } finally {
+      // Turnstile tokens are single-use; get a fresh one for the next try.
+      turnstileRef.current?.reset();
     }
   };
 
@@ -68,5 +73,5 @@ export default function useContactForm(t) {
     requiredAria: t.form.requiredAria,
   });
 
-  return { errors, status, formRef, onSubmit, onBlur, fieldProps };
+  return { errors, status, formRef, turnstileRef, onSubmit, onBlur, fieldProps };
 }

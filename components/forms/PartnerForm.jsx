@@ -9,6 +9,7 @@ import FormStatus from "@/components/forms/FormStatus";
 import HoneypotField from "@/components/forms/HoneypotField";
 import Select from "@/components/forms/Select";
 import TextArea from "@/components/forms/TextArea";
+import TurnstileWidget from "@/components/forms/TurnstileWidget";
 import { PARTNER_FORM_SECTIONS } from "@/lib/constants/partnerForm";
 import usePartnerForm from "@/hooks/usePartnerForm";
 import { useLang } from "@/lib/i18n/LanguageProvider";
@@ -77,7 +78,7 @@ const Control = ({ field, copy, error, onBlur }) => {
  */
 const PartnerForm = ({ copy }) => {
   const { lang } = useLang();
-  const { errors, status, formRef, onSubmit, onBlur } = usePartnerForm(
+  const { errors, status, formRef, turnstileRef, onSubmit, onBlur } = usePartnerForm(
     copy,
     lang,
   );
@@ -163,6 +164,8 @@ const PartnerForm = ({ copy }) => {
           </p>
         )}
       </div>
+
+      <TurnstileWidget ref={turnstileRef} />
 
       <FormStatus status={status} fallbackLabel={copy.status.failedLink} />
 
