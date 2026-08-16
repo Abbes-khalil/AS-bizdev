@@ -86,16 +86,9 @@ const team = {
         bio: "19 years of experience in operational and functional management in the B2B sector (Tourism).",
       },
       {
-        photo: PHOTOS.chekib,
-        name: "Chekib Yeger",
-        role: "Sales — French-speaking Africa",
-        bio: "13 years in sales, mainly with the world leader in corrective lenses and ophthalmic optical equipment.",
-      },
-      {
-        photo: PHOTOS.bechir,
-        name: "Béchir Zouaoui",
-        role: "Senior Graphic Designer",
-        bio: "Over 13 years of experience in design and web development.",
+        name: "Achwek Kefifi",
+        photo: PHOTOS.Achwek,
+        bio: "10 ans d’expérience dans le commerce B2B notamment sur le grand Maghreb.",
       },
       {
         photo: PHOTOS.khalil,
