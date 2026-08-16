@@ -5,11 +5,10 @@
 const PHOTOS = {
   stephane: "employe/stephane.webp",
   wafa: "employe/wafa.webp",
-  chekib: "employe/Chekib-.webp",
-  bechir: "employe/bechir.webp",
   khalil: "employe/khalil.webp",
   kaouther: "employe/kaouther.webp",
   taher: "employe/taher.webp",
+  Achwek: "employe/Achwek.jpeg",
 };
 
 const team = {
@@ -39,14 +38,8 @@ const team = {
         bio: "19 ans d'expérience dans le management opérationnel et fonctionnel dans le secteur B2B (Tourisme).",
       },
       {
-        photo: PHOTOS.chekib,
-        name: "Chekib Yeger",
-        role: "Commercial Afrique francophone",
-        bio: "13 ans d'expérience dans la force de vente, principalement chez le leader mondial des verres correcteurs et de l'équipement d'optique ophtalmique.",
-      },
-      {
         name: "Achwek Kefifi",
-        role: "Responsable des Opérations",
+        photo: PHOTOS.Achwek,
         bio: "10 ans d’expérience dans le commerce B2B notamment sur le grand Maghreb.",
       },
       {
