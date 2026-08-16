@@ -226,18 +226,17 @@ Rendering is Next's own (Server Components + static generation) — there is **n
 <br>
 
 ```
-submit → validate → honeypot → Turnstile → POST JSON → ✅ success
-                        │           │           │
-                        └───────────┴───────────┴──► ✗ fails / not configured
-                                                        └──► pre-filled mailto: fallback
+submit → validate → honeypot → Turnstile → Resend (notify + confirm) → ✅ success
+                        │           │              │
+                        └───────────┴──────────────┴──► ✗ notification fails / not configured
+                                                           └──► pre-filled mailto: fallback
 ```
 
 - 🍯 **Honeypot** `_gotcha` field, checked server-side in `lib/forms/handleFormSubmission.js` — a filled field returns a fake success so bots get no signal.
-- 🛡️ **Cloudflare Turnstile** (managed/invisible), verified server-side in `lib/forms/verifyTurnstile.js` before anything is forwarded.
-- ⏱️ **15s `AbortController` timeout** (`lib/utils/postToEndpoint.js`).
-- 🔌 **Endpoint-agnostic** — Web3Forms, Formspree, anything taking a JSON POST.
+- 🛡️ **Cloudflare Turnstile** (managed/invisible), verified server-side in `lib/forms/verifyTurnstile.js` before anything is sent.
+- ✉️ **Resend** (`lib/email/sendFormEmail.js`) — two emails per validated submission: a notification to `CONTACT_EMAIL` with every field, and a confirmation to the visitor. A notification failure is logged server-side and reported back as a real error; a confirmation failure is logged but doesn't block the success response, since the notification already landed.
 
-Env vars: `NEXT_PUBLIC_CONTACT_ENDPOINT` (+ `NEXT_PUBLIC_CONTACT_ACCESS_KEY` for Web3Forms), optionally `NEXT_PUBLIC_PARTNER_ENDPOINT`, and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
+Env vars: `RESEND_API_KEY`, and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
 
 </details>
 
@@ -301,8 +300,9 @@ lib/
 ├─ data/                    countries.js · articles.js · marketsMapData.js · routeLastModified.js
 ├─ i18n/                    LanguageProvider · dictionaries.js · content/
 ├─ seo/                     metadata.js (per page, per language) · headTags.js
+├─ email/                   sendFormEmail (Resend — notification + confirmation)
 ├─ forms/                   handleFormSubmission · verifyTurnstile
-├─ utils/                   postToEndpoint · submitContact · submitPartner
+├─ utils/                   submitContact · submitPartner
 └─ supabase.js
 hooks/                      useActiveRoute · useContactForm · usePartnerForm
 scripts/                    build-markets-map.mjs · build-route-dates.mjs · check-i18n.mjs ·
