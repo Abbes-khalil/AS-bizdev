@@ -226,17 +226,18 @@ Rendering is Next's own (Server Components + static generation) — there is **n
 <br>
 
 ```
-submit → validate → POST JSON → ✅ success
-                        │
-                        └── ✗ fails / not configured
-                                  └──► pre-filled mailto: fallback
+submit → validate → honeypot → Turnstile → POST JSON → ✅ success
+                        │           │           │
+                        └───────────┴───────────┴──► ✗ fails / not configured
+                                                        └──► pre-filled mailto: fallback
 ```
 
-- 🍯 **Honeypot** `_gotcha` field (see `useContactForm.js`).
+- 🍯 **Honeypot** `_gotcha` field, checked server-side in `lib/forms/handleFormSubmission.js` — a filled field returns a fake success so bots get no signal.
+- 🛡️ **Cloudflare Turnstile** (managed/invisible), verified server-side in `lib/forms/verifyTurnstile.js` before anything is forwarded.
 - ⏱️ **15s `AbortController` timeout** (`lib/utils/postToEndpoint.js`).
 - 🔌 **Endpoint-agnostic** — Web3Forms, Formspree, anything taking a JSON POST.
 
-Env vars: `NEXT_PUBLIC_CONTACT_ENDPOINT` (+ `NEXT_PUBLIC_CONTACT_ACCESS_KEY` for Web3Forms) and, optionally, `NEXT_PUBLIC_PARTNER_ENDPOINT`. See [`.env.example`](.env.example).
+Env vars: `NEXT_PUBLIC_CONTACT_ENDPOINT` (+ `NEXT_PUBLIC_CONTACT_ACCESS_KEY` for Web3Forms), optionally `NEXT_PUBLIC_PARTNER_ENDPOINT`, and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
 
 </details>
 
@@ -300,6 +301,7 @@ lib/
 ├─ data/                    countries.js · articles.js · marketsMapData.js · routeLastModified.js
 ├─ i18n/                    LanguageProvider · dictionaries.js · content/
 ├─ seo/                     metadata.js (per page, per language) · headTags.js
+├─ forms/                   handleFormSubmission · verifyTurnstile
 ├─ utils/                   postToEndpoint · submitContact · submitPartner
 └─ supabase.js
 hooks/                      useActiveRoute · useContactForm · usePartnerForm
