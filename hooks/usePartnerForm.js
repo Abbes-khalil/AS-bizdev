@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 import {
@@ -6,6 +7,7 @@ import {
 } from "@/lib/constants/partnerForm";
 import { validatePartnerForm } from "@/lib/validation/partnerForm";
 import { buildPartnerMailto, submitPartner } from "@/lib/utils/submitPartner";
+import { THANK_YOU_PATH } from "@/lib/routes";
 
 const INITIAL_STATUS = { state: "idle", message: "" };
 
@@ -28,6 +30,7 @@ export default function usePartnerForm(t, lang) {
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
   const turnstileRef = useRef(null);
+  const router = useRouter();
 
   const readValues = (form) => {
     const data = new FormData(form);
@@ -84,12 +87,8 @@ export default function usePartnerForm(t, lang) {
         _gotcha: form.elements._gotcha.value,
         "cf-turnstile-response": form.elements["cf-turnstile-response"]?.value ?? "",
       });
-      setStatus({ state: "success", message: t.status.success });
       form.reset();
-      window.scrollTo({
-        top: formRef.current?.offsetTop ?? 0,
-        behavior: "smooth",
-      });
+      router.push(THANK_YOU_PATH[lang]);
     } catch {
       // Never drop a profile: offer the pre-filled mailto as a fallback.
       setStatus({

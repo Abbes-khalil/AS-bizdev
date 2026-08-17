@@ -226,17 +226,17 @@ Rendering is Next's own (Server Components + static generation) — there is **n
 <br>
 
 ```
-submit → validate → honeypot → Turnstile → Resend (notify + confirm) → ✅ success
+submit → validate → honeypot → Turnstile → FormSubmit.co (notify + autoresponse) → ✅ success
                         │           │              │
-                        └───────────┴──────────────┴──► ✗ notification fails / not configured
+                        └───────────┴──────────────┴──► ✗ relay fails / not confirmed
                                                            └──► pre-filled mailto: fallback
 ```
 
 - 🍯 **Honeypot** `_gotcha` field, checked server-side in `lib/forms/handleFormSubmission.js` — a filled field returns a fake success so bots get no signal.
 - 🛡️ **Cloudflare Turnstile** (managed/invisible), verified server-side in `lib/forms/verifyTurnstile.js` before anything is sent.
-- ✉️ **Resend** (`lib/email/sendFormEmail.js`) — two emails per validated submission: a notification to `CONTACT_EMAIL` with every field, and a confirmation to the visitor. A notification failure is logged server-side and reported back as a real error; a confirmation failure is logged but doesn't block the success response, since the notification already landed.
+- ✉️ **FormSubmit.co** (`lib/email/sendFormEmail.js`) — relays each validated submission to `CONTACT_EMAIL` with every field, and triggers FormSubmit's own auto-reply to the visitor. `_captcha` stays disabled since spam is already gated by the honeypot + Turnstile above. Requires a one-time confirmation click the first time a real submission reaches FormSubmit — see the warning in `sendFormEmail.js`. A relay failure is logged server-side and reported back as a real error, never a false success.
 
-Env vars: `RESEND_API_KEY`, and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
+Env vars: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
 
 </details>
 
@@ -300,7 +300,7 @@ lib/
 ├─ data/                    countries.js · articles.js · marketsMapData.js · routeLastModified.js
 ├─ i18n/                    LanguageProvider · dictionaries.js · content/
 ├─ seo/                     metadata.js (per page, per language) · headTags.js
-├─ email/                   sendFormEmail (Resend — notification + confirmation)
+├─ email/                   sendFormEmail (FormSubmit.co — notification + autoresponse)
 ├─ forms/                   handleFormSubmission · verifyTurnstile
 ├─ utils/                   submitContact · submitPartner
 └─ supabase.js

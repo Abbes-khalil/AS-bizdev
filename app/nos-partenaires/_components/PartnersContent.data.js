@@ -22,8 +22,9 @@
  * `logoBackground: "light"` is the fallback for a source file with an opaque
  * background baked in — a white backing plate instead of a bare rectangle on
  * the transparent card. Prefer fixing the asset instead: the `*-transparent.png`
- * files (see `scripts/remove-white-bg.mjs`) key out a near-white background
- * from the original .jpg/.webp so the logo sits directly on the page.
+ * files were produced by keying out a near-white background from the
+ * original .jpg/.webp so the logo sits directly on the page (one-off script,
+ * no longer in the repo — its output is what's committed here).
  *
 
  * `edge.blocks[0].body` in PartnersContent.content.js (page-shell copy)

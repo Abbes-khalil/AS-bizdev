@@ -1,7 +1,9 @@
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 import { readContactValues, validateContactForm } from "@/lib/validation/contactForm";
 import { buildMailtoHref, submitContact } from "@/lib/utils/submitContact";
+import { THANK_YOU_PATH } from "@/lib/routes";
 
 const INITIAL_STATUS = { state: "idle", message: "" };
 
@@ -9,13 +11,15 @@ const INITIAL_STATUS = { state: "idle", message: "" };
  * Validation and submission for the contact form.
  *
  * @param t copy for the active language (`useT("contact")`)
+ * @param lang the active language, to route to the right thank-you page
  * @returns form state plus the handlers to spread onto the <form> and fields
  */
-export default function useContactForm(t) {
+export default function useContactForm(t, lang) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
   const turnstileRef = useRef(null);
+  const router = useRouter();
 
   const validate = (form) => validateContactForm(readContactValues(form), t.errors);
 
@@ -42,12 +46,8 @@ export default function useContactForm(t) {
 
     try {
       await submitContact(payload);
-      setStatus({ state: "success", message: t.status.success });
       form.reset();
-      window.scrollTo({
-        top: formRef.current?.offsetTop ?? 0,
-        behavior: "smooth",
-      });
+      router.push(THANK_YOU_PATH[lang]);
     } catch {
       // Never drop the lead: offer the pre-filled mailto as a fallback.
       setStatus({

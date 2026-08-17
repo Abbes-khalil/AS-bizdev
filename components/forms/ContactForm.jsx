@@ -21,7 +21,7 @@ import { ROUTES } from "@/lib/routes";
 export default function ContactForm({ lang }) {
   const t = getDictionary(lang, "contact");
   const { errors, status, formRef, turnstileRef, onSubmit, onBlur, fieldProps } =
-    useContactForm(t);
+    useContactForm(t, lang);
 
   // Carries the market a visitor clicked through from on /marches (§21 of
   // the brief) into a starting line they can edit or delete.
