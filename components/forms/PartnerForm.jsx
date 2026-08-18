@@ -9,11 +9,13 @@ import FormStatus from "@/components/forms/FormStatus";
 import HoneypotField from "@/components/forms/HoneypotField";
 import Select from "@/components/forms/Select";
 import TextArea from "@/components/forms/TextArea";
-import TurnstileWidget from "@/components/forms/TurnstileWidget";
 import { PARTNER_FORM_SECTIONS } from "@/lib/constants/partnerForm";
 import usePartnerForm from "@/hooks/usePartnerForm";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES, THANK_YOU_PATH } from "@/lib/routes";
+import { CONTACT_EMAIL, SITE_URL } from "@/lib/constants/site";
+
+const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`;
 
 /** Renders one schema field with the control its type calls for. */
 const Control = ({ field, copy, error, onBlur }) => {
@@ -78,19 +80,29 @@ const Control = ({ field, copy, error, onBlur }) => {
  */
 const PartnerForm = ({ copy }) => {
   const { lang } = useLang();
-  const { errors, status, formRef, turnstileRef, onSubmit, onBlur } = usePartnerForm(
-    copy,
-    lang,
-  );
+  const { errors, status, formRef, onSubmit, onBlur } = usePartnerForm(copy);
 
   return (
     <form
       ref={formRef}
+      action={FORMSUBMIT_ACTION}
+      method="POST"
       onSubmit={onSubmit}
       noValidate
       aria-describedby="form-status"
       className="rounded-card border border-gray-200 bg-white p-[1.25rem] shadow-soft lg:p-[3rem]"
     >
+      <input type="hidden" name="_subject" value="Nouvelle candidature partenaire - AS Biz Dev" />
+      <input
+        type="hidden"
+        name="_autoresponse"
+        value="Merci pour votre candidature de partenariat, nous revenons vers vous sous 48h."
+      />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_cc" value="khalilabbes66@gmail.com" />
+      <input type="hidden" name="_replyto" />
+      <input type="hidden" name="_next" value={`${SITE_URL}${THANK_YOU_PATH[lang]}`} />
+
       {PARTNER_FORM_SECTIONS.map((section, index) => {
         const sectionCopy = copy.form.sections[section.id];
         const twoColumns = section.id === "identity" || section.id === "location";
@@ -164,8 +176,6 @@ const PartnerForm = ({ copy }) => {
           </p>
         )}
       </div>
-
-      <TurnstileWidget ref={turnstileRef} />
 
       <FormStatus status={status} fallbackLabel={copy.status.failedLink} />
 

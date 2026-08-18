@@ -18,7 +18,7 @@ const COPY = {
   },
 };
 
-/** Post-submission confirmation for the contact and partner forms — reached via router push on a successful `sendFormEmail` call, never linked to directly. */
+/** Post-submission confirmation for the contact and partner forms — reached via FormSubmit's `_next` redirect after a successful submission, never linked to directly. */
 export default function ThankYouContent({ lang }) {
   const t = COPY[lang] ?? COPY.fr;
 

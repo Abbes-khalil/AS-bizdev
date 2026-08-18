@@ -7,21 +7,32 @@ import ArrowIcon from "@/components/ui/ArrowIcon";
 import Field from "@/components/forms/Field";
 import FormStatus from "@/components/forms/FormStatus";
 import HoneypotField from "@/components/forms/HoneypotField";
-import TurnstileWidget from "@/components/forms/TurnstileWidget";
 import { findCountryByKey } from "@/lib/data/countries";
 import useContactForm from "@/hooks/useContactForm";
-import { getDictionary } from "@/lib/i18n/dictionaries";
-import { ROUTES } from "@/lib/routes";
+import { ROUTES, THANK_YOU_PATH } from "@/lib/routes";
+import { CONTACT_EMAIL, SITE_URL } from "@/lib/constants/site";
+
+const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`;
 
 /**
  * The interactive part of /contact: form state, validation, submission, and
- * the `?market=` prefill (read via `useSearchParams`, client-only). The
- * static hero/aside around it live in the server-rendered `ContactContent`.
+ * the `?market=` prefill (read via `useSearchParams`, client-only). Copy
+ * comes in as `copy` from the page that renders this (`app/contact/page.jsx`
+ * or `app/en/contact/page.jsx`) — each owns its own FR/EN text, so there's
+ * no shared dictionary lookup here.
+ *
+ * Submission is a plain HTML POST to FormSubmit.co — no API route, no
+ * backend of ours. `_next` sends the visitor to our own thank-you page
+ * after FormSubmit processes the submission.
+ *
+ * ⚠️ Avant mise en prod : FormSubmit envoie un email de confirmation à
+ * contact@asbizdev.com lors de la toute première soumission réelle — il
+ * faut cliquer sur le lien "Activate Form" dedans, sinon les soumissions
+ * suivantes échouent silencieusement côté FormSubmit.
  */
-export default function ContactForm({ lang }) {
-  const t = getDictionary(lang, "contact");
-  const { errors, status, formRef, turnstileRef, onSubmit, onBlur, fieldProps } =
-    useContactForm(t, lang);
+export default function ContactForm({ lang, copy }) {
+  const t = copy;
+  const { errors, status, formRef, onSubmit, onBlur, fieldProps } = useContactForm(t);
 
   // Carries the market a visitor clicked through from on /marches (§21 of
   // the brief) into a starting line they can edit or delete.
@@ -34,11 +45,24 @@ export default function ContactForm({ lang }) {
   return (
     <form
       ref={formRef}
+      action={FORMSUBMIT_ACTION}
+      method="POST"
       onSubmit={onSubmit}
       noValidate
       className="rounded-card border border-gray-200 bg-white p-8 shadow-soft lg:p-12"
       aria-describedby="form-status"
     >
+      <input type="hidden" name="_subject" value="Nouveau message - Contact AS Biz Dev" />
+      <input
+        type="hidden"
+        name="_autoresponse"
+        value="Merci pour votre message, nous revenons vers vous sous 48h."
+      />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_cc" value="khalilabbes66@gmail.com" />
+      <input type="hidden" name="_replyto" />
+      <input type="hidden" name="_next" value={`${SITE_URL}${THANK_YOU_PATH[lang]}`} />
+
       <div className="grid gap-6 sm:grid-cols-2">
         <Field
           {...fieldProps("name")}
@@ -90,8 +114,6 @@ export default function ContactForm({ lang }) {
           </p>
         )}
       </label>
-
-      <TurnstileWidget ref={turnstileRef} />
 
       <FormStatus status={status} fallbackLabel={t.status.failedLink} />
 

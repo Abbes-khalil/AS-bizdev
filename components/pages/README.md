@@ -1,52 +1,51 @@
 # `components/pages/` — naming convention
 
-Most page components have moved out of this folder — each `<Name>Content.jsx`
-+ `<Name>Content.content.js` pair now lives colocated in its route's
-`_components/` folder under `app/` (e.g. `app/nos-solutions/_components/`),
-next to that route's `page.jsx`. See the README's routing table for the
-current location of each page's files.
+Most pages have no files here at all: content and layout live directly in
+that route's `page.jsx` (e.g. `app/contact/page.jsx`, `app/en/contact/page.jsx`),
+each with its own `CONTENT` object at the top and the JSX below it — open
+the one file for a page, see everything shown on it, edit the `CONTENT`
+block to change text.
 
-This folder still holds page components with no single owning route —
-`NewsContent.jsx`, `ArticleContent.jsx` (used by both `/news` and
-`/news/:slug`) and `NotFoundContent.jsx` (used by both language trees'
-`not-found.jsx`) — and documents the naming convention those and every
-colocated pair still follow:
+This folder holds page components with **no single owning route** — used
+by more than one URL, so they can't live in one page's `_components/`:
 
-Every page has a `<Name>Content.jsx` component (the layout/markup) and usually a
-`<Name>Content.content.js` file (its copy). Two file types are involved:
+- `NewsContent`-equivalent layout has been folded into `app/news/page.jsx`
+  and `app/en/news/page.jsx` directly (each route only renders it once);
+  `ArticleContent.jsx` stays here because `/news/:slug` and `/en/news/:slug`
+  both render it.
+- `NotFoundContent.jsx` — used by both language trees' `not-found.jsx`.
 
-## `.content.js` — text shown to the user
+## Shared content that still lives in its own file
 
-Always the same shape: **`{ fr: {...}, en: {...} }`** at the top level, French and
-English side by side, nothing else. Read via `getDictionary(lang, "namespace")`
-(Server Components) or `useT("namespace")` (Client Components), both from
-`lib/i18n/dictionaries.js`, where every `.content.js` file is registered.
+A few dictionaries stay out of a single `page.jsx` on purpose, because
+more than one route reads them:
 
-```js
-const home = {
-  fr: { hero: { titleLead: "Accélérez votre développement commercial en" } },
-  en: { hero: { titleLead: "Accelerate your business development across" } },
-};
-export default home;
-```
+- `lib/i18n/content/news/index.js` — shared by the news hub pages and
+  `ArticleContent.jsx`.
+- `app/marches/_components/MarketsContent.content.js` — shared by the
+  markets hub (`app/marches/page.jsx`) and the zone template
+  (`MarketZoneContent.jsx`, itself rendered by 4 routes: fr/en ×
+  Africa/Middle East). Per-zone copy lives in its `zones.africa` /
+  `zones.middleEast`.
+- `lib/i18n/content/common.js` — nav and footer, read by every page.
+
+Both are still registered in `lib/i18n/dictionaries.js` (`getDictionary(lang,
+"namespace")` for Server Components, `useT("namespace")` from Client
+Components) — that registry now only holds genuinely cross-page content,
+not per-page copy.
 
 ## `.data.js` — structured data, not page copy
 
-Only `PartnersContent.data.js` today (now colocated at
-`app/nos-partenaires/_components/`, next to `PartnersContent.jsx` and
-`PartnersContent.content.js`). It holds the actual reference records
-(clients, network institutions) — `key`, `type`, `sectors`, `logo`, `sortOrder`
-— with each entry's own small amount of localized text nested per-record
-(`content: { fr: { name }, en: { name } }`), not at the file's top level.
-
-**This is deliberately a separate file from `PartnersContent.content.js`, not a
-naming inconsistency to fix by merging them.** `PartnersContent.content.js`
-still follows the standard `{ fr, en }` page-copy shape above (hero, section
-labels, CTA); folding ~30 reference records into it would break that shape for
-every other `.content.js` file to stay consistent with. Two files, two
-concerns: copy vs. data — same as the folder's `<Name>Content.jsx` /
-`<Name>Content.content.js` split, one level further.
+`app/nos-partenaires/_components/PartnersContent.data.js` holds the actual
+reference records (clients, network institutions) — `key`, `type`,
+`sectors`, `logo`, `sortOrder` — with each entry's own small amount of
+localized text nested per-record (`content: { fr: { name }, en: { name } }`).
+Kept separate from `app/nos-partenaires/page.jsx`'s `CONTENT` (hero, section
+labels, CTA) for the same reason `lib/data/countries.js` stays its own file:
+it's a scalable dataset, not page copy — folding ~30 reference records or
+14+ countries into a page's `CONTENT` block would defeat the point of that
+block being short and readable.
 
 If a future page needs the same kind of structured, non-copy data (a table,
-a list of records), give it its own `<Name>Content.data.js` rather than
-stretching `.content.js`'s `{ fr, en }` shape to fit.
+a list of records), give it its own `<Name>.data.js` rather than stretching
+a page's `CONTENT` object to fit.

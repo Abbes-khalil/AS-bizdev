@@ -7,21 +7,7 @@
  * `undefined` — this catches it before it reaches the site. Exits non-zero on
  * failure, so it works as a CI step or a pre-commit hook.
  */
-const MODULES = [
-  "common",
-  "home",
-  "solutions",
-  "acceleration",
-  "pilotage",
-  "markets",
-  "about",
-  "partnerProgram",
-  "team",
-  "partners",
-  "news",
-  "contact",
-  "policy",
-];
+const MODULES = ["common", "markets", "news"];
 
 const BASE = new URL("../lib/i18n/content/", import.meta.url);
 

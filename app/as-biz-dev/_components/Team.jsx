@@ -3,19 +3,19 @@ import { UserStar } from "lucide-react";
 
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import TeamCard from "@/app/as-biz-dev/_components/TeamCard";
-import { getDictionary } from "@/lib/i18n/dictionaries";
 
 /**
- * Team roster grid. Members come from `src/i18n/content/team.js`; pass
- * `members` only to override them (previews, tests).
+ * Team roster grid. `copy` (sectionTitle, sectionDescription, portraitAlt,
+ * members) comes from the page that renders this — `app/as-biz-dev/page.jsx`
+ * or `app/en/about/page.jsx`. Pass `members`/`title`/`description` only to
+ * override the page's roster (previews, tests).
  */
-export default function Team({ lang, members, title, description }) {
-  const t = getDictionary(lang, "team");
+export default function Team({ copy, members, title, description }) {
   const clipId = useId().replace(/:/g, "");
 
-  const roster = members ?? t.members;
-  const heading = title ?? t.sectionTitle;
-  const intro = description ?? t.sectionDescription;
+  const roster = members ?? copy.members;
+  const heading = title ?? copy.sectionTitle;
+  const intro = description ?? copy.sectionDescription;
 
   return (
     <section className="relative w-full overflow-hidden bg-white py-[3.25rem] md:py-[5rem]">
@@ -87,7 +87,7 @@ export default function Team({ lang, members, title, description }) {
               <TeamCard
                 member={member}
                 index={index}
-                portraitAlt={t.portraitAlt}
+                portraitAlt={copy.portraitAlt}
               />
             </li>
           ))}

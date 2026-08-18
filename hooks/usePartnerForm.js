@@ -1,36 +1,26 @@
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import {
-  INITIAL_PARTNER_STATUS,
-  PARTNER_FIELDS,
-} from "@/lib/constants/partnerForm";
+import { PARTNER_FIELDS } from "@/lib/constants/partnerForm";
 import { validatePartnerForm } from "@/lib/validation/partnerForm";
-import { buildPartnerMailto, submitPartner } from "@/lib/utils/submitPartner";
-import { THANK_YOU_PATH } from "@/lib/routes";
 
 const INITIAL_STATUS = { state: "idle", message: "" };
 
-/** "Sénégal, Mali\nCôte d'Ivoire" → ["Sénégal", "Mali", "Côte d'Ivoire"] */
-const splitList = (value) =>
-  value
-    .split(/[\n,;]+/)
-    .map((entry) => entry.trim())
-    .filter(Boolean);
-
 /**
- * Validation and submission for the partner registration form.
+ * Validation for the partner registration form. Submission itself is a
+ * plain HTML form POST straight to FormSubmit.co (`action` on the <form> in
+ * PartnerForm.jsx) — no fetch, no API route, no back-office payload shaping;
+ * FormSubmit reads the raw named inputs directly. `onSubmit` only ever
+ * blocks the browser's native submit when client-side validation fails; on
+ * valid input it fills in `_replyto` and lets the POST go through.
  *
  * Values are read from the DOM through the schema rather than held in state:
  * a form this long re-rendering on every keystroke buys nothing, and the
  * schema stays the single description of what the form collects.
  */
-export default function usePartnerForm(t, lang) {
+export default function usePartnerForm(t) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(INITIAL_STATUS);
   const formRef = useRef(null);
-  const turnstileRef = useRef(null);
-  const router = useRouter();
 
   const readValues = (form) => {
     const data = new FormData(form);
@@ -50,27 +40,14 @@ export default function usePartnerForm(t, lang) {
 
   const validate = (values) => validatePartnerForm(values, t.errors);
 
-  /**
-   * Structured record, not a formatted message: option ids, a country array,
-   * and the intake status the back-office will start from (§13–§15).
-   */
-  const buildPayload = (values) => ({
-    ...values,
-    coveredCountries: splitList(values.coveredCountries),
-    locale: lang,
-    submittedAt: new Date().toISOString(),
-    status: INITIAL_PARTNER_STATUS,
-    source: "website",
-  });
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = (event) => {
     const form = event.currentTarget;
     const values = readValues(form);
     const nextErrors = validate(values);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
+      event.preventDefault();
       setStatus({ state: "error", message: t.status.invalid });
       const firstInvalid = form.elements[Object.keys(nextErrors)[0]];
       const target = firstInvalid?.focus ? firstInvalid : firstInvalid?.[0];
@@ -78,28 +55,7 @@ export default function usePartnerForm(t, lang) {
       return;
     }
 
-    const payload = buildPayload(values);
-    setStatus({ state: "submitting", message: t.status.submitting });
-
-    try {
-      await submitPartner({
-        ...payload,
-        _gotcha: form.elements._gotcha.value,
-        "cf-turnstile-response": form.elements["cf-turnstile-response"]?.value ?? "",
-      });
-      form.reset();
-      router.push(THANK_YOU_PATH[lang]);
-    } catch {
-      // Never drop a profile: offer the pre-filled mailto as a fallback.
-      setStatus({
-        state: "failed",
-        message: t.status.failed,
-        mailto: buildPartnerMailto(payload, t.status.emailSubject),
-      });
-    } finally {
-      // Turnstile tokens are single-use; get a fresh one for the next try.
-      turnstileRef.current?.reset();
-    }
+    form.elements._replyto.value = form.elements.email.value;
   };
 
   const onBlur = (event) => {
@@ -107,5 +63,5 @@ export default function usePartnerForm(t, lang) {
     if (form) setErrors(validate(readValues(form)));
   };
 
-  return { errors, status, formRef, turnstileRef, onSubmit, onBlur };
+  return { errors, status, formRef, onSubmit, onBlur };
 }

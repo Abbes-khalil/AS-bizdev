@@ -96,7 +96,7 @@ still in `components/pages/` (no single owning route folder).
 | Afrique / Moyen-Orient | `/marches/afrique` · `/marches/moyen-orient` (+ EN) | `lib/i18n/content/common.js` (`markets` namespace) + `lib/data/countries.js` | `MarketZoneContent.jsx` |
 | AS Biz Dev | `/as-biz-dev` · `/en/about` | `AboutContent.content.js` + `Team.content.js` | `AboutContent.jsx` |
 | Devenir partenaire | `/devenir-partenaire` · `/en/become-a-partner` | `BecomePartnerContent.content.js` | `BecomePartnerContent.jsx` |
-| Contact | `/contact` · `/en/contact` | `ContactContent.content.js` | `ContactContent.jsx` |
+| Contact | `/contact` · `/en/contact` | `app/contact/page.jsx` / `app/en/contact/page.jsx` — content + layout in the route file itself, no `_components/` split | — |
 | Nos partenaires | `/nos-partenaires` · `/en/our-partners` | `PartnersContent.content.js` (copy) + `PartnersContent.data.js` (references) | `PartnersContent.jsx` |
 | Nos secteurs | `/nos-secteurs` · `/en/sectors` | `SectorsContent.content.js` | `SectorsContent.jsx` |
 | Notre réseau | `/notre-reseau` · `/en/our-network` | `NetworkContent.content.js` | `NetworkContent.jsx` |
@@ -226,17 +226,16 @@ Rendering is Next's own (Server Components + static generation) — there is **n
 <br>
 
 ```
-submit → validate → honeypot → Turnstile → FormSubmit.co (notify + autoresponse) → ✅ success
-                        │           │              │
-                        └───────────┴──────────────┴──► ✗ relay fails / not confirmed
-                                                           └──► pre-filled mailto: fallback
+client validation → native <form action="formsubmit.co/..."> POST → ✅ FormSubmit's own /merci redirect
+        │
+        └──► invalid: submit blocked, inline field errors shown
 ```
 
-- 🍯 **Honeypot** `_gotcha` field, checked server-side in `lib/forms/handleFormSubmission.js` — a filled field returns a fake success so bots get no signal.
-- 🛡️ **Cloudflare Turnstile** (managed/invisible), verified server-side in `lib/forms/verifyTurnstile.js` before anything is sent.
-- ✉️ **FormSubmit.co** (`lib/email/sendFormEmail.js`) — relays each validated submission to `CONTACT_EMAIL` with every field, and triggers FormSubmit's own auto-reply to the visitor. `_captcha` stays disabled since spam is already gated by the honeypot + Turnstile above. Requires a one-time confirmation click the first time a real submission reaches FormSubmit — see the warning in `sendFormEmail.js`. A relay failure is logged server-side and reported back as a real error, never a false success.
+- 🍯 **Honeypot** — a `_honey` hidden field (`components/forms/HoneypotField.jsx`), FormSubmit's own convention: any value in it silently drops the submission on their end.
+- 🛡️ **Anti-spam** is FormSubmit's own captcha (left at its default — no `_captcha` field sent).
+- ✉️ **FormSubmit.co** — `ContactForm.jsx`/`PartnerForm.jsx` post straight to `https://formsubmit.co/contact@asbizdev.com` as plain HTML forms, no API route or server code of ours involved. Hidden fields set `_subject`, `_autoresponse`, `_template="table"`, `_cc` (khalilabbes66@gmail.com), `_replyto` (the visitor's own address, filled in at submit time), and `_next` (redirects to `/merci` or `/en/thank-you` after FormSubmit processes the submission). Requires a one-time "Activate Form" email click per submitting domain — see the warning in `ContactForm.jsx`/`PartnerForm.jsx`.
 
-Env vars: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`. See [`.env.example`](.env.example).
+No env vars needed — see [`.env.example`](.env.example).
 
 </details>
 
@@ -300,9 +299,6 @@ lib/
 ├─ data/                    countries.js · articles.js · marketsMapData.js · routeLastModified.js
 ├─ i18n/                    LanguageProvider · dictionaries.js · content/
 ├─ seo/                     metadata.js (per page, per language) · headTags.js
-├─ email/                   sendFormEmail (FormSubmit.co — notification + autoresponse)
-├─ forms/                   handleFormSubmission · verifyTurnstile
-├─ utils/                   submitContact · submitPartner
 └─ supabase.js
 hooks/                      useActiveRoute · useContactForm · usePartnerForm
 scripts/                    build-markets-map.mjs · build-route-dates.mjs · check-i18n.mjs ·

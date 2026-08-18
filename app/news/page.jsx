@@ -1,4 +1,7 @@
-import NewsContent from "@/components/pages/NewsContent";
+import NewsGrid from "@/components/news/NewsGrid";
+import PageHero from "@/components/ui/PageHero";
+import { getPublishedArticles, flattenForLang } from "@/lib/data/articles";
+import { getDictionary, interpolate } from "@/lib/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo/buildMetadata";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 
@@ -6,7 +9,27 @@ export const revalidate = 3600;
 
 export const generateMetadata = () => buildMetadata("news", "fr");
 
-export default function NewsPageFr() {
+const EMPTY_MESSAGE = {
+  fr: "Aucun article n'est publié pour le moment.",
+  en: "No articles are published right now.",
+};
+
+/**
+ * Content lives in `lib/i18n/content/news/index.js`, kept separate on
+ * purpose: this "news" dictionary is shared with the article detail page
+ * (`components/pages/ArticleContent.jsx`, the `/news/[slug]` route), not
+ * page-specific. Articles themselves are fetched live from Supabase — see
+ * `docs/ARTICLES_SUPABASE.md` — never from a local content file.
+ */
+// ============================================
+// COMPOSANT — mise en page de /news, ne pas toucher sauf besoin technique
+// ============================================
+export default async function NewsPageFr() {
+  const lang = "fr";
+  const t = getDictionary(lang, "news");
+  const articles = await getPublishedArticles();
+  const localizedArticles = articles.map((article) => flattenForLang(article, lang));
+
   return (
     <>
       <script
@@ -15,7 +38,47 @@ export default function NewsPageFr() {
           __html: JSON.stringify(organisationJsonLd("fr")),
         }}
       />
-      <NewsContent lang="fr" />
+
+      <main>
+        <PageHero
+          tone="dark"
+          className="max-w-4xl"
+          {...t.hero}
+          overlay={
+            <div
+              className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full opacity-30 blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(255,106,0,0.3), transparent 70%)",
+              }}
+              aria-hidden="true"
+            />
+          }
+        />
+
+        <section className="bg-white py-12 lg:py-20">
+          <div className="container-x">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 pb-6">
+              <p className="eyebrow text-orange">
+                {interpolate(t.selection, {
+                  count: localizedArticles.length.toString().padStart(2, "0"),
+                })}
+              </p>
+              <p className="font-display text-[0.7rem] font-medium uppercase tracking-widest text-gray-400">
+                {t.period}
+              </p>
+            </div>
+
+            {localizedArticles.length === 0 ? (
+              <p className="py-16 text-center text-[0.95rem] text-gray-600">
+                {EMPTY_MESSAGE[lang] ?? EMPTY_MESSAGE.fr}
+              </p>
+            ) : (
+              <NewsGrid articles={localizedArticles} lang={lang} t={t} />
+            )}
+          </div>
+        </section>
+      </main>
     </>
   );
 }

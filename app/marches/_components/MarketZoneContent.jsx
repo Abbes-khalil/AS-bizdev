@@ -17,6 +17,11 @@ const AFRICA_SUBREGIONS = ["north", "west", "south"];
  * One geographic zone (Africa or the Middle East) — the same country-card
  * grid as /marches, scoped to that zone's markets.
  *
+ * Shared template rendered by 4 routes (fr/en × africa/middleEast) — kept
+ * as its own component rather than inlined into each `page.jsx`, per-zone
+ * copy lives in `MarketsContent.content.js`'s `zones.africa` /
+ * `zones.middleEast`, which is where to edit it.
+ *
  * Everything after the map is the same five-block sequence for both zones
  * (what the knowledge enables → key message → sectors → solutions → CTA),
  * so a market page never reads as a geography lesson on its own — it always
