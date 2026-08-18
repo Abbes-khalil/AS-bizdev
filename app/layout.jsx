@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import Layout from "@/components/layout/Layout";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
+import { Analytics } from "@vercel/analytics/next";
 
 /**
  * `metadataBase` is what lets every page's relative `openGraph.images`
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <Layout>{children}</Layout>
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
