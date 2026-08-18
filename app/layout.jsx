@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import Layout from "@/components/layout/Layout";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
@@ -37,14 +38,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
-        {/*
-          RevealOnScroll renders its "hidden" state (opacity:0) into the
-          server-rendered HTML — Framer Motion only reveals it once React
-          hydrates and whileInView/useReducedMotion run. With JS disabled,
-          blocked, or slow to load, that content would stay invisible
-          forever. <noscript> CSS only applies when scripting is off, so it
-          can't interfere with the (working) JS-driven reduced-motion path.
-        */}
+        <SpeedInsights />
+        <Analytics />
         <noscript>
           <style>{`[data-scroll-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
