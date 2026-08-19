@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 
+import { SITE_URL } from "@/lib/constants/site";
 import { PARTNER_FIELDS } from "@/lib/constants/partnerForm";
 import { validatePartnerForm } from "@/lib/validation/partnerForm";
 
@@ -56,6 +57,25 @@ export default function usePartnerForm(t) {
     }
 
     form.elements._replyto.value = form.elements.email.value;
+
+    // `_next`'s JSX value is built from SITE_URL (the production domain),
+    // so it always resolves correctly there — but FormSubmit only honors a
+    // `_next` redirect that matches the submitting page's own origin, so on
+    // localhost/preview deploys it's silently ignored and FormSubmit shows
+    // its own generic "Thanks!" page instead. Rewriting the origin here
+    // fixes that everywhere without touching the production path.
+    const nextField = form.elements._next;
+    if (nextField) {
+      nextField.value = nextField.value.replace(SITE_URL, window.location.origin);
+    }
+
+    // Browser autofill occasionally fills the honeypot (it's only
+    // CSS-hidden, not type="hidden", so real bots skip it but autofill
+    // sometimes doesn't) — FormSubmit then silently discards the whole
+    // submission with no error and no email. Clearing it here doesn't
+    // weaken the bot defense: bots that skip JS never reach this line
+    // either way.
+    if (form.elements._honey) form.elements._honey.value = "";
   };
 
   const onBlur = (event) => {

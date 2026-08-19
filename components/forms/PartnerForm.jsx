@@ -13,9 +13,9 @@ import { PARTNER_FORM_SECTIONS } from "@/lib/constants/partnerForm";
 import usePartnerForm from "@/hooks/usePartnerForm";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { ROUTES, THANK_YOU_PATH } from "@/lib/routes";
-import { CONTACT_EMAIL, SITE_URL } from "@/lib/constants/site";
+import { SITE_URL } from "@/lib/constants/site";
 
-const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`;
+const FORMSUBMIT_ACTION = "https://formsubmit.co/khalilabbes66@gmail.com";
 
 /** Renders one schema field with the control its type calls for. */
 const Control = ({ field, copy, error, onBlur }) => {
@@ -99,7 +99,6 @@ const PartnerForm = ({ copy }) => {
         value="Merci pour votre candidature de partenariat, nous revenons vers vous sous 48h."
       />
       <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_cc" value="khalilabbes66@gmail.com" />
       <input type="hidden" name="_replyto" />
       <input type="hidden" name="_next" value={`${SITE_URL}${THANK_YOU_PATH[lang]}`} />
 
