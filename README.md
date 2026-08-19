@@ -44,7 +44,7 @@ npm run start          # next start — serve the production build locally
 npm run check:i18n     # fail if a FR/EN dictionary pair drifts apart
 ```
 
-There is currently **no test runner and no `typecheck` script** — see [§ Status](#-status) for what that means in practice.
+`npm run test` runs the Vitest suite (`vitest run`, config in `vitest.config.mjs`, specs under `tests/`). There is currently **no `typecheck` script** — see [§ Status](#-status) for what that means in practice.
 
 ---
 
@@ -265,7 +265,7 @@ All three call `useReducedMotion()` and render the *same element structure* rega
 | **i18n** | Hand-rolled (`lib/i18n/`) | URL-driven, no client-state language |
 | **Deployment** | Vercel | production: `asbizdev.com` · preview: `as-bizdev.vercel.app` |
 
-**Not present in this version, unlike the pre-migration one:** React Router, Vite, Puppeteer/prerendering, a test runner, a `typecheck` script.
+**Not present in this version, unlike the pre-migration one:** React Router, Vite, Puppeteer/prerendering, a `typecheck` script.
 
 ---
 
@@ -316,7 +316,7 @@ Skip-to-content link, semantic landmarks, `aria-label` on every icon-only contro
 
 ## 📋 Status
 
-**Not present yet:** automated tests, a `typecheck` script, runtime validation of required environment variables at startup, and a review/approval step before an ingested article goes live (`api/ingest-article/route.js` upserts with `status: "published"` directly today).
+**Not present yet:** a `typecheck` script, runtime validation of required environment variables at startup, and a review/approval step before an ingested article goes live (`api/ingest-article/route.js` upserts with `status: "published"` directly today). `npm run test` (Vitest) covers automated tests — see [§ Quick start](#-quick-start).
 
 **No middleware/host-based redirect exists** — `as-bizdev.vercel.app` is not currently redirected to `asbizdev.com`.
 
