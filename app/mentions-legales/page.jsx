@@ -6,11 +6,6 @@ import { organisationJsonLd } from "@/lib/seo/headTags";
 
 export const generateMetadata = () => buildMetadata("legalNotice", "fr");
 
-/**
- * Every fact AS Biz Dev hasn't confirmed is a literal [À COMPLÉTER]
- * placeholder — never a guess. Whoever fills these in should replace the
- * placeholder text itself, not just the brackets.
- */
 // ============================================
 // CONTENU AFFICHÉ — modifier ici (titres, textes)
 // ============================================
@@ -25,11 +20,11 @@ const CONTENT = {
   sections: [
     {
       title: "Éditeur du site",
-      body: "[À COMPLÉTER — dénomination sociale, forme juridique, adresse du siège social, numéro SIRET, capital social, numéro de TVA intracommunautaire]",
+      body: "AS BIZ DEV, société par actions simplifiée unipersonnelle (SASU) au capital de 4 000 €, dont le siège social est situé 17b Avenue René Coty, 85100 Les Sables-d'Olonne, France, immatriculée sous le numéro SIRET 892 945 676 00021, n° de TVA intracommunautaire FR68892945676.",
     },
     {
       title: "Directeur de la publication",
-      body: "[À COMPLÉTER — nom et qualité du directeur de la publication]",
+      body: "Stéphane Allain, président de AS BIZ DEV.",
     },
     {
       title: "Hébergement",

@@ -101,7 +101,6 @@ const CONTENT = {
     titleAccent: "sans structure locale immédiate.",
     body: "L'entreprise dispose d'une capacité commerciale opérationnelle sur ses marchés export sans devoir constituer immédiatement une équipe dédiée ou une structure locale complète.",
     note: "Le niveau d'externalisation reste modulable : AS Biz Dev peut prendre en charge une mission ciblée ou assurer un pilotage commercial récurrent sur une zone déterminée.",
-    scope: "[INFORMATION À VALIDER PAR AS BIZ DEV] — périmètre exact du pilotage commercial externalisé (durée d'engagement, modalités, zones ouvertes à ce mode d'intervention).",
   },
 
   cta: {
@@ -199,9 +198,6 @@ export default function PilotageFr() {
             </p>
             <p className="mt-4 text-[1.0625rem] leading-[1.7] text-white/75">
               {t.promise.note}
-            </p>
-            <p className="mt-8 rounded-btn border border-white/20 px-[1.25rem] py-[1rem] text-[0.875rem] leading-[1.6] text-white/60">
-              {t.promise.scope}
             </p>
           </RevealOnScroll>
         </Section>

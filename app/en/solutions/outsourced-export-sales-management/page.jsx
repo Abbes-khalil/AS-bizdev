@@ -101,7 +101,6 @@ const CONTENT = {
     titleAccent: "without an immediate local structure.",
     body: "The company gains an operational sales capability in its export markets without having to build a dedicated team or a full local structure straight away.",
     note: "The level of outsourcing stays flexible: AS Biz Dev can take on a targeted assignment or run the sales activity of a defined region on an ongoing basis.",
-    scope: "[INFORMATION TO BE CONFIRMED BY AS BIZ DEV] — exact scope of the outsourced sales management (engagement length, terms, regions open to this model).",
   },
 
   cta: {
@@ -199,9 +198,6 @@ export default function PilotageEn() {
             </p>
             <p className="mt-4 text-[1.0625rem] leading-[1.7] text-white/75">
               {t.promise.note}
-            </p>
-            <p className="mt-8 rounded-btn border border-white/20 px-[1.25rem] py-[1rem] text-[0.875rem] leading-[1.6] text-white/60">
-              {t.promise.scope}
             </p>
           </RevealOnScroll>
         </Section>

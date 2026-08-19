@@ -6,11 +6,6 @@ import { organisationJsonLd } from "@/lib/seo/headTags";
 
 export const generateMetadata = () => buildMetadata("legalNotice", "en");
 
-/**
- * Every fact AS Biz Dev hasn't confirmed is a literal [TO BE COMPLETED]
- * placeholder — never a guess. Whoever fills these in should replace the
- * placeholder text itself, not just the brackets.
- */
 // ============================================
 // PAGE CONTENT — edit here (headings, copy)
 // ============================================
@@ -25,11 +20,11 @@ const CONTENT = {
   sections: [
     {
       title: "Website publisher",
-      body: "[TO BE COMPLETED — legal name, legal form, registered office address, company registration number, share capital, VAT number]",
+      body: "AS BIZ DEV, a French simplified single-shareholder joint-stock company (SASU) with share capital of €4,000, registered office at 17b Avenue René Coty, 85100 Les Sables-d'Olonne, France, SIRET 892 945 676 00021, VAT number FR68892945676.",
     },
     {
       title: "Publication director",
-      body: "[TO BE COMPLETED — name and role of the publication director]",
+      body: "Stéphane Allain, president of AS BIZ DEV.",
     },
     {
       title: "Hosting",
