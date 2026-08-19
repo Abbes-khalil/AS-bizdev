@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 
 import ContactForm from "@/components/forms/ContactForm";
+import NoScriptContactFallback from "@/components/forms/NoScriptContactFallback";
 import PageHero from "@/components/ui/PageHero";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
@@ -90,7 +91,7 @@ export default function ContactPageEn() {
           <div className="container-x">
             <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr]">
               <RevealOnScroll variant="up">
-                <Suspense fallback={null}>
+                <Suspense fallback={<NoScriptContactFallback lang="en" />}>
                   <ContactForm lang="en" copy={CONTENT} />
                 </Suspense>
               </RevealOnScroll>

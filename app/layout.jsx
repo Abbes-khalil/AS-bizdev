@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Layout from "@/components/layout/Layout";
@@ -17,8 +18,13 @@ import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
  */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
+  manifest: "/manifest.json",
   icons: {
-    icon: "/brand_assets/asbizdev.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     siteName: SITE_NAME,
@@ -38,6 +44,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
+        {/* The static shell always renders lang="fr" (this route tree is
+            shared by every /en/* page too); this runs before hydration to
+            correct it immediately for English routes, avoiding a visible
+            flash and a wrong lang for the initial render. */}
+        <Script id="lang-correct" strategy="beforeInteractive">
+          {`document.documentElement.lang = (location.pathname === "/en" || location.pathname.indexOf("/en/") === 0) ? "en" : "fr";`}
+        </Script>
         <SpeedInsights />
         <Analytics />
         <noscript>

@@ -13,9 +13,9 @@ import { PARTNER_FORM_SECTIONS } from "@/lib/constants/partnerForm";
 import usePartnerForm from "@/hooks/usePartnerForm";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { ROUTES, THANK_YOU_PATH } from "@/lib/routes";
-import { SITE_URL } from "@/lib/constants/site";
+import { CONTACT_EMAIL, SITE_URL } from "@/lib/constants/site";
 
-const FORMSUBMIT_ACTION = "https://formsubmit.co/khalilabbes66@gmail.com";
+const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`;
 
 /** Renders one schema field with the control its type calls for. */
 const Control = ({ field, copy, error, onBlur }) => {
@@ -83,6 +83,15 @@ const PartnerForm = ({ copy }) => {
   const { errors, status, formRef, onSubmit, onBlur } = usePartnerForm(copy);
 
   return (
+    <>
+    <noscript>
+      <p className="rounded-card border border-gray-200 bg-white p-6 text-sm text-gray-700">
+        {lang === "en"
+          ? "This form requires JavaScript. You can also reach us directly at "
+          : "Ce formulaire nécessite JavaScript. Vous pouvez aussi nous écrire directement à "}
+        <a href={`mailto:${CONTACT_EMAIL}`} className="text-navy underline">{CONTACT_EMAIL}</a>.
+      </p>
+    </noscript>
     <form
       ref={formRef}
       action={FORMSUBMIT_ACTION}
@@ -189,6 +198,7 @@ const PartnerForm = ({ copy }) => {
         <ArrowIcon />
       </button>
     </form>
+    </>
   );
 };
 

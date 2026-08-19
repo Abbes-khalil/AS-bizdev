@@ -10,9 +10,9 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import { findCountryByKey } from "@/lib/data/countries";
 import useContactForm from "@/hooks/useContactForm";
 import { ROUTES, THANK_YOU_PATH } from "@/lib/routes";
-import { SITE_URL } from "@/lib/constants/site";
+import { CONTACT_EMAIL, SITE_URL } from "@/lib/constants/site";
 
-const FORMSUBMIT_ACTION = "https://formsubmit.co/khalilabbes66@gmail.com";
+const FORMSUBMIT_ACTION = `https://formsubmit.co/${CONTACT_EMAIL}`;
 
 /**
  * The interactive part of /contact: form state, validation, submission, and
@@ -26,7 +26,7 @@ const FORMSUBMIT_ACTION = "https://formsubmit.co/khalilabbes66@gmail.com";
  * after FormSubmit processes the submission.
  *
  * ⚠️ Avant mise en prod : FormSubmit envoie un email de confirmation à
- * khalilabbes66@gmail.com lors de la toute première soumission réelle — il
+ * contact@asbizdev.com lors de la toute première soumission réelle — il
  * faut cliquer sur le lien "Activate Form" dedans, sinon les soumissions
  * suivantes échouent silencieusement côté FormSubmit.
  */
