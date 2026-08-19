@@ -15,9 +15,16 @@ assertServerEnv();
 // bootstrap scripts on every page that a strict script-src would block.
 // Inline style={{}} usage (e.g. components/layout/Footer.jsx) needs the
 // same on style-src.
+//
+// 'unsafe-eval' is added in dev only: Turbopack/React's dev-mode tooling
+// (Fast Refresh, component stack reconstruction) uses eval() for source
+// mapping and is otherwise silently broken by this same header in
+// `next dev`. Production never needs it — React documents that it never
+// uses eval() outside development.
+const isDev = process.env.NODE_ENV !== "production";
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data:",

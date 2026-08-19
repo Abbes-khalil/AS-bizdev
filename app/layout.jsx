@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Layout from "@/components/layout/Layout";
@@ -26,6 +25,9 @@ export const metadata = {
     ],
     apple: "/apple-touch-icon.png",
   },
+  verification: {
+    google: "GbOxjBP_zEy5FRPMeQc77o8M_V7Wc8Qo8KabSY8TxKs",
+  },
   openGraph: {
     siteName: SITE_NAME,
     images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
@@ -42,15 +44,23 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
-      <body>
+    <html lang="fr" suppressHydrationWarning>
+      <head>
         {/* The static shell always renders lang="fr" (this route tree is
-            shared by every /en/* page too); this runs before hydration to
-            correct it immediately for English routes, avoiding a visible
-            flash and a wrong lang for the initial render. */}
-        <Script id="lang-correct" strategy="beforeInteractive">
-          {`document.documentElement.lang = (location.pathname === "/en" || location.pathname.indexOf("/en/") === 0) ? "en" : "fr";`}
-        </Script>
+            shared by every /en/* page too). A plain inline script in <head>
+            — not next/script, which is for loading external JS and warns
+            when used for a one-line DOM correction like this — runs during
+            HTML parsing, before hydration, so English routes never show the
+            wrong lang. Pattern per Next's "preventing flash before
+            hydration" guide; suppressHydrationWarning above is scoped to
+            this one attribute mismatch. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.lang = (location.pathname === "/en" || location.pathname.indexOf("/en/") === 0) ? "en" : "fr";`,
+          }}
+        />
+      </head>
+      <body>
         <SpeedInsights />
         <Analytics />
         <noscript>
