@@ -20,7 +20,7 @@ const PageHero = ({
   intro,
   tone = "light",
   layout = "stacked",
-  className = "max-w-3xl",
+  className = "max-w-4xl",
   overlay,
   beforeIntro,
   children,

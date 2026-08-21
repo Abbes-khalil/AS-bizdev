@@ -106,11 +106,13 @@ export default function HomePageEn() {
         {/* HERO — who we help, what we do, where, in one screen (§7). */}
         <section className="relative overflow-hidden bg-white">
           <div className="relative container-x pt-8 pb-12 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div className="grid items-center gap-12 lg:grid-cols-[1.9fr_1fr] lg:gap-10 xl:gap-14">
               <RevealOnScroll variant="up">
-                <h1 className="font-display text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-navy text-balance md:text-[3rem] lg:text-[3.25rem]">
-                  {t.hero.titleLead}{" "}
-                  <span className="italic text-orange">{t.hero.titleAccent}</span>
+                <h1 className="font-display max-w-xl text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-navy md:text-[3rem] lg:max-w-none lg:text-[2.5rem] xl:text-[2.75rem]">
+                  <span className="block text-balance">{t.hero.titleLead}</span>
+                  <span className="block text-balance italic text-orange">
+                    {t.hero.titleAccent}
+                  </span>
                 </h1>
 
                 {t.hero.paragraphs.map((paragraph, index) => (

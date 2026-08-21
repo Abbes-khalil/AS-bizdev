@@ -119,9 +119,9 @@
 
   /* Hero / display sizes — slightly tighter & larger to feel premium */
   .display-xl {
-    font-size: clamp(3rem, 6vw + 1rem, 6.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.035em;
+    font-size: clamp(2.5rem, 3.5vw + 1.25rem, 4.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
   }
   .display-lg {
     font-size: clamp(2.25rem, 4vw + 0.75rem, 4.5rem);
