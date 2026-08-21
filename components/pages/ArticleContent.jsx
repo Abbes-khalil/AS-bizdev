@@ -11,7 +11,7 @@ import { ROUTES } from "@/lib/routes";
 const PostText = ({ block, id }) => {
   if (block.type === "list") {
     return (
-      <ul className="list-disc space-y-1 pl-5 text-[0.95rem] leading-7 text-gray-800">
+      <ul className="list-disc space-y-1 ps-5 text-[0.95rem] leading-7 text-gray-800">
         {block.items.map((item, i) => (
           <li key={`${id}-${i}`}>{item}</li>
         ))}
@@ -50,7 +50,7 @@ export default function ArticleContent({ article, lang }) {
             href={ROUTES.news[lang]}
             className="mb-6 inline-flex items-center gap-2 text-[0.9rem] font-medium text-gray-500 link-underline"
           >
-            ← {t.label}
+            <span aria-hidden="true" className="rtl:-scale-x-100">←</span> {t.label}
           </Link>
 
           <article className="overflow-hidden rounded-[1rem] border border-gray-200 bg-white shadow-soft">
@@ -70,7 +70,13 @@ export default function ArticleContent({ article, lang }) {
                   <span aria-hidden="true">·</span>
                   <Globe2
                     size={13}
-                    aria-label={lang === "en" ? "Public post" : "Publication publique"}
+                    aria-label={
+                      lang === "en"
+                        ? "Public post"
+                        : lang === "ar"
+                          ? "منشور عام"
+                          : "Publication publique"
+                    }
                   />
                 </p>
               </div>

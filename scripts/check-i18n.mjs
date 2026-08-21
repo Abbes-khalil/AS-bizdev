@@ -11,6 +11,16 @@ const MODULES = ["common", "markets", "news"];
 
 const BASE = new URL("../lib/i18n/content/", import.meta.url);
 
+// `markets` content actually lives alongside the /marches page rather than
+// under lib/i18n/content/ (see lib/i18n/dictionaries.js) — everything else
+// resolves under BASE.
+const MODULE_URLS = {
+  markets: new URL(
+    "../app/marches/_components/MarketsContent.content.js",
+    import.meta.url,
+  ),
+};
+
 /** Flattens a dictionary into comparable "path:type" descriptors. */
 const shape = (value, path = "") => {
   if (Array.isArray(value)) {
@@ -28,6 +38,8 @@ const shape = (value, path = "") => {
 };
 
 const load = async (name) => {
+  if (MODULE_URLS[name]) return (await import(MODULE_URLS[name])).default;
+
   try {
     return (await import(new URL(`${name}.js`, BASE))).default;
   } catch {
@@ -35,21 +47,36 @@ const load = async (name) => {
   }
 };
 
+const LANGS = ["fr", "en", "ar"];
+
 let failed = 0;
 
 for (const name of MODULES) {
   const dict = await load(name);
-  const fr = new Set(shape(dict.fr));
-  const en = new Set(shape(dict.en));
+  const shapes = Object.fromEntries(LANGS.map((l) => [l, new Set(shape(dict[l]))]));
+  const fr = shapes.fr;
 
-  const missingInEn = [...fr].filter((k) => !en.has(k));
-  const missingInFr = [...en].filter((k) => !fr.has(k));
+  let moduleFailed = false;
 
-  if (missingInEn.length || missingInFr.length) {
+  for (const lang of LANGS.filter((l) => l !== "fr")) {
+    const other = shapes[lang];
+    const missingInOther = [...fr].filter((k) => !other.has(k));
+    const missingInFr = [...other].filter((k) => !fr.has(k));
+
+    if (missingInOther.length || missingInFr.length) {
+      moduleFailed = true;
+      console.error(`✗ ${name} (fr ↔ ${lang})`);
+      missingInOther
+        .slice(0, 5)
+        .forEach((k) => console.error(`    missing in ${lang.toUpperCase()}: ${k}`));
+      missingInFr
+        .slice(0, 5)
+        .forEach((k) => console.error(`    missing in FR: ${k}`));
+    }
+  }
+
+  if (moduleFailed) {
     failed++;
-    console.error(`✗ ${name}`);
-    missingInEn.slice(0, 5).forEach((k) => console.error(`    missing in EN: ${k}`));
-    missingInFr.slice(0, 5).forEach((k) => console.error(`    missing in FR: ${k}`));
   } else {
     console.log(`✓ ${name}`);
   }
@@ -60,4 +87,4 @@ if (failed) {
   process.exit(1);
 }
 
-console.log("\nAll dictionaries match across FR and EN.");
+console.log("\nAll dictionaries match across FR, EN and AR.");

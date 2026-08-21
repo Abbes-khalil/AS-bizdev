@@ -41,7 +41,7 @@ const TeamCard = ({ member, index, portraitAlt }) => {
         )}
         <span
           aria-hidden="true"
-          className="absolute left-0 top-0 h-[0.25rem] w-0 bg-orange transition-all duration-500 group-hover:w-full"
+          className="absolute start-0 top-0 h-[0.25rem] w-0 bg-orange transition-all duration-500 group-hover:w-full"
         />
       </div>
 

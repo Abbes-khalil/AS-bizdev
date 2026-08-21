@@ -88,8 +88,10 @@ const PartnerForm = ({ copy }) => {
       <p className="rounded-card border border-gray-200 bg-white p-6 text-sm text-gray-700">
         {lang === "en"
           ? "This form requires JavaScript. You can also reach us directly at "
-          : "Ce formulaire nécessite JavaScript. Vous pouvez aussi nous écrire directement à "}
-        <a href={`mailto:${CONTACT_EMAIL}`} className="text-navy underline">{CONTACT_EMAIL}</a>.
+          : lang === "ar"
+            ? "يتطلب هذا النموذج تفعيل JavaScript. يمكنكم أيضاً التواصل معنا مباشرة عبر "
+            : "Ce formulaire nécessite JavaScript. Vous pouvez aussi nous écrire directement à "}
+        <a href={`mailto:${CONTACT_EMAIL}`} dir="ltr" className="text-navy underline">{CONTACT_EMAIL}</a>.
       </p>
     </noscript>
     <form

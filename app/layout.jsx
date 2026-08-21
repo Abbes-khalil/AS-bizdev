@@ -44,19 +44,19 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" dir="ltr" suppressHydrationWarning>
       <head>
-        {/* The static shell always renders lang="fr" (this route tree is
-            shared by every /en/* page too). A plain inline script in <head>
-            — not next/script, which is for loading external JS and warns
-            when used for a one-line DOM correction like this — runs during
-            HTML parsing, before hydration, so English routes never show the
-            wrong lang. Pattern per Next's "preventing flash before
-            hydration" guide; suppressHydrationWarning above is scoped to
-            this one attribute mismatch. */}
+        {/* The static shell always renders lang="fr"/dir="ltr" (this route
+            tree is shared by every /en/* and /ar/* page too). A plain inline
+            script in <head> — not next/script, which is for loading external
+            JS and warns when used for a one-line DOM correction like this —
+            runs during HTML parsing, before hydration, so English and Arabic
+            routes never show the wrong lang/dir. Pattern per Next's
+            "preventing flash before hydration" guide; suppressHydrationWarning
+            above is scoped to this one attribute mismatch. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.lang = (location.pathname === "/en" || location.pathname.indexOf("/en/") === 0) ? "en" : "fr";`,
+            __html: `(function(){var p=location.pathname,l="fr";if(p==="/en"||p.indexOf("/en/")===0)l="en";else if(p==="/ar"||p.indexOf("/ar/")===0)l="ar";document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";})();`,
           }}
         />
       </head>

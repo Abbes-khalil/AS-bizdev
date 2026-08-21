@@ -27,6 +27,15 @@ const COPY = {
     home: "Back to home",
     markets: "See the markets",
   },
+  ar: {
+    eyebrow: "خطأ 404",
+    titleLead: "هذه الصفحة",
+    titleAccent: "غير موجودة.",
+    intro:
+      "قد يكون الرابط قديماً، أو تم نقل الصفحة أثناء إعادة تصميم الموقع.",
+    home: "العودة إلى الصفحة الرئيسية",
+    markets: "عرض الأسواق",
+  },
 };
 
 export default function NotFoundContent() {

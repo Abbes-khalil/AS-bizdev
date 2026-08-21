@@ -5,7 +5,7 @@
  * where this field isn't empty, no backend of ours involved.
  */
 const HoneypotField = () => (
-  <div className="absolute left-[-9999px]" aria-hidden="true">
+  <div className="absolute start-[-9999px]" aria-hidden="true">
     <label>
       Website
       <input type="text" name="_honey" tabIndex={-1} autoComplete="off" />

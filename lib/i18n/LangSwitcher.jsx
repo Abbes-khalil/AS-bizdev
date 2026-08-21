@@ -5,11 +5,13 @@ import Link from "next/link";
 import { useLang } from "./LanguageProvider";
 import common from "./content/common";
 
-const LABELS = { fr: "Français", en: "English" };
+const LABELS = { fr: "Français", en: "English", ar: "العربية" };
 
 /**
- * FR / EN switch. Real links to the twin URL rather than a state toggle, so
- * both language trees stay crawlable and a middle-click still works.
+ * FR / EN / AR switch. Real links to the twin URL rather than a state
+ * toggle, so every language tree stays crawlable and a middle-click still
+ * works. The visible pill shows the plain route code (`FR`/`EN`/`AR`); the
+ * full language name is only used as the accessible name.
  */
 const LangSwitcher = ({ className = "" }) => {
   const { lang, alternates } = useLang();

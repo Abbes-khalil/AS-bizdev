@@ -5,51 +5,42 @@ import {
   alternatesOf,
   articleUrl,
   langFromPath,
-  otherLanguageUrl,
   ROUTES,
 } from "@/lib/routes";
 
-describe("otherLanguageUrl", () => {
-  it("resolves every FR route to its real EN counterpart", () => {
-    for (const [key, pair] of Object.entries(ROUTES)) {
-      expect(otherLanguageUrl(pair.fr, "fr")).toBe(pair.en);
-    }
-  });
-
-  it("resolves every EN route to its real FR counterpart", () => {
-    for (const [key, pair] of Object.entries(ROUTES)) {
-      expect(otherLanguageUrl(pair.en, "en")).toBe(pair.fr);
-    }
-  });
-
-  it("resolves an FR article URL to its EN slug", () => {
-    const fr = articleUrl("fr", "mon-article");
-    expect(otherLanguageUrl(fr, "fr")).toBe(articleUrl("en", "mon-article"));
-  });
-
-  it("resolves an EN article URL to its FR slug", () => {
-    const en = articleUrl("en", "my-article");
-    expect(otherLanguageUrl(en, "en")).toBe(articleUrl("fr", "my-article"));
-  });
-
-  it("falls back to the home page for an unknown path", () => {
-    expect(otherLanguageUrl("/this-route-does-not-exist", "fr")).toBe(ROUTES.home.en);
-    expect(otherLanguageUrl("/this-route-does-not-exist", "en")).toBe(ROUTES.home.fr);
-  });
-});
-
 describe("alternatesOf", () => {
-  it("returns both language URLs for a FR page", () => {
-    expect(alternatesOf(ROUTES.pilotage.fr, "fr")).toEqual({
-      fr: ROUTES.pilotage.fr,
-      en: ROUTES.pilotage.en,
+  it("resolves every FR route to its real EN and AR counterparts", () => {
+    for (const pair of Object.values(ROUTES)) {
+      expect(alternatesOf(pair.fr, "fr")).toEqual(pair);
+    }
+  });
+
+  it("resolves every EN route to its real FR and AR counterparts", () => {
+    for (const pair of Object.values(ROUTES)) {
+      expect(alternatesOf(pair.en, "en")).toEqual(pair);
+    }
+  });
+
+  it("resolves every AR route to its real FR and EN counterparts", () => {
+    for (const pair of Object.values(ROUTES)) {
+      expect(alternatesOf(pair.ar, "ar")).toEqual(pair);
+    }
+  });
+
+  it("resolves an article URL to its other-language slugs", () => {
+    const fr = articleUrl("fr", "mon-article");
+    expect(alternatesOf(fr, "fr")).toEqual({
+      fr,
+      en: articleUrl("en", "mon-article"),
+      ar: articleUrl("ar", "mon-article"),
     });
   });
 
-  it("returns both language URLs for an EN page", () => {
-    expect(alternatesOf(ROUTES.pilotage.en, "en")).toEqual({
-      fr: ROUTES.pilotage.fr,
-      en: ROUTES.pilotage.en,
+  it("falls back to every home page for an unknown path", () => {
+    expect(alternatesOf("/this-route-does-not-exist", "fr")).toEqual({
+      fr: ROUTES.home.fr,
+      en: ROUTES.home.en,
+      ar: ROUTES.home.ar,
     });
   });
 });
@@ -60,6 +51,11 @@ describe("langFromPath", () => {
     expect(langFromPath("/en/markets/africa")).toBe("en");
   });
 
+  it("detects the Arabic tree", () => {
+    expect(langFromPath("/ar")).toBe("ar");
+    expect(langFromPath("/ar/markets/africa")).toBe("ar");
+  });
+
   it("defaults to French for every other path", () => {
     expect(langFromPath("/")).toBe("fr");
     expect(langFromPath("/marches/afrique")).toBe("fr");
@@ -68,14 +64,16 @@ describe("langFromPath", () => {
 });
 
 describe("activeRouteKeyFor", () => {
-  it("finds the route key for a static FR and EN path", () => {
+  it("finds the route key for a static FR, EN and AR path", () => {
     expect(activeRouteKeyFor(ROUTES.contact.fr)).toBe("contact");
     expect(activeRouteKeyFor(ROUTES.contact.en)).toBe("contact");
+    expect(activeRouteKeyFor(ROUTES.contact.ar)).toBe("contact");
   });
 
   it("treats any article path as the news key", () => {
     expect(activeRouteKeyFor(articleUrl("fr", "un-article"))).toBe("news");
     expect(activeRouteKeyFor(articleUrl("en", "an-article"))).toBe("news");
+    expect(activeRouteKeyFor(articleUrl("ar", "an-article"))).toBe("news");
   });
 
   it("returns null for an unknown path", () => {

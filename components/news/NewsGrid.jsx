@@ -18,7 +18,7 @@ const ArticleCard = ({ article, index, lang, t, onOpen }) => (
   >
     <span
       aria-hidden="true"
-      className="absolute left-0 top-0 h-1 w-0 bg-orange transition-all duration-500 group-hover:w-full"
+      className="absolute start-0 top-0 h-1 w-0 bg-orange transition-all duration-500 group-hover:w-full"
     />
 
     {article.image ? (

@@ -9,7 +9,7 @@ const LINK_BASE =
 const Underline = ({ active }) => (
   <span
     aria-hidden="true"
-    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-[2px] origin-left rounded-full bg-orange transition-transform duration-300 ease-out ${
+    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-[2px] origin-left rtl:origin-right rounded-full bg-orange transition-transform duration-300 ease-out ${
       active
         ? "scale-x-100"
         : "scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100"
@@ -24,7 +24,7 @@ const Chevron = () => (
     viewBox="0 0 10 6"
     fill="none"
     aria-hidden="true"
-    className="ml-1 inline-block transition-transform duration-200 group-hover/item:rotate-180"
+    className="ms-1 inline-block transition-transform duration-200 group-hover/item:rotate-180"
   >
     <path
       d="M1 1L5 5L9 1"
@@ -77,7 +77,7 @@ const DesktopNav = ({ items, activeKey, ariaLabel, lang }) => (
           <ul
             role="list"
             aria-label={entry.label}
-            className="invisible absolute left-0 top-full z-50 w-[19rem] translate-y-1 rounded-card border border-gray-200 bg-white p-2 opacity-0 shadow-lift transition-all duration-200 ease-emphasized group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:translate-y-0 group-focus-within/item:opacity-100"
+            className="invisible absolute start-0 top-full z-50 w-[19rem] translate-y-1 rounded-card border border-gray-200 bg-white p-2 opacity-0 shadow-lift transition-all duration-200 ease-emphasized group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:translate-y-0 group-focus-within/item:opacity-100"
           >
             {entry.children.map((child) => (
               <li key={child.key}>

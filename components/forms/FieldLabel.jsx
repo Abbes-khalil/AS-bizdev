@@ -17,7 +17,7 @@ const FieldLabel = ({ label, required, requiredAria, optionalLabel, as = "span" 
         </>
       ) : (
         optionalLabel && (
-          <span className="ml-2 text-[0.75rem] font-normal text-gray-400">
+          <span className="ms-2 text-[0.75rem] font-normal text-gray-400">
             ({optionalLabel})
           </span>
         )

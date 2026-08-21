@@ -16,6 +16,12 @@ const COPY = {
     body: "Your message has been sent. Our team will get back to you within 48 hours.",
     cta: "Back to home",
   },
+  ar: {
+    eyebrow: "تم إرسال الرسالة",
+    heading: "شكراً لكم!",
+    body: "تم إرسال رسالتكم بنجاح. سيتواصل معكم فريقنا في غضون 48 ساعة.",
+    cta: "العودة إلى الصفحة الرئيسية",
+  },
 };
 
 /** Post-submission confirmation for the contact and partner forms — reached via FormSubmit's `_next` redirect after a successful submission, never linked to directly. */

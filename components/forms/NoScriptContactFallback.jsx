@@ -11,8 +11,10 @@ const NoScriptContactFallback = ({ lang }) => (
     <p className="rounded-card border border-gray-200 bg-white p-8 text-sm text-gray-700 shadow-soft lg:p-12">
       {lang === "en"
         ? "This form requires JavaScript. You can also reach us directly at "
-        : "Ce formulaire nécessite JavaScript. Vous pouvez aussi nous écrire directement à "}
-      <a href={`mailto:${CONTACT_EMAIL}`} className="text-navy underline">
+        : lang === "ar"
+          ? "يتطلب هذا النموذج تفعيل JavaScript. يمكنكم أيضاً التواصل معنا مباشرة عبر "
+          : "Ce formulaire nécessite JavaScript. Vous pouvez aussi nous écrire directement à "}
+      <a href={`mailto:${CONTACT_EMAIL}`} dir="ltr" className="text-navy underline">
         {CONTACT_EMAIL}
       </a>
       .

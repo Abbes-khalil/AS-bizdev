@@ -93,7 +93,7 @@ const SectorExplorer = ({ items, copy, ariaLabel }) => {
                 aria-selected={isActive}
                 aria-controls={`sector-panel-${item.id}`}
                 onClick={() => setActiveId(item.id)}
-                className={`flex items-start gap-3 rounded-btn px-4 py-3 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${
+                className={`flex items-start gap-3 rounded-btn px-4 py-3 text-start transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${
                   isActive ? "bg-navy text-white" : "text-gray-700 hover:bg-surface-alt"
                 }`}
               >
@@ -153,7 +153,7 @@ const SectorExplorer = ({ items, copy, ariaLabel }) => {
                   aria-expanded={isOpen}
                   aria-controls={`sector-accordion-${item.id}`}
                   onClick={() => setOpenId(isOpen ? null : item.id)}
-                  className="flex w-full items-center justify-between gap-3 px-[1.5rem] py-[1.25rem] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+                  className="flex w-full items-center justify-between gap-3 px-[1.5rem] py-[1.25rem] text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                 >
                   <span className="flex items-center gap-3">
                     <span className="font-display text-[0.75rem] font-medium text-gray-400">

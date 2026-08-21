@@ -14,7 +14,7 @@ const FOCUSABLE =
 const PostText = ({ block, id }) => {
   if (block.type === "list") {
     return (
-      <ul className="list-disc space-y-1 pl-5 text-[0.95rem] leading-7 text-gray-800">
+      <ul className="list-disc space-y-1 ps-5 text-[0.95rem] leading-7 text-gray-800">
         {block.items.map((item, i) => (
           <li key={`${id}-${i}`}>{item}</li>
         ))}
@@ -118,7 +118,7 @@ const ArticleModal = ({ article, lang, t, onClose }) => {
               data-autofocus="true"
               onClick={onClose}
               aria-label={t.close}
-              className="absolute right-[1.25rem] top-[1.25rem] z-10 grid h-10 w-10 place-items-center rounded-full border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+              className="absolute end-[1.25rem] top-[1.25rem] z-10 grid h-10 w-10 place-items-center rounded-full border border-gray-200 bg-white text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
@@ -146,7 +146,13 @@ const ArticleModal = ({ article, lang, t, onClose }) => {
                   <span aria-hidden="true">·</span>
                   <Globe2
                     size={13}
-                    aria-label={lang === "en" ? "Public post" : "Publication publique"}
+                    aria-label={
+                      lang === "en"
+                        ? "Public post"
+                        : lang === "ar"
+                          ? "منشور عام"
+                          : "Publication publique"
+                    }
                   />
                 </p>
               </div>

@@ -7,7 +7,14 @@ import { interpolate } from "@/lib/i18n/dictionaries";
 import { isEntryActive } from "../../../hooks/useActiveRoute";
 
 const ArrowUpRight = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    aria-hidden="true"
+    className="rtl:-scale-x-100"
+  >
     <path
       d="M5 15L15 5M15 5H7M15 5V13"
       stroke="currentColor"
@@ -74,7 +81,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate, lang }) => {
                       className={`${ENTRY_CLASS} flex-1`}
                     >
                       <span>
-                        <span className="mr-3 font-display text-[0.75rem] font-medium uppercase tracking-widest text-gray-400">
+                        <span className="me-3 font-display text-[0.75rem] font-medium uppercase tracking-widest text-gray-400">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         {entry.label}
@@ -91,7 +98,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate, lang }) => {
                         aria-label={interpolate(copy.submenu, {
                           label: entry.label,
                         })}
-                        className="ml-2 grid h-11 w-11 shrink-0 place-items-center rounded-btn border border-gray-200 text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+                        className="ms-2 grid h-11 w-11 shrink-0 place-items-center rounded-btn border border-gray-200 text-navy transition-colors hover:border-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                       >
                         <Plus open={isOpen} />
                       </button>
@@ -103,7 +110,7 @@ const MobileNav = ({ open, items, activeKey, copy, onNavigate, lang }) => {
                       role="list"
                       id={`submenu-${entry.key}`}
                       hidden={!isOpen}
-                      className="pb-4 pl-[2.5rem]"
+                      className="pb-4 ps-[2.5rem]"
                     >
                       {entry.children.map((child) => (
                         <li key={child.key}>

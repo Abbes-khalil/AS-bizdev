@@ -1,12 +1,17 @@
 /**
- * Everything about /nos-partenaires (fr) / /en/our-partners (en) lives here:
- * one object per reference (client, network institution, or partner), with
- * both languages inline — no separate file keyed by the same `key` to keep
- * in sync. A missing `content.<lang>.description` is intentional: several
- * client entries only have a confirmed name and sector (no verified company
- * description to draw from), and the brief's own warning is explicit — never
- * invent a description, a relationship, or a sub-brand that hasn't been
- * confirmed.
+ * Everything about /nos-partenaires (fr) / /en/our-partners (en) /
+ * /ar/partners (ar) lives here: one object per reference (client, network
+ * institution, or partner), with every language inline — no separate file
+ * keyed by the same `key` to keep in sync. A missing `content.<lang>.description`
+ * is intentional: several client entries only have a confirmed name and
+ * sector (no verified company description to draw from), and the brief's own
+ * warning is explicit — never invent a description, a relationship, or a
+ * sub-brand that hasn't been confirmed.
+ *
+ * Company/brand names are never translated or transliterated — they stay
+ * exactly as officially written in every language, per the brief's rule that
+ * a brand name only changes if an official localized name already exists in
+ * the data (none do here).
  *
  * Only companies with a verified, correctly-matching logo file get a `logo`.
  * Foshan Tongbao and ACH have no verified asset and carry no `logo` field —
@@ -61,6 +66,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Decathlon" },
       en: { name: "Decathlon" },
+      ar: { name: "Decathlon" },
     },
   },
   {
@@ -74,6 +80,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Interroll" },
       en: { name: "Interroll" },
+      ar: { name: "Interroll" },
     },
   },
   {
@@ -87,6 +94,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Figeac Aéro" },
       en: { name: "Figeac Aéro" },
+      ar: { name: "Figeac Aéro" },
     },
   },
   {
@@ -101,6 +109,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Robertshaw Group" },
       en: { name: "Robertshaw Group" },
+      ar: { name: "Robertshaw Group" },
     },
   },
   {
@@ -114,6 +123,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Groupe Ennakl" },
       en: { name: "Groupe Ennakl" },
+      ar: { name: "Groupe Ennakl" },
     },
   },
   {
@@ -127,6 +137,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Groupama" },
       en: { name: "Groupama" },
+      ar: { name: "Groupama" },
     },
   },
   {
@@ -140,6 +151,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Bontaz" },
       en: { name: "Bontaz" },
+      ar: { name: "Bontaz" },
     },
   },
   {
@@ -153,6 +165,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Komax" },
       en: { name: "Komax" },
+      ar: { name: "Komax" },
     },
   },
   {
@@ -166,6 +179,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Vectorys" },
       en: { name: "Vectorys" },
+      ar: { name: "Vectorys" },
     },
   },
   {
@@ -187,6 +201,11 @@ export const REFERENCES = [
         description:
           "BBC Bircher succeeds on the international market as a major global supplier and producer. Its two business divisions, specialised and expert in sensor technology and process control — notably for automatic doors and gates — put the safety of people, vehicles and installations first.",
       },
+      ar: {
+        name: "BBC Bircher",
+        description:
+          "تحقق شركة BBC Bircher نجاحاً في السوق الدولية كمورد ومنتج عالمي رئيسي. يتيح لها فرعا نشاطها، المتخصصان والخبيران في تقنية الاستشعار وفي التحكم بالعمليات للأبواب والبوابات الأوتوماتيكية، وضع سلامة الأشخاص والمركبات والمنشآت في المقام الأول.",
+      },
     },
   },
 
@@ -202,6 +221,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Michaud" },
       en: { name: "Michaud" },
+      ar: { name: "Michaud" },
     },
   },
   {
@@ -215,6 +235,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Foshan Tongbao" },
       en: { name: "Foshan Tongbao" },
+      ar: { name: "Foshan Tongbao" },
     },
   },
   {
@@ -228,6 +249,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Surfaprotec" },
       en: { name: "Surfaprotec" },
+      ar: { name: "Surfaprotec" },
     },
   },
   {
@@ -241,6 +263,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "La Pratique Électronique" },
       en: { name: "La Pratique Électronique" },
+      ar: { name: "La Pratique Électronique" },
     },
   },
   {
@@ -254,6 +277,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "ASSAD Batteries" },
       en: { name: "ASSAD Batteries" },
+      ar: { name: "ASSAD Batteries" },
     },
   },
   {
@@ -267,6 +291,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Cromes" },
       en: { name: "Cromes" },
+      ar: { name: "Cromes" },
     },
   },
 
@@ -283,6 +308,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Les Nouvelles Pailles" },
       en: { name: "Les Nouvelles Pailles" },
+      ar: { name: "Les Nouvelles Pailles" },
     },
   },
   {
@@ -297,6 +323,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Sementis" },
       en: { name: "Sementis" },
+      ar: { name: "Sementis" },
     },
   },
 
@@ -312,6 +339,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Promedtech" },
       en: { name: "Promedtech" },
+      ar: { name: "Promedtech" },
     },
   },
   {
@@ -325,6 +353,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Shield Scientific" },
       en: { name: "Shield Scientific" },
+      ar: { name: "Shield Scientific" },
     },
   },
 
@@ -340,6 +369,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "Vocalcom" },
       en: { name: "Vocalcom" },
+      ar: { name: "Vocalcom" },
     },
   },
   {
@@ -361,6 +391,11 @@ export const REFERENCES = [
         description:
           "We are convinced that business has a key role to play in collective progress. That is why we work with associations whose values we share: our Open Source community, Le Réseau Entreprendre, the Entourage/LinkedOut association, and Les Petits Frères des Pauvres. We encourage and support every initiative from employees who want to get involved in their community.",
       },
+      ar: {
+        name: "Incenteev",
+        description:
+          "نحن مقتنعون بأن للشركة دوراً رئيسياً في التقدم الجماعي. لذلك نتعاون مع جمعيات نشاطرها قيمها: مجتمعنا مفتوح المصدر، Le Réseau Entreprendre، جمعية Entourage/LinkedOut، وLes Petits Frères des Pauvres. نشجّع وندعم كل مبادرات الموظفين الراغبين في الانخراط في مجتمعهم.",
+      },
     },
   },
   {
@@ -374,6 +409,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "HR Maps" },
       en: { name: "HR Maps" },
+      ar: { name: "HR Maps" },
     },
   },
   {
@@ -394,6 +430,11 @@ export const REFERENCES = [
         name: "TS",
         description:
           "For our clients, “putting people at the heart of every exchange” means we position digital in the service of human relationships. Through our tools and services, our clients focus on the human relationship and grow their sales in line with their corporate strategy.",
+      },
+      ar: {
+        name: "TS",
+        description:
+          "بالنسبة لعملائنا، فإن «وضع الإنسان في قلب التبادلات» يعني أننا نضع الرقمنة في خدمة العلاقة الإنسانية. من خلال أدواتنا وخدماتنا، يركّز عملاؤنا على العلاقة الإنسانية وينمّون مبيعاتهم بما يتماشى مع استراتيجية شركتهم.",
       },
     },
   },
@@ -416,6 +457,11 @@ export const REFERENCES = [
         description:
           "EMBA Business School is the business and management school of the CCI métropolitaine Bretagne ouest (CCIMBO). At the heart of the Creac'h Gwen university and tertiary training hub in Quimper, its campus welcomes students and teachers from France and around the world.",
       },
+      ar: {
+        name: "EMBA Business School",
+        description:
+          "مدرسة EMBA للأعمال هي المدرسة العليا للتجارة والإدارة التابعة لغرفة التجارة والصناعة الحضرية لبريتاني الغربية (CCIMBO). في قلب قطب Creac'h Gwen للتكوين الجامعي والتعليم الثانوي في كامبير، يستقبل حرمها طلاباً وأساتذة من فرنسا ومن جميع أنحاء العالم.",
+      },
     },
   },
   {
@@ -429,6 +475,7 @@ export const REFERENCES = [
     content: {
       fr: { name: "EDF" },
       en: { name: "EDF" },
+      ar: { name: "EDF" },
     },
   },
 
@@ -454,6 +501,13 @@ export const REFERENCES = [
         contribution:
           "Privileged access to an ecosystem of SME and mid-cap leaders.",
       },
+      ar: {
+        name: "APM",
+        description:
+          "شبكة فرنسية لرؤساء الشركات، منظمة حول نوادٍ للتبادل والتكوين وتبادل الخبرات بين الأقران.",
+        contribution:
+          "وصول مميز إلى منظومة من مدراء الشركات الصغيرة والمتوسطة والكبرى.",
+      },
     },
   },
   {
@@ -476,6 +530,13 @@ export const REFERENCES = [
           "A German international cooperation agency, highly active in Africa and emerging economies on economic and industrial development programmes.",
         contribution:
           "Direct collaboration with GIZ on economic development projects and ecosystems.",
+      },
+      ar: {
+        name: "GIZ",
+        description:
+          "الوكالة الألمانية للتعاون الدولي، النشطة جداً في أفريقيا والاقتصادات الناشئة في برامج التنمية الاقتصادية والصناعية.",
+        contribution:
+          "تعاون مباشر مع GIZ في مشاريع ومنظومات التنمية الاقتصادية.",
       },
     },
   },
@@ -500,6 +561,13 @@ export const REFERENCES = [
         contribution:
           "AS Biz Dev works with Business France and is referenced within its programmes / networks.",
       },
+      ar: {
+        name: "Business France",
+        description:
+          "الوكالة العمومية الفرنسية المكلفة على وجه الخصوص بمرافقة الشركات الفرنسية في تطورها الدولي.",
+        contribution:
+          "تتعاون AS Biz Dev مع Business France وهي مُدرجة ضمن آلياتها / شبكاتها.",
+      },
     },
   },
   {
@@ -522,6 +590,13 @@ export const REFERENCES = [
           "A professional organisation representing the ecosystem and companies of the Tunisian automotive industry.",
         contribution:
           "Collaboration with players and networks within the TAA ecosystem.",
+      },
+      ar: {
+        name: "TAA — Tunisian Automotive Association",
+        description:
+          "منظمة مهنية تمثّل منظومة وشركات صناعة السيارات التونسية.",
+        contribution:
+          "تعاون مع فاعلين وشبكات منظومة TAA.",
       },
     },
   },

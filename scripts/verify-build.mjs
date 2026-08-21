@@ -27,6 +27,13 @@ const CRITICAL_ROUTES = [
   "/en/solutions",
   "/en/solutions/commercial-acceleration",
   "/en/solutions/outsourced-export-sales-management",
+  "/ar",
+  "/ar/markets",
+  "/ar/markets/africa",
+  "/ar/markets/middle-east",
+  "/ar/solutions",
+  "/ar/solutions/acceleration-commerciale",
+  "/ar/solutions/pilotage-commercial-externalise",
 ];
 
 const htmlFileFor = (route) => (route === "/" ? "index" : route.slice(1)) + ".html";

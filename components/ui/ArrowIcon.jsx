@@ -8,7 +8,7 @@ const ArrowIcon = ({ size = 14, className = "" }) => (
     viewBox="0 0 14 14"
     fill="none"
     aria-hidden="true"
-    className={className}
+    className={`rtl:-scale-x-100 ${className}`}
   >
     <path
       d="M1 7H13M13 7L7 1M13 7L7 13"

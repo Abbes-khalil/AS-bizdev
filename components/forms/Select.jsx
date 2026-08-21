@@ -30,7 +30,7 @@ const Select = ({
       aria-invalid={Boolean(error)}
       aria-describedby={error ? `err-${name}` : undefined}
       onBlur={onBlur}
-      className={`${inputClasses(Boolean(error))} cursor-pointer appearance-none bg-[length:0.7rem] bg-[right_1.25rem_center] bg-no-repeat pr-10 [background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2010%206%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27%20stroke%3D%27%2364748B%27%20stroke-width%3D%271.5%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fsvg%3E")]`}
+      className={`${inputClasses(Boolean(error))} cursor-pointer appearance-none bg-[length:0.7rem] bg-no-repeat pe-10 bg-[right_1.25rem_center] rtl:bg-[left_1.25rem_center] [background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2010%206%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27%20stroke%3D%27%2364748B%27%20stroke-width%3D%271.5%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fsvg%3E")]`}
     >
       <option value="" disabled>
         {placeholder}

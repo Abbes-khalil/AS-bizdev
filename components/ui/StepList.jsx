@@ -40,7 +40,7 @@ const StepList = ({ steps, columns = 3 }) => {
 
           <span
             aria-hidden="true"
-            className="absolute left-0 top-0 h-[0.25rem] w-0 rounded-t-card bg-orange transition-all duration-500 group-hover:w-full"
+            className="absolute start-0 top-0 h-[0.25rem] w-0 rounded-t-card bg-orange transition-all duration-500 group-hover:w-full"
           />
         </RevealOnScroll>
       ))}
