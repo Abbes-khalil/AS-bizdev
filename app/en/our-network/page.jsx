@@ -17,8 +17,8 @@ export const generateMetadata = () => buildMetadata("network", "en");
 const CONTENT = {
   hero: {
     eyebrow: "Our network",
-    titleLead: "We do not start from",
-    titleAccent: "a blank page.",
+    titleLead: "We do not start",
+    titleAccent: "from scratch.",
     intro:
       "AS Biz Dev progressively builds up a knowledge of companies, decision-makers, sectors and local networks in order to accelerate our clients' business development.",
   },

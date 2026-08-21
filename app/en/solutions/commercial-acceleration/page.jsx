@@ -41,7 +41,7 @@ const CONTENT = {
     titleLead: "Six steps, from market qualification",
     titleAccent: "to first results.",
     steps: [
-      { title: "Market qualification", body: "Real commercial potential, competition in place, access constraints, decision-making circuits." },
+      { title: "Market qualification", body: "Real commercial potential, competition in place, access constraints, decision-making processes." },
       { title: "Target identification", body: "Priority targets, potential customers, distributors and agents to qualify." },
       { title: "Building the action plan", body: "Approach sequence per market, resources committed, milestones and success criteria." },
       { title: "Prospecting and partner search", body: "First contact, prospecting, arranging meetings, qualifying distributors." },

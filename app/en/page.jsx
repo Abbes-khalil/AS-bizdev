@@ -22,7 +22,7 @@ const CONTENT = {
     titleLead: "Accelerate your business development across",
     titleAccent: "Africa & the Middle East",
     paragraphs: [
-      "AS Biz Dev helps SMEs open, grow and run their export markets.",
+      "AS Biz Dev helps SMEs open, grow and manage their export markets.",
       "From finding customers and distributors through to managing your local sales activity on your behalf.",
     ],
     ctaPrimary: "Let's talk about your market",
@@ -42,7 +42,7 @@ const CONTENT = {
       {
         routeKey: "acceleration",
         label: "Accelerate a market",
-        body: "You want to open a country, grow a region, find customers or build a distribution network. AS Biz Dev turns your growth ambition into a commercial action plan and supports its execution in the field.",
+        body: "You want to enter a new country, grow a region, find customers or build a distribution network. AS Biz Dev turns your growth ambition into a commercial action plan and supports its execution in the field.",
       },
       {
         routeKey: "pilotage",
@@ -59,8 +59,8 @@ const CONTENT = {
     intro:
       "We do not stop at defining a strategy or handing over recommendations. Depending on what the company needs, we identify the opportunities, find the local partners, develop the markets, and then run the sales activity for the region over time.",
     steps: [
-      { title: "Understand", body: "Real market potential, competition in place, decision-making circuits." },
-      { title: "Prioritise", body: "Selected targets, accounts and channels, and the sequence to attack them." },
+      { title: "Understand", body: "Real market potential, competition in place, decision-making processes." },
+      { title: "Prioritise", body: "Selected targets, accounts and channels, and the market-entry sequence." },
       { title: "Act", body: "First contact, prospecting, meetings, distributor search." },
       { title: "Manage", body: "Pipeline, action plans, day-to-day management of local partners." },
       { title: "Measure", body: "Sales forecasts, gaps, results, next steps." },

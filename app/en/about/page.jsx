@@ -37,8 +37,8 @@ const CONTENT = {
 
   positioning: {
     eyebrow: "Our positioning",
-    titleLead: "We do not stop our work",
-    titleAccent: "at the recommendation.",
+    titleLead: "We do not stop at",
+    titleAccent: "the recommendation stage.",
     intro:
       "What sets us apart is that we work both on commercial acceleration and on running part of the export sales activity operationally, over time.",
     doTitle: "What we do",
