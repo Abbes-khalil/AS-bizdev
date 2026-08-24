@@ -17,7 +17,7 @@ export const generateMetadata = () => buildMetadata("pilotage", "ar");
 const CONTENT = {
   hero: {
     eyebrow: "العرض 02 — إدارة تجارية خارجية للتصدير",
-    titleLead: "نشاطكم التجاري التصديري يُقاد كامتداد",
+    titleLead: "نشاطكم التجاري التصديري يُدار كامتداد",
     titleAccent: "لفريقكم.",
     intro:
       "تتولى AS Biz Dev، نيابةً عن الشركة الصغيرة أو المتوسطة، كل أو جزءاً من إدارة نشاطها التجاري في منطقة جغرافية محددة.",
