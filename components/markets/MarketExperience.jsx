@@ -62,7 +62,7 @@ export default function MarketExperience({
 
             <RevealOnScroll variant="up" className="mt-[1.25rem]">
               <Link
-                href={`${ROUTES.contact[lang]}?zone=${group.subregion ?? "all"}`}
+                href={ROUTES.contact[lang]}
                 className="group inline-flex items-center gap-1.5 rounded-full border border-orange/40 px-[1.25rem] py-[0.5rem] font-display text-[0.8125rem] font-medium text-orange transition-colors duration-200 ease-out hover:border-orange hover:bg-orange/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
               >
                 {talkLabel}
