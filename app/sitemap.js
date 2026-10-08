@@ -32,6 +32,7 @@ export default async function sitemap() {
     const languages = Object.fromEntries(
       LANGS.map((lang) => [lang, absolute(ROUTES[key][lang])]),
     );
+    languages["x-default"] = absolute(ROUTES[key].fr);
 
     for (const lang of LANGS) {
       entries.push({
@@ -51,6 +52,9 @@ export default async function sitemap() {
         lang,
         absolute(articleUrl(lang, article.slug[lang] ?? article.slug.fr)),
       ]),
+    );
+    languages["x-default"] = absolute(
+      articleUrl("fr", article.slug.fr ?? article.slug.en ?? article.slug.ar),
     );
 
     for (const lang of LANGS) {

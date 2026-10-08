@@ -64,6 +64,14 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: "/en/:path*",
+        headers: [{ key: "Content-Language", value: "en" }],
+      },
+      {
+        source: "/ar/:path*",
+        headers: [{ key: "Content-Language", value: "ar" }],
+      },
+      {
         source: "/:path*",
         headers: SECURITY_HEADERS,
       },

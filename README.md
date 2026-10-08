@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ AS Biz Dev — V2
+# ⚡ AS Biz Dev 
 
 **[asbizdev.com](https://asbizdev.com) — Next.js App Router, bilingual by URL, repositioned around two offers.**
 
