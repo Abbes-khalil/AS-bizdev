@@ -12,6 +12,9 @@
  * une CSP, `connect-src` doit autoriser `https://*.google-analytics.com`
  * (les hits UE partent sur `region1.`, pas sur le domaine du script).
  *
+ * Rendu aligné sur <CookieBanner /> (refonte du 11/08/2026, #870) depuis le 28/10/2026 :
+ * jusque-là le kit statique avait gardé l'ancienne barre, « Accepter » en avant.
+ *
  * Pose sur chaque page HTML, juste avant </body> :
  *   <script defer src="/analytics.js" data-ga4="G-XXXXXXXXXX" data-clarity="xxxxxxxxxx"
  *           data-privacy-href="/confidentialite.html" data-site-name="…"></script>
@@ -44,22 +47,27 @@
   // l'afficher, car un site multilingue la change sans recharger le script.
   // Français par défaut. Une page de confidentialité par langue se déclare par
   // `data-privacy-href-en`, `data-privacy-href-ar`… ; sans elle, `data-privacy-href`.
+  // Mêmes libellés que <CookieBanner /> (CookieBanner.tsx, LIBELLES), plus l'arabe.
+  // Une correction de texte se fait aux deux endroits, dans le même commit.
   var TEXTES = {
-    fr: {
-      dialogue: "Consentement à la mesure d'audience",
-      mesure: function (nom) { return (nom ? nom + ' mesure' : 'Ce site mesure') + " son audience pour comprendre ce qui est consulté. Aucune mesure n'est faite sans votre accord. " },
-      plus: 'En savoir plus', refuser: 'Refuser', accepter: 'Accepter',
-    },
-    en: {
-      dialogue: 'Consent to audience measurement',
-      mesure: function (nom) { return (nom ? nom + ' measures' : 'This site measures') + ' its audience to understand which pages are read. Nothing is measured without your consent. ' },
-      plus: 'Learn more', refuser: 'Decline', accepter: 'Accept',
-    },
-    ar: {
-      dialogue: 'الموافقة على قياس عدد الزوار',
-      mesure: function (nom) { return (nom ? 'يقيس موقع ' + nom : 'يقيس هذا الموقع') + ' عدد زواره لمعرفة الصفحات التي تتم قراءتها. لا يتم أي قياس دون موافقتك. ' },
-      plus: 'اعرف المزيد', refuser: 'رفض', accepter: 'قبول',
-    },
+    fr: { dialogue: "Consentement à la mesure d'audience", titre: "Cookies et mesure d'audience",
+      mesure: function (nom) { return (nom || 'Ce site') + " mesure son audience pour savoir ce qui est consulté. Rien n'est mesuré sans votre accord." },
+      plus: 'En savoir plus', refuser: 'Refuser', accepter: 'Accepter' },
+    en: { dialogue: 'Consent to audience measurement', titre: 'Cookies and audience measurement',
+      mesure: function (nom) { return (nom || 'This site') + ' measures its audience to know what gets read. Nothing is measured without your consent.' },
+      plus: 'Learn more', refuser: 'Decline', accepter: 'Accept' },
+    es: { dialogue: 'Consentimiento para la medición de audiencia', titre: 'Cookies y medición de audiencia',
+      mesure: function (nom) { return (nom || 'Este sitio') + ' mide su audiencia para saber qué se lee. No se mide nada sin su consentimiento.' },
+      plus: 'Más información', refuser: 'Rechazar', accepter: 'Aceptar' },
+    de: { dialogue: 'Einwilligung in die Reichweitenmessung', titre: 'Cookies und Reichweitenmessung',
+      mesure: function (nom) { return (nom || 'Diese Website') + ' misst die Reichweite, um zu wissen, was gelesen wird. Ohne Ihre Einwilligung wird nichts gemessen.' },
+      plus: 'Mehr erfahren', refuser: 'Ablehnen', accepter: 'Annehmen' },
+    it: { dialogue: 'Consenso alla misurazione del pubblico', titre: 'Cookie e misurazione del pubblico',
+      mesure: function (nom) { return (nom || 'Questo sito') + ' misura il proprio pubblico per sapere che cosa viene letto. Senza il tuo consenso non viene misurato nulla.' },
+      plus: 'Maggiori informazioni', refuser: 'Rifiuta', accepter: 'Accetta' },
+    ar: { dialogue: 'الموافقة على قياس عدد الزوار', titre: 'ملفات تعريف الارتباط وقياس عدد الزوار',
+      mesure: function (nom) { return (nom ? 'يقيس موقع ' + nom : 'يقيس هذا الموقع') + ' عدد زواره لمعرفة ما تتم قراءته. لا يتم أي قياس دون موافقتك.' },
+      plus: 'اعرف المزيد', refuser: 'رفض', accepter: 'قبول' },
   }
   function langueCourante() {
     var l = (document.documentElement.getAttribute('lang') || 'fr').slice(0, 2).toLowerCase()
@@ -249,6 +257,20 @@
     })
   })
 
+  // Même rendu que <CookieBanner /> depuis sa refonte du 11/08/2026 (#870) :
+  // carte détachée, titre, deux boutons PLEINS et STRICTEMENT identiques, refus
+  // en premier (recommandation CNIL ; l'étude CNIL/DITP/BIT mesure 18 % de refus
+  // que l'acceptation soit mise en avant ou non). Le pourquoi complet est en tête
+  // de CookieBanner.tsx. Thème : --pk-banner-bg, --pk-banner-fg, --pk-banner-accent,
+  // --pk-banner-accent-fg ; l'accent porte les DEUX boutons.
+  var BOUTON = [
+    'flex:1 1 0', 'min-width:8rem', 'padding:.7rem 1.4rem', 'border-radius:.5rem',
+    'border:1px solid transparent', 'background:var(--pk-banner-accent,#2563eb)',
+    'color:var(--pk-banner-accent-fg,#ffffff)', 'font:inherit', 'font-size:.95rem',
+    'font-weight:600', 'line-height:1.2', 'cursor:pointer', 'text-align:center',
+    'letter-spacing:normal', 'text-transform:none',
+  ].join(';')
+
   function showBanner() {
     var lang = langueCourante()
     var t = TEXTES[lang]
@@ -258,54 +280,64 @@
     bar.setAttribute('lang', lang)
     bar.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr')
     bar.setAttribute('aria-label', t.dialogue)
-    bar.style.cssText = [
-      'position:fixed', 'left:0', 'right:0', 'bottom:0', 'z-index:9999',
-      'display:flex', 'flex-wrap:wrap', 'align-items:center',
-      'justify-content:space-between', 'gap:1rem',
-      'padding:1rem clamp(1rem,4vw,2rem)',
+    // Le conteneur ne capte pas le clic : seule la carte est interactive.
+    bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;' +
+      'justify-content:center;padding:clamp(.75rem,2vw,1.25rem);pointer-events:none;' +
+      'font-family:system-ui,-apple-system,"Segoe UI",sans-serif'
+
+    var carte = document.createElement('div')
+    carte.style.cssText = [
+      'pointer-events:auto', 'width:100%', 'max-width:46rem', 'box-sizing:border-box',
+      'display:flex', 'flex-wrap:wrap', 'align-items:center', 'justify-content:space-between',
+      'gap:1.1rem clamp(1rem,3vw,1.75rem)',
+      'padding:clamp(1.4rem,3vw,1.75rem) clamp(1.3rem,3vw,1.75rem)', 'border-radius:.85rem',
       'background:var(--pk-banner-bg,#10131a)', 'color:var(--pk-banner-fg,#f4f5f7)',
-      'box-shadow:0 -8px 24px rgba(0,0,0,.18)',
-      'font:400 .9rem/1.5 system-ui,sans-serif',
+      'border:1px solid rgba(255,255,255,.14)',
+      'box-shadow:0 18px 48px rgba(0,0,0,.34),0 2px 8px rgba(0,0,0,.2)', 'line-height:1.5',
     ].join(';')
 
+    var bloc = document.createElement('div')
+    bloc.style.cssText = 'flex:1 1 17rem'
+    var titre = document.createElement('p')
+    titre.style.cssText = 'margin:0 0 .35rem;font-size:1.05rem;font-weight:700;line-height:1.3'
+    titre.textContent = t.titre
     var text = document.createElement('p')
-    text.style.cssText = 'margin:0;max-width:60ch'
-    text.textContent = t.mesure(SITE_NAME)
+    text.style.cssText = 'margin:0;font-size:.95rem;opacity:.88'
+    text.textContent = t.mesure(SITE_NAME) + ' '
     var link = document.createElement('a')
     link.href = lienConfidentialite(lang)
     link.textContent = t.plus
-    link.style.cssText = 'color:inherit;text-decoration:underline;text-underline-offset:2px'
+    link.style.cssText = 'color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap'
     text.appendChild(link)
+    bloc.appendChild(titre)
+    bloc.appendChild(text)
 
     var actions = document.createElement('div')
-    actions.style.cssText = 'display:flex;gap:.6rem;flex-shrink:0'
+    actions.style.cssText = 'display:flex;gap:.6rem;flex:1 1 18rem'
 
-    // Refus et acceptation : même taille, même poids visuel (exigence CNIL).
-    function makeButton(label, primary, onClick) {
+    function makeButton(label, onClick) {
       var b = document.createElement('button')
       b.type = 'button'
       b.textContent = label
-      b.style.cssText = 'padding:.55rem 1.1rem;border-radius:.5rem;font:inherit;cursor:pointer;' +
-        (primary
-          ? 'border:1px solid transparent;font-weight:600;background:var(--pk-banner-accent,#f4f5f7);color:var(--pk-banner-accent-fg,#10131a)'
-          : 'border:1px solid currentColor;background:transparent;color:inherit')
+      b.style.cssText = BOUTON
       b.addEventListener('click', onClick)
       return b
     }
 
-    actions.appendChild(makeButton(t.refuser, false, function () {
+    actions.appendChild(makeButton(t.refuser, function () {
       setConsent('declined')
       bar.remove()
     }))
-    actions.appendChild(makeButton(t.accepter, true, function () {
+    actions.appendChild(makeButton(t.accepter, function () {
       setConsent('accepted')
       bar.remove()
       loadGa4()
       loadClarity()
     }))
 
-    bar.appendChild(text)
-    bar.appendChild(actions)
+    carte.appendChild(bloc)
+    carte.appendChild(actions)
+    bar.appendChild(carte)
     document.body.appendChild(bar)
   }
 
