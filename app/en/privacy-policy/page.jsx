@@ -21,7 +21,7 @@ const CONTENT = {
     intro:
       "AS Biz Dev is committed to protecting the privacy of visitors to its website. This Privacy Policy explains how we collect, use, disclose and protect your personal data, in accordance with the General Data Protection Regulation (GDPR).",
     effectiveDate: "Effective date: 20 January 2021.",
-    updatedDate: "This Privacy Policy was last updated on 05 November 2023.",
+    updatedDate: "This Privacy Policy was last updated on 28 October 2026.",
   },
   sections: [
     {
@@ -48,6 +48,10 @@ const CONTENT = {
     {
       title: "International transfers",
       body: "Your data may be transferred to and processed in countries outside the European Economic Area (EEA). In such cases, we ensure that these transfers are carried out in accordance with GDPR requirements and benefit from an adequate level of protection.",
+    },
+    {
+      title: "Audience measurement and cookies",
+      body: "With your consent, this site measures its traffic with Google Analytics (Google Ireland Limited): pages viewed, where the visit came from, device type and approximate country. These measurements are used only to understand what is read. Nothing is stored or measured until you accept, your choice is kept for one year, and you can change it at any time with the \"Manage cookies\" link at the bottom of every page. The site also uses Vercel Web Analytics, a cookie-free measurement that cannot identify you.",
     },
     {
       title: "Changes to our Privacy Policy",

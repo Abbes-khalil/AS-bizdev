@@ -22,7 +22,7 @@ const CONTENT = {
       "AS Biz Dev s'engage à protéger la vie privée des visiteurs de son site Web. La présente Politique de Confidentialité explique comment nous collectons, utilisons, divulguons et protégeons vos données personnelles, conformément au Règlement Général sur la Protection des Données (RGPD).",
     effectiveDate: "Date d'entrée en vigueur : 20 janvier 2021.",
     updatedDate:
-      "Cette Politique de Confidentialité a été mise à jour le 05 novembre 2023.",
+      "Cette Politique de Confidentialité a été mise à jour le 28 octobre 2026.",
   },
   sections: [
     {
@@ -49,6 +49,10 @@ const CONTENT = {
     {
       title: "Transferts internationaux",
       body: "Vos données peuvent être transférées et traitées dans des pays situés en dehors de l'Espace économique européen (EEE). Dans ce cas, nous nous assurons que ces transferts sont réalisés conformément aux exigences du RGPD et qu'ils bénéficient d'un niveau de protection adéquat.",
+    },
+    {
+      title: "Mesure d'audience et cookies",
+      body: "Avec votre accord, ce site mesure sa fréquentation avec Google Analytics (Google Ireland Limited) : pages consultées, source de la visite, type d'appareil et pays approximatif. Ces mesures servent uniquement à comprendre ce qui est consulté. Rien n'est déposé ni mesuré tant que vous n'avez pas accepté, votre choix est conservé un an, et vous pouvez le modifier à tout moment avec le lien « Gérer mes cookies » en bas de chaque page. Le site utilise aussi Vercel Web Analytics, une mesure sans cookie qui ne permet pas de vous identifier.",
     },
     {
       title: "Modifications de notre Politique de confidentialité",

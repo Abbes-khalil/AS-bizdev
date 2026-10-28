@@ -24,11 +24,14 @@ assertServerEnv();
 const isDev = process.env.NODE_ENV !== "production";
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://*.googletagmanager.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data:",
-  "connect-src 'self'",
+  "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com",
+  // Google Analytics 4 (public/analytics.js, loaded only after consent):
+  // the tag comes from googletagmanager.com, but EU hits go to
+  // region1.google-analytics.com, so both families must be allowed.
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
   "frame-src 'none'",
   "frame-ancestors 'none'",
   // PartnerForm/ContactForm POST directly to FormSubmit.co from the browser.

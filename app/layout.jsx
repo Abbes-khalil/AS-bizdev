@@ -61,6 +61,17 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        {/* Google Analytics 4 with a consent banner (fr/en/ar, follows the
+            page's lang). Nothing is loaded before the visitor accepts. */}
+        <script
+          defer
+          src="/analytics.js"
+          data-ga4="G-3KLFRGSWGC"
+          data-site-name="AS Biz Dev"
+          data-privacy-href="/politiques-de-confidentialite"
+          data-privacy-href-en="/en/privacy-policy"
+          data-privacy-href-ar="/ar/privacy-policy"
+        />
         <SpeedInsights />
         <Analytics />
         <noscript>

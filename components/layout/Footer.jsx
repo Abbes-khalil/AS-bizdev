@@ -185,6 +185,13 @@ export default function Footer() {
               >
                 {t.policy}
               </Link>
+              <a
+                href="#"
+                data-pilotone-manage-cookies
+                className="rounded px-1 py-1 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+              >
+                {t.manageCookies}
+              </a>
             </div>
           </div>
         </div>
