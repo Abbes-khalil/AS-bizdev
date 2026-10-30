@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 
+import { markFormSubmitted } from "@/lib/analytics/formLead";
 import { SITE_URL } from "@/lib/constants/site";
 import { readContactValues, validateContactForm } from "@/lib/validation/contactForm";
 
@@ -58,6 +59,9 @@ export default function useContactForm(t) {
     // weaken the bot defense: bots that skip JS never reach this line
     // either way.
     if (form.elements._honey) form.elements._honey.value = "";
+
+    // Counted on the thank-you page, once FormSubmit has accepted the POST.
+    markFormSubmitted("contact");
   };
 
   const onBlur = (e) => {

@@ -3,6 +3,8 @@ import Link from "next/link";
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import { ROUTES } from "@/lib/routes";
 
+import LeadTracker from "./LeadTracker";
+
 const COPY = {
   fr: {
     eyebrow: "Message envoyé",
@@ -30,6 +32,7 @@ export default function ThankYouContent({ lang }) {
 
   return (
     <main className="flex min-h-[70vh] items-center bg-white">
+      <LeadTracker lang={lang} />
       <div className="container-x">
         <div className="mx-auto max-w-xl rounded-card border border-gray-200 bg-white p-8 text-center shadow-soft lg:p-12">
           <span

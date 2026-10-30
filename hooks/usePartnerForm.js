@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 
+import { markFormSubmitted } from "@/lib/analytics/formLead";
 import { SITE_URL } from "@/lib/constants/site";
 import { PARTNER_FIELDS } from "@/lib/constants/partnerForm";
 import { validatePartnerForm } from "@/lib/validation/partnerForm";
@@ -76,6 +77,9 @@ export default function usePartnerForm(t) {
     // weaken the bot defense: bots that skip JS never reach this line
     // either way.
     if (form.elements._honey) form.elements._honey.value = "";
+
+    // Counted on the thank-you page, once FormSubmit has accepted the POST.
+    markFormSubmitted("partner");
   };
 
   const onBlur = (event) => {
