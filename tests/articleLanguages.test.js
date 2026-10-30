@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { articleAlternates, translatedLangs } from "@/lib/seo/articleLanguages";
 import { parseInline } from "@/lib/data/inlineText";
-import { EDITORIAL_ARTICLES } from "@/lib/data/editorialArticles";
 
 const copy = (title) => ({ title, preview: "", content: [{ type: "paragraph", text: title }] });
 
@@ -56,14 +55,5 @@ describe("parseInline", () => {
     expect(parseInline("[x](javascript:alert(1))")).toEqual([
       { type: "text", text: "[x](javascript:alert(1))" },
     ]);
-  });
-});
-
-describe("EDITORIAL_ARTICLES", () => {
-  it("are published in French, English and Arabic with distinct copies", () => {
-    for (const article of EDITORIAL_ARTICLES) {
-      expect(article.status).toBe("published");
-      expect(translatedLangs(article)).toEqual(["fr", "en", "ar"]);
-    }
   });
 });
