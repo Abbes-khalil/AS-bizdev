@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import ArticleContent from "@/components/pages/ArticleContent";
+import RichArticle, { richArticleFor } from "@/components/pages/RichArticle";
 import { getArticleBySlug, getPublishedArticles } from "@/lib/data/articles";
 import { articleUrl, ROUTES } from "@/lib/routes";
 import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
@@ -69,7 +70,11 @@ export default async function ArticlePageEn({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      <ArticleContent article={article} lang="en" />
+      {richArticleFor(article, "en") ? (
+        <RichArticle article={article} lang="en" />
+      ) : (
+        <ArticleContent article={article} lang="en" />
+      )}
     </>
   );
 }
