@@ -4,7 +4,7 @@ import ContactForm from "@/components/forms/ContactForm";
 import NoScriptContactFallback from "@/components/forms/NoScriptContactFallback";
 import PageHero from "@/components/ui/PageHero";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/constants/site";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from "@/lib/constants/site";
 import { buildMetadata } from "@/lib/seo/buildMetadata";
 import { organisationJsonLd } from "@/lib/seo/headTags";
 
@@ -113,9 +113,13 @@ export default function ContactPageAr() {
                       >
                         {CONTACT_EMAIL}
                       </a>
-                      <p dir="ltr" className="block text-end text-[0.95rem] text-orange">
+                      <a
+                        href={CONTACT_PHONE_HREF}
+                        dir="ltr"
+                        className="block text-end text-[0.95rem] text-orange link-underline"
+                      >
                         {CONTACT_PHONE}
-                      </p>
+                      </a>
                     </div>
                   </div>
                 </aside>

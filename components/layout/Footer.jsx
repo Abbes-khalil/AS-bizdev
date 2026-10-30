@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { ROUTES } from "@/lib/routes";
 import { ASSET } from "@/lib/siteData";
-import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL } from "@/lib/constants/site";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF, SOCIAL } from "@/lib/constants/site";
 import { interpolate, useLang, useT } from "@/lib/i18n/dictionaries";
 
 const SocialIcon = ({ href, label, children }) => (
@@ -162,7 +162,13 @@ export default function Footer() {
             <br />
             <br />
             <br />
-            {CONTACT_EMAIL} <br /> {CONTACT_PHONE}
+            <a href={`mailto:${CONTACT_EMAIL}`} className="link-underline">
+              {CONTACT_EMAIL}
+            </a>
+            <br />
+            <a href={CONTACT_PHONE_HREF} dir="ltr" className="link-underline">
+              {CONTACT_PHONE}
+            </a>
           </span>
         </div>
 

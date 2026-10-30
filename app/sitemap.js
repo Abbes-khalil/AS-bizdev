@@ -1,5 +1,10 @@
-import { LANGS, ROUTES, articleUrl } from "@/lib/routes";
+import { LANGS, ROUTES } from "@/lib/routes";
 import { getPublishedArticles } from "@/lib/data/articles";
+import {
+  articleAbsoluteUrl,
+  articleAlternates,
+  translatedLangs,
+} from "@/lib/seo/articleLanguages";
 import { ROUTE_LAST_MODIFIED } from "@/lib/data/routeLastModified";
 import { SITE_URL } from "@/lib/constants/site";
 
@@ -47,23 +52,19 @@ export default async function sitemap() {
 
   const articles = await getPublishedArticles();
   for (const article of articles) {
-    const languages = Object.fromEntries(
-      LANGS.map((lang) => [
-        lang,
-        absolute(articleUrl(lang, article.slug[lang] ?? article.slug.fr)),
-      ]),
-    );
-    languages["x-default"] = absolute(
-      articleUrl("fr", article.slug.fr ?? article.slug.en ?? article.slug.ar),
-    );
+    // Only real translations: a French copy served under /en or /ar is
+    // noindex (see lib/seo/articleLanguages.js) and stays out of the sitemap.
+    const langs = translatedLangs(article);
+    const { languages } =
+      articleAlternates(article, "fr").alternates;
 
-    for (const lang of LANGS) {
+    for (const lang of langs) {
       entries.push({
-        url: absolute(articleUrl(lang, article.slug[lang] ?? article.slug.fr)),
+        url: articleAbsoluteUrl(article, lang),
         lastModified: article.publishedAt ?? undefined,
         changeFrequency: "weekly",
         priority: 0.6,
-        alternates: { languages },
+        ...(languages ? { alternates: { languages } } : {}),
       });
     }
   }

@@ -4,24 +4,74 @@ import Link from "next/link";
 import ExternalLink from "@/components/ui/ExternalLink";
 import Section from "@/components/ui/Section";
 import { LOGO_IMAGE, SITE_NAME } from "@/lib/constants/site";
+import { parseInline } from "@/lib/data/inlineText";
 import { themeLabel, zoneLabel } from "@/lib/i18n/content/news/taxonomy";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { ROUTES } from "@/lib/routes";
+
+const Inline = ({ text }) =>
+  parseInline(text).map((run, i) => {
+    if (run.type === "bold") {
+      return (
+        <strong key={i} className="font-semibold text-navy">
+          {run.text}
+        </strong>
+      );
+    }
+    if (run.type === "link") {
+      return run.href.startsWith("/") ? (
+        <Link key={i} href={run.href} className="text-orange link-underline">
+          {run.text}
+        </Link>
+      ) : (
+        <ExternalLink key={i} href={run.href} className="text-orange">
+          {run.text}
+        </ExternalLink>
+      );
+    }
+    return run.text;
+  });
 
 const PostText = ({ block, id }) => {
   if (block.type === "list") {
     return (
       <ul className="list-disc space-y-1 ps-5 text-[0.95rem] leading-7 text-gray-800">
         {block.items.map((item, i) => (
-          <li key={`${id}-${i}`}>{item}</li>
+          <li key={`${id}-${i}`}>
+            <Inline text={item} />
+          </li>
         ))}
       </ul>
     );
   }
 
+  if (block.type === "heading") {
+    return (
+      <h2 className="pt-4 font-display text-[1.1rem] font-semibold leading-snug text-navy">
+        <Inline text={block.text} />
+      </h2>
+    );
+  }
+
+  if (block.type === "subheading") {
+    return (
+      <h3 className="pt-2 font-display text-[1rem] font-semibold leading-snug text-navy">
+        <Inline text={block.text} />
+      </h3>
+    );
+  }
+
+  if (block.type === "highlight") {
+    return (
+      <p className="rounded-[0.75rem] bg-gray-50 px-4 py-3 text-[0.95rem] font-medium leading-7 text-navy">
+        <Inline text={block.text} />
+      </p>
+    );
+  }
+
   return (
     <p className="whitespace-pre-line text-[0.95rem] leading-7 text-gray-800">
-      {block.text}
+      <Inline text={block.text} />
     </p>
   );
 };

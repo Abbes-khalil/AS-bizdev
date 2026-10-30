@@ -4,6 +4,7 @@ import ArticleContent from "@/components/pages/ArticleContent";
 import { getArticleBySlug, getPublishedArticles } from "@/lib/data/articles";
 import { articleUrl, ROUTES } from "@/lib/routes";
 import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
+import { articleAlternates } from "@/lib/seo/articleLanguages";
 import { articleMeta } from "@/lib/seo/metadata";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
 
@@ -34,14 +35,7 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        fr: `${SITE_URL}${articleUrl("fr", article.slug.fr ?? canonicalSlug)}`,
-        en: url,
-        "x-default": `${SITE_URL}${articleUrl("fr", article.slug.fr ?? canonicalSlug)}`,
-      },
-    },
+    ...articleAlternates(article, "en"),
     openGraph: { title, description, url, type: "article", images },
     twitter: { card: "summary_large_image", title, description, images },
   };
