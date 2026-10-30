@@ -4,7 +4,7 @@ import ArticleContent from "@/components/pages/ArticleContent";
 import RichArticle, { richArticleFor } from "@/components/pages/RichArticle";
 import { getArticleBySlug, getPublishedArticles } from "@/lib/data/articles";
 import { articleUrl, ROUTES } from "@/lib/routes";
-import { breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
+import { articleJsonLd, breadcrumbJsonLd, organisationJsonLd } from "@/lib/seo/headTags";
 import { articleAlternates } from "@/lib/seo/articleLanguages";
 import { articleMeta } from "@/lib/seo/metadata";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants/site";
@@ -71,6 +71,16 @@ export default async function ArticlePageAr({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
+      {!richArticleFor(article, "ar") && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              articleJsonLd(article, "ar", `${SITE_URL}${articleUrl("ar", canonicalSlug)}`),
+            ),
+          }}
+        />
+      )}
       {richArticleFor(article, "ar") ? (
         <RichArticle article={article} lang="ar" />
       ) : (

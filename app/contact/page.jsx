@@ -68,6 +68,13 @@ const CONTENT = {
 export default function ContactPageFr() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organisationJsonLd("fr")),
+        }}
+      />
+
       <main>
         <PageHero
           className="max-w-4xl"

@@ -19,6 +19,7 @@
  * See docs/ARTICLES_SUPABASE.md for the schema and RLS model.
  */
 import { createClient } from "@supabase/supabase-js";
+import { plainLetters } from "@/lib/text/plainLetters";
 
 const decodeHtmlEntities = (text) =>
   text
@@ -150,8 +151,9 @@ export async function POST(request) {
     }
     const html = await pageRes.text();
 
-    const title = extractMeta(html, "og:title");
-    const preview = extractMeta(html, "og:description");
+    // LinkedIn fakes bold with Unicode math letters; store plain words.
+    const title = plainLetters(extractMeta(html, "og:title"));
+    const preview = plainLetters(extractMeta(html, "og:description"));
     const image = extractMeta(html, "og:image");
     const publishedAt = extractMeta(html, "article:published_time");
 
