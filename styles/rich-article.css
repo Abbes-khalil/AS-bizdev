@@ -155,3 +155,11 @@
 .ra[dir="rtl"] .faq summary{padding:16px 18px 16px 52px}
 .ra[dir="rtl"] .faq .plus{right:auto;left:18px}
 @media (max-width:560px){.ra[dir="rtl"] .br div+div{border-right:0}}
+
+/* PilotOne credit: a followed link to pilotone.fr, on the pages PilotOne made. */
+.ra .credit-pilotone{margin:-28px 0 40px;text-align:center}
+.ra .credit-pilotone a{display:inline-flex;align-items:center;gap:8px;color:var(--doux);text-decoration:none;font-size:13px;opacity:.8;transition:opacity .3s}
+.ra .credit-pilotone a:hover{opacity:1}
+.ra .credit-pilotone img{width:15px;height:18px}
+.ra .credit-pilotone .nom{font-weight:600;color:var(--navy)}
+.ra[dir="rtl"] .credit-pilotone .nom{font-family:Inter,sans-serif}
